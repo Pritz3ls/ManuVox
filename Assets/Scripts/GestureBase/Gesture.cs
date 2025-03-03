@@ -1,7 +1,16 @@
 using UnityEngine;
 
+
+public enum HandRequirement{OneHand,TwoHands}
+public enum GestureType{Static,Dynamic}
 [CreateAssetMenu(fileName = "New Gesture", menuName = "Create Gesture", order = 0)]
 public class Gesture : ScriptableObject {
-    public string gestureName = string.Empty;
-    public Vector2[] relativeFingerPositions = new Vector2[5];
+    public HandRequirement handRequirement = HandRequirement.OneHand;
+    public GestureType type = GestureType.Static;
+
+    public Vector2[] leftHandPositions = new Vector2[5];
+    public Vector2[] rightHandPositions = new Vector2[5];
+
+    public Gesture[] sequence;
+    public bool canBeStandalone = false;
 }

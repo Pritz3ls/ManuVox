@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mediapipe.Unity;
+using UnityEngine.XR;
 
 public class GestureBase : MonoBehaviour
 {
@@ -19,12 +20,24 @@ public class GestureBase : MonoBehaviour
         return normalizedPositions;
     }
 
-    public virtual Vector2[] GetLandMarks(){
+    public virtual Vector2[] GetLandMarks(int index){
         List<Vector2> relativeLandMarks = new List<Vector2>();
-        Vector3 wristPos = HandLandmarkListAnnotation.instance.GetPointListAnnotation()[0].transform.position;
+        Vector3 wristPos = MultiHandLandmarkListAnnotation.instance[index].GetPointListAnnotation()[0].transform.position;
         for (int i = 1; i < 6; i++){
-            relativeLandMarks.Add(HandLandmarkListAnnotation.instance.GetPointListAnnotation()[i*4].transform.position - wristPos);
+            relativeLandMarks.Add(MultiHandLandmarkListAnnotation.instance[index].GetPointListAnnotation()[i*4].transform.position - wristPos);
         }
-        return relativeLandMarks.ToArray();
+        return NormalizedLandMarks(relativeLandMarks.ToArray());
+    }
+    public virtual bool IsTwoHandsTracked(){
+        return MultiHandLandmarkListAnnotation.instance.gameObject.transform.childCount >= 2;
+    }
+    public virtual bool IsTwoHandsActive(){
+        if(!IsTwoHandsTracked()) return false;
+        bool firstAvailableHand = MultiHandLandmarkListAnnotation.instance[0].gameObject.activeSelf;
+        bool secondAvailableHand = MultiHandLandmarkListAnnotation.instance[1].gameObject.activeSelf;
+        return firstAvailableHand && secondAvailableHand;
+    }
+    public virtual bool IsRightHanded(){
+        return MultiHandLandmarkListAnnotation.instance[0].GetHandedness() == HandLandmarkListAnnotation.Hand.Right;
     }
 }
