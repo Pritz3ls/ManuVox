@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db72da1b468a18f4daae6ee2612a7946, type: 3}
-  m_Name: ThumbsDown
+  m_Name: Alpha A
   m_EditorClassIdentifier: 
   handRequirement: 0
   type: 0
-  leftHandPositions:
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
   rightHandPositions:
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
+  - {x: 0.45043406, y: -0.5462649}
+  - {x: 0.54402566, y: -0.8780672}
+  - {x: 0.32518184, y: -0.94565153}
+  - {x: 0.15804453, y: -0.95541185}
+  - {x: 0.02229198, y: -0.9984982}
+  leftHandPositions:
+  - {x: -0.45043406, y: 0.5462649}
+  - {x: -0.54402566, y: 0.8780672}
+  - {x: -0.32518184, y: 0.94565153}
+  - {x: -0.15804453, y: 0.95541185}
+  - {x: -0.02229198, y: 0.9984982}
   sequence: []
-  canBeStandalone: 0
-  phraseOrWord: Not Okay
+  canBeStandalone: 1
+  phraseOrWord: A

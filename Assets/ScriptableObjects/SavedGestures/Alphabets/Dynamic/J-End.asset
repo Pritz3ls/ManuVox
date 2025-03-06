@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db72da1b468a18f4daae6ee2612a7946, type: 3}
-  m_Name: ThumbsDown
+  m_Name: J-End
   m_EditorClassIdentifier: 
   handRequirement: 0
-  type: 0
+  type: 1
   leftHandPositions:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
@@ -26,6 +26,8 @@ MonoBehaviour:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   - {x: 0, y: 0}
-  sequence: []
+  sequence:
+  - {fileID: 11400000, guid: b31aa60c8707ab64f85aff4ade05be92, type: 2}
+  - {fileID: 11400000}
   canBeStandalone: 0
-  phraseOrWord: Not Okay
+  phraseOrWord: J

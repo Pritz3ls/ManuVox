@@ -30,10 +30,20 @@ public class GestureRecognizer : GestureBase{
 
         if(recognizedGesture != null){
             gestureText.text = $"Recognized Gesture: {recognizedGesture.name}";
+            ContextualBase.instance.UpdateGestureHistory(recognizedGesture);
         }else if(recognizedGesture == null){
             gestureText.text = "Recognized Gesture: Unknown";
         }
-
+        
+        // posInfoText.text = $"Hand Positions : \n";
+        // for (int i = 0; i < firstAvailableHand.Length; i++){
+        //     posInfoText.text += $"First Available LandMarks{i}: {firstAvailableHand[i]}\n";
+        // }
+        // if(secondAvailableHand.Length >= 1){
+        //     for (int i = 0; i < secondAvailableHand.Length; i++){
+        //         posInfoText.text += $"Second Available LandMarks {i}: {secondAvailableHand[i]}\n";
+        //     }
+        // }
     }
 
     Gesture RecognizeGesture(Vector2[] firstLandmarks, Vector2[] secondLandmarks){
@@ -45,8 +55,8 @@ public class GestureRecognizer : GestureBase{
                 bool handMatch = false;
                 float difference = float.MaxValue;
 
-                difference = GetHandDifference(firstLandmarks, 
-                IsRightHanded() ? gesture.rightHandPositions : gesture.leftHandPositions);
+                Vector2[] handedness = IsRightHanded() ? gesture.rightHandPositions : gesture.leftHandPositions;
+                difference = GetHandDifference(firstLandmarks, handedness);
                 handMatch = difference < threshold;
 
                 if (handMatch && difference < bestDifference){
@@ -68,6 +78,8 @@ public class GestureRecognizer : GestureBase{
                     bestMatch = gesture;
                 }
             }
+
+            recognitionInfoText.text = $"Current match {bestMatch} with Best Difference of {bestDifference}";
         }
 
         return bestMatch;

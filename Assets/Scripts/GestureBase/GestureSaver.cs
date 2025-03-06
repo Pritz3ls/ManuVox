@@ -13,19 +13,21 @@ public class GestureSaver : GestureBase
     }
     IEnumerator SaveGesture(){
         yield return new WaitForSeconds(captureDelay);
-        currentGesture.leftHandPositions = GetLandMarks(0);
-        
         if(currentGesture.handRequirement == HandRequirement.OneHand){
+            currentGesture.leftHandPositions = GetLandMarks(0);
             if(IsTwoHandsActive()){
                 currentGesture.rightHandPositions = GetLandMarks(1);
             }else{
                 Debug.LogWarning("To ensure left handedness compatibility, capture two hands.");
+                currentGesture.rightHandPositions = GetLandMarks_Reversed(0);
             }
         }else{
             if(IsTwoHandsActive()){
+                currentGesture.leftHandPositions = GetLandMarks(0);
                 currentGesture.rightHandPositions = GetLandMarks(1);
             }else{
                 Debug.LogError("Detected only one hand active! Make sure to capture two hands,");
+                yield return null;
             }
         }
         Debug.LogWarning($"Saved Gesture Name {currentGesture.name}");

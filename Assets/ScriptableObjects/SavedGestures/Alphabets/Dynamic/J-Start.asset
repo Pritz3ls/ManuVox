@@ -10,12 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db72da1b468a18f4daae6ee2612a7946, type: 3}
-  m_Name: Alpha A
+  m_Name: J-Start
   m_EditorClassIdentifier: 
-  gestureName: Alphabet A
-  relativeFingerPositions:
+  handRequirement: 0
+  type: 0
+  leftHandPositions:
+  - {x: -0.23773511, y: 0.8374836}
+  - {x: -0.5096683, y: 0.79124844}
+  - {x: -0.33632323, y: 0.9417466}
+  - {x: -0.17007522, y: 0.99388033}
+  - {x: 0.19141787, y: 1.6707504}
+  rightHandPositions:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   - {x: 0, y: 0}
+  sequence: []
+  canBeStandalone: 0
+  phraseOrWord: 

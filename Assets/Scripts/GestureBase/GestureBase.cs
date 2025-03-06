@@ -28,6 +28,14 @@ public class GestureBase : MonoBehaviour
         }
         return NormalizedLandMarks(relativeLandMarks.ToArray());
     }
+    public virtual Vector2[] GetLandMarks_Reversed(int index){
+        List<Vector2> relativeLandMarks = new List<Vector2>();
+        Vector3 wristPos = MultiHandLandmarkListAnnotation.instance[index].GetPointListAnnotation()[0].transform.position;
+        for (int i = 1; i < 6; i++){
+            relativeLandMarks.Add(-(MultiHandLandmarkListAnnotation.instance[index].GetPointListAnnotation()[i*4].transform.position - wristPos));
+        }
+        return NormalizedLandMarks(relativeLandMarks.ToArray());
+    }
     public virtual bool IsTwoHandsTracked(){
         return MultiHandLandmarkListAnnotation.instance.gameObject.transform.childCount >= 2;
     }
