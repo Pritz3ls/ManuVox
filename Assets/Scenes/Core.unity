@@ -1529,7 +1529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af97085317bb1a4ca6d86898dcf9690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGesture: {fileID: 11400000, guid: 6fa991b35cda2fe4a92d2d55e6050a05, type: 2}
+  currentGesture: {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
   captureDelay: 2
 --- !u!114 &2096728901
 MonoBehaviour:
