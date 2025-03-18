@@ -12,7 +12,9 @@ public class Gesture : ScriptableObject {
     public Vector2[] leftHandPositions = new Vector2[5];
 
     public Gesture[] sequence;
+    [HideInInspector] public string[] sequenceString;
     public bool canBeStandalone = false;
 
     public string phraseOrWord;
+
 }
