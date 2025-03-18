@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mediapipe.Unity;
-using UnityEngine.XR;
 
 public class GestureBase : MonoBehaviour
 {
