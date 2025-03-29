@@ -16,8 +16,8 @@ public class GestureRecognizer : GestureBase{
     [SerializeField] private float threshold = 0.5f; 
     void Start(){
         runner.config.NumHands = numHands;
-        // Application.targetFrameRate = 60;
         // handLandmarkList.GetComponentInChildren
+        Application.targetFrameRate = 60;
         InvokeRepeating("Recognize", 1f, 1f);
     }
     void Recognize(){
