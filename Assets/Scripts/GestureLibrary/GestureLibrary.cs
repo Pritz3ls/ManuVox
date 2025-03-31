@@ -17,7 +17,7 @@ public class GestureLibrary : MonoBehaviour
     string downloadPath = string.Empty;
 
     // Start is called before the first frame update
-    void Start(){
+    void Awake(){
         // Set the instance to this gameobject, destroy if the scene already has it
         if(instance == null){
             instance = this;
@@ -29,6 +29,7 @@ public class GestureLibrary : MonoBehaviour
         
         // Set the application download path
         downloadPath = Path.Combine(Application.persistentDataPath,"DownloadedGestures");
+        Debug.LogWarning($"Loading cached gesture datas on {downloadPath}");
 
         // Debug.Log(Application.persistentDataPath);
         // Debug.Log(Directory.Exists(downloadPath));
@@ -85,5 +86,10 @@ public class GestureLibrary : MonoBehaviour
 
     public List<Gesture> GetLoadedGestures(){
         return loadedGestures;
+    }
+
+    // UI Manager Related Function
+    public List<Gesture> SearchGestureByName(string text){
+        return loadedGestures.FindAll(g => g.name.Contains(text));
     }
 }

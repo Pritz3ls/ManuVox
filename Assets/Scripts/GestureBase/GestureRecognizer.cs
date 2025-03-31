@@ -3,24 +3,52 @@ using UnityEngine;
 using Mediapipe.Unity;
 using TMPro;
 using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Unity.VisualScripting;
 
 public class GestureRecognizer : GestureBase{
-    [Header("General")]
+    public static GestureRecognizer instance;
+
+    [Header("Core Components")]
+    [SerializeField] private HandLandmarkerRunner runner;
+    
+    [Header("Recognizer Components")]
+    [SerializeField] private int numHands;
+    [SerializeField] private float threshold = 0.5f; 
+    [SerializeField] private float recognizerTickRate;
+    
+    [Header("Debug Components")]
     [SerializeField] private TextMeshProUGUI gestureText;
     [SerializeField] private TextMeshProUGUI recognitionInfoText;
     [SerializeField] private TextMeshProUGUI posInfoText;
-    [SerializeField] private HandLandmarkerRunner runner;
-    [SerializeField] private int numHands;
 
-    [SerializeField] private Gesture[] gestures;
-    [SerializeField] private float threshold = 0.5f; 
+    private List<Gesture> gestures;
+
+    private bool recognizerState = true;
+
+    private void Awake() {
+        instance = this;
+    }
+
     void Start(){
         runner.config.NumHands = numHands;
-        // handLandmarkList.GetComponentInChildren
         Application.targetFrameRate = 60;
-        InvokeRepeating("Recognize", 1f, 1f);
+
+        gestures = GestureLibrary.instance.GetLoadedGestures();
+
+        InitializeGestureRecognizer();
     }
+
+    public void SetRecognizerState(bool value) {
+        recognizerState = value;
+    }
+
+    private void InitializeGestureRecognizer(){
+        InvokeRepeating("Recognize", recognizerTickRate, recognizerTickRate);
+    }
+
     void Recognize(){
+        if(!recognizerState) return;
+
         if(FindObjectOfType<HandLandmarkListAnnotation>() == null) return;
 
         Vector2[] firstAvailableHand = GetLandMarks(0);
@@ -84,22 +112,6 @@ public class GestureRecognizer : GestureBase{
 
         return bestMatch;
     }
-
-    // Deprecated, might use later
-    // private bool CompareHand(Vector2[] detectedHand, Vector2[] storedHand){
-    //     if (storedHand == null || detectedHand == null) return false;
-    //     if (detectedHand.Length != storedHand.Length) return false;
-
-    //     float totalDifference = 0f;
-
-    //     for (int i = 0; i < storedHand.Length; i++){
-    //         totalDifference += Vector2.Distance(detectedHand[i], storedHand[i]);
-    //     }
-
-    //     float avgDifference = totalDifference / storedHand.Length;
-    //     recognitionInfoText.text = $"Current difference {avgDifference} < {threshold}";
-    //     return avgDifference < threshold;  // positionThreshold is now the similarity threshold
-    // }
 
     private float GetHandDifference(Vector2[] detectedHand, Vector2[] storedHand){
         if (storedHand == null || detectedHand == null || detectedHand.Length != storedHand.Length)
