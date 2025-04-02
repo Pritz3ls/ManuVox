@@ -14,13 +14,8 @@
 /Packages/com.github.homuler.mediapipe
 
 # Ignore the benchmarker folder
-<<<<<<< HEAD
 Benchmarker/
 ScriptableObjects/
-=======
-/Benchmarker
-/ScriptableObjects
->>>>>>> a15730f9ffc5cd2b94a376d5f2cc45a27ef79a8b
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
