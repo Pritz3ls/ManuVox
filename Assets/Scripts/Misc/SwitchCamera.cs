@@ -12,7 +12,7 @@ public class SwitchCamera : MonoBehaviour{
     }
     // Start is called before the first frame update
     void Start(){
-        InitilizeOptions();
+        Invoke("InitilizeOptions", 1f);
     }
     private void InitilizeOptions(){
         options.Clear();

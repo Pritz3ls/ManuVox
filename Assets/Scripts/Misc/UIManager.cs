@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager instance;
     [Header("Core Component")]
     [SerializeField] private BaseRunner runner;
     [SerializeField] private SwitchCamera cameraSwitcher;
@@ -28,6 +29,9 @@ public class UIManager : MonoBehaviour
 
     private StringBuilder sb = new StringBuilder();
 
+    private void Start() {
+        instance = this;
+    }
     // Global Functions only
     #region Global
         public void SwitchMode(){

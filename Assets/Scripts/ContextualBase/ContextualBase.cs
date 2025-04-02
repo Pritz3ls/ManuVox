@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ContextualBase : MonoBehaviour{
     public static ContextualBase instance;
+
+    [SerializeField] private TTSBase ttsEngine;
     [SerializeField] private List<Gesture> gestureHistory = new List<Gesture>();
     [SerializeField] private List<Gesture> dynamicGestures = new List<Gesture>();
     [SerializeField] private int maxHistory = 5;
@@ -27,6 +29,7 @@ public class ContextualBase : MonoBehaviour{
         // Detect any dynamic gesture building
         if(gestureHistory.Last().type == GestureType.Static && gestureHistory.Last().canBeStandalone){
             // Debug.LogWarning($"System speaking : {gestureHistory.Last().phraseOrWord}");
+            Call_TextToSpeech(gestureHistory.Last());
             return;
         }
         DetectDynamicGestureSequence();
@@ -39,12 +42,21 @@ public class ContextualBase : MonoBehaviour{
         // Iterates every dynamic gestures avaiable
         foreach (Gesture dynamicGesture in dynamicGestures){
             if (IsFlexibleSequenceMatch(gestureHistory, dynamicGesture.sequence)){
-                // Speak(dynamicGesture.phrase);
-                Debug.LogWarning($"System speaking : {dynamicGesture.phraseOrWord}"); // Call TTS Base to speak the phrase or word
-                FlushHistory();
+                // Debug.LogWarning($"System speaking : {dynamicGesture.phraseOrWord}");
+                Call_TextToSpeech(dynamicGesture);
                 return;
             }
         }
+    }
+
+    private void Call_TextToSpeech(Gesture gesture){
+        // On Screen Text
+        UIManager.instance.Text_OnScreenText(gesture.phraseOrWord);
+        
+        // Call TTS Base to speak the phrase or word
+        ttsEngine.Speak(gesture.phraseOrWord);
+
+        FlushHistory();
     }
 
     // Is there a sequence matching in the history with the dynamic gestures
