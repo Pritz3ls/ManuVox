@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Mediapipe.Unity.Sample;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("Core Component")]
     [SerializeField] private BaseRunner runner;
+    [SerializeField] private SwitchCamera cameraSwitcher;
     // Set the default function mode to CameraMode 
     [SerializeField] private FunctionMode mode = FunctionMode.CameraMode;
 
@@ -23,6 +25,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] public TMP_InputField searchInputField;
     [SerializeField] public GameObject searchParent;
     [SerializeField] public GameObject searchResult;
+
+    private StringBuilder sb = new StringBuilder();
 
     // Global Functions only
     #region Global
@@ -47,7 +51,12 @@ public class UIManager : MonoBehaviour
 
     // Camera Mode Functions only
     #region Reference-Camera-Functions
-        
+        public void Button_SwitchCamera(){
+            cameraSwitcher.ChangeCamera();
+        }
+        public void Text_OnScreenText(string text){
+            screenText.text += $"\n{text}";
+        }
     #endregion
 
     // Reference Mode Functions only

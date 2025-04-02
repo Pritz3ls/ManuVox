@@ -419,7 +419,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: -30}
-  m_SizeDelta: {x: 405.1312, y: 15}
+  m_SizeDelta: {x: 1650, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &83811631
 MonoBehaviour:
@@ -1036,7 +1036,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 332.30768, y: 15}
+  m_SizeDelta: {x: 1650, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &290818348
 MonoBehaviour:
@@ -1478,7 +1478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -150}
+  m_AnchoredPosition: {x: 0, y: -149.99976}
   m_SizeDelta: {x: 0, y: -300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &324553150
@@ -3012,7 +3012,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: -15}
-  m_SizeDelta: {x: 405.1312, y: 15}
+  m_SizeDelta: {x: 1650, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &851374129
 MonoBehaviour:
@@ -3278,7 +3278,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 405.1312, y: 15}
+  m_SizeDelta: {x: 1650, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &981406431
 MonoBehaviour:
@@ -3880,6 +3880,59 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3259285889726014650, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
   m_PrefabInstance: {fileID: 1006057040}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1267780216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1267780218}
+  - component: {fileID: 1267780219}
+  m_Layer: 0
+  m_Name: New-Gesture Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1267780218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267780216}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 608.3177, y: 888.7012, z: 35.525066}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1267780219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267780216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fba3e393bffb7d9459edfda6e2d1288a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runner: {fileID: 1064799468}
+  numHands: 2
+  threshold: 0.5
+  recognizerTickRate: 2
+  gestureText: {fileID: 0}
+  recognitionInfoText: {fileID: 0}
+  posInfoText: {fileID: 0}
+  gestures: []
+  recognizerState: 1
 --- !u!1 &1285850393
 GameObject:
   m_ObjectHideFlags: 0
@@ -4122,7 +4175,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!1 &1448816683
 GameObject:
@@ -4216,7 +4269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1481205148
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4689,8 +4742,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 332.30768, y: -90}
-  m_SizeDelta: {x: 332.30768, y: 75}
+  m_AnchoredPosition: {x: 1650, y: -90}
+  m_SizeDelta: {x: 1650, y: 75}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1718877494
 MonoBehaviour:
@@ -5110,8 +5163,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseRunner: {fileID: 1064799468}
-  sourceNamesText: {fileID: 1718877494}
-  logText: {fileID: 512111242}
 --- !u!4 &1906485754
 Transform:
   m_ObjectHideFlags: 0
@@ -5346,7 +5397,7 @@ GameObject:
   - component: {fileID: 2096728900}
   - component: {fileID: 2096728901}
   m_Layer: 0
-  m_Name: Gesture Manager
+  m_Name: Old-Gesture Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5364,17 +5415,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e316cad36cd2746b4bdf36063c28cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runner: {fileID: 1064799468}
+  numHands: 2
+  threshold: 0.15
+  recognizerTickRate: 1
   gestureText: {fileID: 981406431}
   recognitionInfoText: {fileID: 851374129}
   posInfoText: {fileID: 83811631}
-  runner: {fileID: 1064799468}
-  numHands: 2
-  gestures:
-  - {fileID: 11400000, guid: 6fa991b35cda2fe4a92d2d55e6050a05, type: 2}
-  - {fileID: 11400000, guid: b31aa60c8707ab64f85aff4ade05be92, type: 2}
-  - {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
-  threshold: 0.5
-  recognizerTickRate: 0.25
+  gestures: []
+  recognizerState: 1
 --- !u!4 &2096728899
 Transform:
   m_ObjectHideFlags: 0
@@ -5432,6 +5481,7 @@ GameObject:
   - component: {fileID: 2128518567}
   - component: {fileID: 2128518566}
   - component: {fileID: 2128518570}
+  - component: {fileID: 2128518571}
   m_Layer: 5
   m_Name: User Interface
   m_TagString: Untagged
@@ -5537,12 +5587,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runner: {fileID: 1064799468}
   mode: 0
+  cameraSwitcher: {fileID: 2128518571}
   modeCamera: {fileID: 1874558798}
   modeReference: {fileID: 2032350030}
   screenText: {fileID: 0}
   searchInputField: {fileID: 1550054229}
   searchParent: {fileID: 315109581}
   searchResult: {fileID: 2596447868254663807, guid: 47a747018695d60438b47db364f4b43d, type: 3}
+--- !u!114 &2128518571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128518565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0dc5fdde0e334e47b8fea9b9d0d6d61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseRunner: {fileID: 1064799468}
 --- !u!114 &2603068603354373437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5595,6 +5659,7 @@ SceneRoots:
   - {fileID: 1064799461}
   - {fileID: 420786856}
   - {fileID: 2096728899}
+  - {fileID: 1267780218}
   - {fileID: 482416695}
   - {fileID: 2128518569}
   - {fileID: 350642764}

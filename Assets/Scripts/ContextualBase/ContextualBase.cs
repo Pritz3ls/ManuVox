@@ -26,7 +26,7 @@ public class ContextualBase : MonoBehaviour{
 
         // Detect any dynamic gesture building
         if(gestureHistory.Last().type == GestureType.Static && gestureHistory.Last().canBeStandalone){
-            Debug.LogWarning($"System speaking : {gestureHistory.Last().phraseOrWord}");
+            // Debug.LogWarning($"System speaking : {gestureHistory.Last().phraseOrWord}");
             return;
         }
         DetectDynamicGestureSequence();

@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Collections;
+using System.Text;
 using UnityEngine;
 using Mediapipe.Unity;
 using TMPro;
 using Mediapipe.Unity.Sample.HandLandmarkDetection;
-using Unity.VisualScripting;
+using System.Linq;
 
 public class GestureRecognizer : GestureBase{
     public static GestureRecognizer instance;
@@ -21,9 +23,11 @@ public class GestureRecognizer : GestureBase{
     [SerializeField] private TextMeshProUGUI recognitionInfoText;
     [SerializeField] private TextMeshProUGUI posInfoText;
 
-    private List<Gesture> gestures;
+    public List<Gesture> gestures;
+    List<Gesture> oneHandGestures;
+    List<Gesture> twoHandGestures;
 
-    private bool recognizerState = true;
+    public bool recognizerState = true;
 
     private void Awake() {
         instance = this;
@@ -34,6 +38,7 @@ public class GestureRecognizer : GestureBase{
         Application.targetFrameRate = 60;
 
         gestures = GestureLibrary.instance.GetLoadedGestures();
+        OrganizeGestures();
 
         InitializeGestureRecognizer();
     }
@@ -42,11 +47,15 @@ public class GestureRecognizer : GestureBase{
         recognizerState = value;
     }
 
-    private void InitializeGestureRecognizer(){
-        InvokeRepeating("Recognize", recognizerTickRate, recognizerTickRate);
+    private Coroutine recognitionCoroutine;
+    public virtual void InitializeGestureRecognizer(){
+        if (recognitionCoroutine != null) {
+            StopCoroutine(recognitionCoroutine);
+        }
+        recognitionCoroutine = StartCoroutine(RecognizeCoroutine());
     }
 
-    void Recognize(){
+    public virtual void Recognize(){
         if(!recognizerState) return;
 
         if(FindObjectOfType<HandLandmarkListAnnotation>() == null) return;
@@ -59,8 +68,10 @@ public class GestureRecognizer : GestureBase{
         if(recognizedGesture != null){
             gestureText.text = $"Recognized Gesture: {recognizedGesture.name}";
             ContextualBase.instance.UpdateGestureHistory(recognizedGesture);
+            // Debug.LogWarning($"Recognized Gesture: {recognizedGesture.name}");
         }else if(recognizedGesture == null){
             gestureText.text = "Recognized Gesture: Unknown";
+            // Debug.LogWarning($"Recognized Gesture: Unknown");
         }
         
         // posInfoText.text = $"Hand Positions : \n";
@@ -73,27 +84,18 @@ public class GestureRecognizer : GestureBase{
         //     }
         // }
     }
-
-    Gesture RecognizeGesture(Vector2[] firstLandmarks, Vector2[] secondLandmarks){
+    private void OrganizeGestures(){
+        oneHandGestures = gestures.Where(g => g.handRequirement == HandRequirement.OneHand).ToList();;
+        twoHandGestures = gestures.Where(g => g.handRequirement == HandRequirement.TwoHands).ToList();
+    }
+    public virtual Gesture RecognizeGesture(Vector2[] firstLandmarks, Vector2[] secondLandmarks){
         Gesture bestMatch = null;
+        StringBuilder sb = new StringBuilder();
         float bestDifference = float.MaxValue; // Start with a large value
-
-        foreach (Gesture gesture in gestures){
-            if (gesture.handRequirement == HandRequirement.OneHand){
-                bool handMatch = false;
-                float difference = float.MaxValue;
-
-                Vector2[] handedness = IsRightHanded() ? gesture.rightHandPositions : gesture.leftHandPositions;
-                difference = GetHandDifference(firstLandmarks, handedness);
-                handMatch = difference < threshold;
-
-                if (handMatch && difference < bestDifference){
-                    bestDifference = difference;
-                    bestMatch = gesture;
-                }
-            }else if (gesture.handRequirement == HandRequirement.TwoHands){
+        
+        if(IsTwoHandsActive()){
+            foreach (var gesture in twoHandGestures) {
                 float normalDifference = GetHandDifference(firstLandmarks, gesture.leftHandPositions) + GetHandDifference(secondLandmarks, gesture.rightHandPositions);
-
                 float swappedDifference = GetHandDifference(secondLandmarks, gesture.leftHandPositions) + GetHandDifference(firstLandmarks, gesture.rightHandPositions);
 
                 if (normalDifference < threshold && normalDifference < bestDifference){
@@ -106,14 +108,36 @@ public class GestureRecognizer : GestureBase{
                     bestMatch = gesture;
                 }
             }
+        }else{
+            foreach (var gesture in oneHandGestures) {
+                bool handMatch = false;
+                float difference = float.MaxValue;
 
-            recognitionInfoText.text = $"Current match {bestMatch} with Best Difference of {bestDifference}";
+                Vector2[] handedness = IsRightHanded() ? gesture.rightHandPositions : gesture.leftHandPositions;
+                difference = GetHandDifference(firstLandmarks, handedness);
+                handMatch = difference < threshold;
+
+                if (handMatch && difference < bestDifference){
+                    bestDifference = difference;
+                    bestMatch = gesture;
+                }
+            }
         }
+
+        sb.AppendLine($"Current match {bestMatch} with Best Difference of {bestDifference}");
+        recognitionInfoText.text = sb.ToString();
 
         return bestMatch;
     }
 
-    private float GetHandDifference(Vector2[] detectedHand, Vector2[] storedHand){
+    private IEnumerator RecognizeCoroutine() {
+        while (recognizerState) {
+            Recognize();
+            yield return new WaitForSeconds(recognizerTickRate);
+        }
+    }
+
+    public virtual float GetHandDifference(Vector2[] detectedHand, Vector2[] storedHand){
         if (storedHand == null || detectedHand == null || detectedHand.Length != storedHand.Length)
             return float.MaxValue; // Treat mismatch as maximum difference
         float totalDifference = 0f;
