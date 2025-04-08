@@ -41,7 +41,7 @@ public class GestureRecognizer : GestureBase{
         InitializeGestureRecognizer();
     }
     private void OrganizeGestures(List<Gesture> gestures){
-        oneHandGestures = gestures.Where(g => g.handRequirement == HandRequirement.OneHand).ToList();;
+        oneHandGestures = gestures.Where(g => g.handRequirement == HandRequirement.OneHand).ToList();
         twoHandGestures = gestures.Where(g => g.handRequirement == HandRequirement.TwoHands).ToList();
     }
     public void SetRecognizerState(bool value) {

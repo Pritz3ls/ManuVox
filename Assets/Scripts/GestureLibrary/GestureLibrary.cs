@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class GestureLibrary : MonoBehaviour
 
     // Loaded Gestures that any script can access
     private List<Gesture> loadedGestures = new List<Gesture>();
+    List<Gesture> referenceGestures;
 
     // Download location path
     string downloadPath = string.Empty;
@@ -42,6 +44,9 @@ public class GestureLibrary : MonoBehaviour
 
         // Load the downloaded gestures
         LoadDownloadedGestures();
+
+        // UI Reference Only Gestures
+        LoadReferenceOnlyGestures();
     }
     private void LoadDownloadedGestures(){
         if(!Directory.Exists(downloadPath)) return; // The directory for downloaded gestures doesn't exist
@@ -79,6 +84,9 @@ public class GestureLibrary : MonoBehaviour
         Debug.Log($"Added {tempGestures.Count} downloaded gesture json data.");
         loadedGestures.AddRange(tempGestures);
     }
+    private void LoadReferenceOnlyGestures(){
+        referenceGestures = loadedGestures.Where(g => g.canBeStandalone).ToList();
+    }
 
     private Gesture FindGestureByName(string name, List<Gesture> tempGestures){
         return tempGestures.Find(g => g.name == name);
@@ -90,6 +98,7 @@ public class GestureLibrary : MonoBehaviour
 
     // UI Manager Related Function
     public List<Gesture> SearchGestureByName(string text){
-        return loadedGestures.FindAll(g => g.name.Contains(text));
+        
+        return referenceGestures.FindAll(g => g.name.Contains(text));
     }
 }

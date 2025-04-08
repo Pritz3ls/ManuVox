@@ -8,12 +8,13 @@ public class ContextualBase : MonoBehaviour{
 
     [SerializeField] private TTSBase ttsEngine;
     [SerializeField] private List<Gesture> gestureHistory = new List<Gesture>();
-    [SerializeField] private List<Gesture> dynamicGestures = new List<Gesture>();
     [SerializeField] private int maxHistory = 5;
     [SerializeField] private bool noContext = false;
 
+    private List<Gesture> dynamicGestures = new List<Gesture>();
     private void Start() {
         instance = this;
+        dynamicGestures = GestureLibrary.instance.GetLoadedGestures().Where(g => g.type == GestureType.Dynamic).ToList();
     }
 
     // Update Gesture History
