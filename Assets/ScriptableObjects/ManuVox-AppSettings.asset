@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd967c0e52e7b13f80827e23283472e, type: 3}
   m_Name: ManuVox-AppSettings
   m_EditorClassIdentifier: 
-  _defaultImageSource: 2
+  _defaultImageSource: 0
   _preferableInferenceMode: 1
   _assetLoaderType: 0
   _logLevel: 5
@@ -62,4 +62,5 @@ MonoBehaviour:
   - width: 1280
     height: 720
     frameRate: 0
-  _availableVideoSources: []
+  _availableVideoSources:
+  - {fileID: 32900000, guid: 670968131fa8857408aa5fde33180067, type: 3}

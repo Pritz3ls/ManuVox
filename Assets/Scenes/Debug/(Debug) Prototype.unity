@@ -691,6 +691,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1006057041}
     m_Modifications:
+    - target: {fileID: -8837774153085666347, guid: 87a9be2a7620991a78342ef9a56fa62c, type: 3}
+      propertyPath: _landmarkRadius
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7434967355688441420, guid: 87a9be2a7620991a78342ef9a56fa62c, type: 3}
       propertyPath: m_Name
       value: Multi HandLandmarkList Annotation
@@ -1549,9 +1553,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preLoadedGestures:
-  - {fileID: 11400000, guid: 6fa991b35cda2fe4a92d2d55e6050a05, type: 2}
-  - {fileID: 11400000, guid: b31aa60c8707ab64f85aff4ade05be92, type: 2}
-  - {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
+  - {fileID: 11400000, guid: 167e8e1b8e5a9b046b9f0c4925890bf7, type: 2}
+  - {fileID: 11400000, guid: 0c3e81133e36d5240a074840100e1b73, type: 2}
+  - {fileID: 11400000, guid: 3375db76075ceb743894b0f985a4091c, type: 2}
+  - {fileID: 11400000, guid: 27ed7e1155eae694ca367fdcd0f3f875, type: 2}
+  - {fileID: 11400000, guid: 2f5e2f0dafe7e83479b703630f012b36, type: 2}
+  - {fileID: 11400000, guid: d60b61ba1fea3ae47a7c77500d9e434b, type: 2}
+  - {fileID: 11400000, guid: b0b089e097be54847b14eae267188594, type: 2}
+  - {fileID: 11400000, guid: 9374ec41883fdc6438f18f7b625e1699, type: 2}
+  - {fileID: 11400000, guid: 56fd55a8983536340bd1e1a04605b1bd, type: 2}
+  - {fileID: 11400000, guid: 59bb1dc225daab64d9ce8742b25f627f, type: 2}
+  - {fileID: 11400000, guid: 5719189a9e7ade341b1d544830aa3cba, type: 2}
+  - {fileID: 11400000, guid: a3b4b110be94d6d4880c590b366b755c, type: 2}
+  - {fileID: 11400000, guid: cdb6c1f0b2a658e4b90818dee178e0bf, type: 2}
+  - {fileID: 11400000, guid: cbbe9cc02d5add44fb8789b4117d6ea9, type: 2}
+  - {fileID: 11400000, guid: f180986cba44b1b47b199eb5fd02acf5, type: 2}
 --- !u!4 &350642764
 Transform:
   m_ObjectHideFlags: 0
@@ -3943,7 +3959,6 @@ MonoBehaviour:
   gestureText: {fileID: 0}
   recognitionInfoText: {fileID: 0}
   posInfoText: {fileID: 0}
-  gestures: []
   recognizerState: 1
 --- !u!1 &1285850393
 GameObject:
@@ -5422,7 +5437,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096728897}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49e316cad36cd2746b4bdf36063c28cf, type: 3}
   m_Name: 
@@ -5434,7 +5449,6 @@ MonoBehaviour:
   gestureText: {fileID: 981406431}
   recognitionInfoText: {fileID: 851374129}
   posInfoText: {fileID: 83811631}
-  gestures: []
   recognizerState: 1
 --- !u!4 &2096728899
 Transform:
@@ -5464,7 +5478,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af97085317bb1a4ca6d86898dcf9690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGesture: {fileID: 11400000, guid: 6fa991b35cda2fe4a92d2d55e6050a05, type: 2}
+  gestureSaveList: []
+  currentGesture: {fileID: 0}
   captureDelay: 2
 --- !u!114 &2096728901
 MonoBehaviour:
