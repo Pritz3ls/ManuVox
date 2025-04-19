@@ -209,8 +209,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -37.445496, y: -7.846405}
+  m_SizeDelta: {x: 112.5545, y: 115.6931}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &58690467
 MonoBehaviour:
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2aeb1221e0fa0e84982cbff8acf10c2d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2679,7 +2679,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3943,7 +3943,6 @@ MonoBehaviour:
   gestureText: {fileID: 0}
   recognitionInfoText: {fileID: 0}
   posInfoText: {fileID: 0}
-  gestures: []
   recognizerState: 1
 --- !u!1 &1285850393
 GameObject:
@@ -5434,7 +5433,6 @@ MonoBehaviour:
   gestureText: {fileID: 981406431}
   recognitionInfoText: {fileID: 851374129}
   posInfoText: {fileID: 83811631}
-  gestures: []
   recognizerState: 1
 --- !u!4 &2096728899
 Transform:
