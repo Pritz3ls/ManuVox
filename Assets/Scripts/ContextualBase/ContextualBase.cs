@@ -39,7 +39,7 @@ public class ContextualBase : MonoBehaviour{
     private void DetectDynamicGestureSequence(){
         // If dynamic gestures are null or empty, return
         if (dynamicGestures == null || dynamicGestures.Count == 0) return;
-        
+        Debug.Log("Dynamic Gesture");
         // Iterates every dynamic gestures avaiable
         foreach (Gesture dynamicGesture in dynamicGestures){
             if (IsFlexibleSequenceMatch(gestureHistory, dynamicGesture.sequence)){
