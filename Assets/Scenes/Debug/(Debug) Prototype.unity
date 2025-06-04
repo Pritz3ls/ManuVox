@@ -1729,7 +1729,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preLoadedGestures:
-  - {fileID: 11400000, guid: 82e9d2e4dd1865145baad585a532ada2, type: 2}
+  - {fileID: 11400000, guid: 56fd55a8983536340bd1e1a04605b1bd, type: 2}
+  - {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
 --- !u!4 &350642764
 Transform:
   m_ObjectHideFlags: 0
@@ -6039,7 +6040,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096728897}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49e316cad36cd2746b4bdf36063c28cf, type: 3}
   m_Name: 

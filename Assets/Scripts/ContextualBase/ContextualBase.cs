@@ -28,12 +28,13 @@ public class ContextualBase : MonoBehaviour{
         }
 
         // Detect any dynamic gesture building
+        DetectDynamicGestureSequence();
+
         if(gestureHistory.Last().type == GestureType.Static && gestureHistory.Last().canBeStandalone){
             // Debug.LogWarning($"System speaking : {gestureHistory.Last().phraseOrWord}");
             Call_TextToSpeech(gestureHistory.Last());
             return;
         }
-        DetectDynamicGestureSequence();
     }
     // Context Based Detection
     private void DetectDynamicGestureSequence(){
@@ -57,7 +58,7 @@ public class ContextualBase : MonoBehaviour{
         // Call TTS Base to speak the phrase or word
         ttsEngine.Speak(gesture.phraseOrWord);
 
-        FlushHistory();
+        // FlushHistory();
     }
 
     // Is there a sequence matching in the history with the dynamic gestures
