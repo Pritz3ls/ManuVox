@@ -66,20 +66,15 @@ public class ContextualBase : MonoBehaviour{
         if (sequenceSteps == null || sequenceSteps.Length == 0) return false; // If the sequence on the gesture data are null or empty, return
         if (history.Count < sequenceSteps.Length) return false; // If the length of the history are not enough to perform the sequence, return
 
-        int historyIndex = history.Count - sequenceSteps.Length;
+        int historyIndex = history.Count - sequenceSteps.Length - 1;;
         int requiredMatchCount = sequenceSteps.Length <= 1 ? 1 : sequenceSteps.Length - 1;
         int matchCount = 0; // Track how many matches it counts
 
         for (int i = 0; i < sequenceSteps.Length; i++){
-            if (history[historyIndex-1] == sequenceSteps[i]){
+            if (history[historyIndex-i] == sequenceSteps[i]){
                 matchCount++; // Increment if the sequence find something matches in the history
             }
-            Debug.LogWarning($"{history[historyIndex-1].name} : {sequenceSteps[i].name}");
-            // if (history[historyIndex + i] != sequenceSteps[i]){
-            //     return false; // If any step is wrong, return false immediately
-            // }
         }
-        Debug.LogWarning($"Matched {matchCount} out of {requiredMatchCount}");
         return matchCount >= requiredMatchCount; // Allow slight variation
         // return true; // Return true if everything goes right
     }

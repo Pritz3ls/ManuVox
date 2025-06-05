@@ -6040,7 +6040,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096728897}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49e316cad36cd2746b4bdf36063c28cf, type: 3}
   m_Name: 
@@ -6048,7 +6048,7 @@ MonoBehaviour:
   runner: {fileID: 1064799468}
   numHands: 2
   threshold: 0.2
-  recognizerTickRate: 1
+  recognizerTickRate: 1.5
   gestureText: {fileID: 981406431}
   recognitionInfoText: {fileID: 851374129}
   posInfoText: {fileID: 83811631}
@@ -6076,13 +6076,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096728897}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3af97085317bb1a4ca6d86898dcf9690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gestureSaveList:
-  - {fileID: 11400000, guid: 82e9d2e4dd1865145baad585a532ada2, type: 2}
+  runner: {fileID: 1064799468}
+  gestureSaveList: []
   currentGesture: {fileID: 0}
   captureDelay: 2
 --- !u!114 &2096728901
