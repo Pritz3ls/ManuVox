@@ -28,11 +28,12 @@ public class ContextualBase : MonoBehaviour{
         }
 
         // Detect any dynamic gesture building
-        DetectDynamicGestureSequence();
+        if(gesture.type == GestureType.Dynamic){
+            DetectDynamicGestureSequence();
+        }
 
-        if(gestureHistory.Last().type == GestureType.Static && gestureHistory.Last().canBeStandalone){
-            // Debug.LogWarning($"System speaking : {gestureHistory.Last().phraseOrWord}");
-            Call_TextToSpeech(gestureHistory.Last());
+        if (gesture.type == GestureType.Static && gesture.canBeStandalone){
+            Call_TextToSpeech(gesture);
             return;
         }
     }
@@ -40,12 +41,14 @@ public class ContextualBase : MonoBehaviour{
     private void DetectDynamicGestureSequence(){
         // If dynamic gestures are null or empty, return
         if (dynamicGestures == null || dynamicGestures.Count == 0) return;
-        Debug.Log("Dynamic Gesture");
+        Debug.LogWarning("Detecting Dynamic Gestures");
         // Iterates every dynamic gestures avaiable
         foreach (Gesture dynamicGesture in dynamicGestures){
             if (IsFlexibleSequenceMatch(gestureHistory, dynamicGesture.sequence)){
                 // Debug.LogWarning($"System speaking : {dynamicGesture.phraseOrWord}");
+                Debug.LogWarning($"Detected Dynamic Gesture is {dynamicGesture.name}");
                 Call_TextToSpeech(dynamicGesture);
+                FlushHistory();
                 return;
             }
         }
@@ -57,29 +60,28 @@ public class ContextualBase : MonoBehaviour{
         
         // Call TTS Base to speak the phrase or word
         ttsEngine.Speak(gesture.phraseOrWord);
-
-        // FlushHistory();
     }
 
-    // Is there a sequence matching in the history with the dynamic gestures
     private bool IsFlexibleSequenceMatch(List<Gesture> history, Gesture[] sequenceSteps){
         if (sequenceSteps == null || sequenceSteps.Length == 0) return false; // If the sequence on the gesture data are null or empty, return
         if (history.Count < sequenceSteps.Length) return false; // If the length of the history are not enough to perform the sequence, return
 
         int historyIndex = history.Count - sequenceSteps.Length;
-        // int matchCount = 0; // Track how many matches it counts
+        int requiredMatchCount = sequenceSteps.Length <= 1 ? 1 : sequenceSteps.Length - 1;
+        int matchCount = 0; // Track how many matches it counts
 
         for (int i = 0; i < sequenceSteps.Length; i++){
-            // if (history[historyIndex + i] == sequenceSteps[i]){
-            //     matchCount++; // Increment if the sequence find something matches in the history
-            // }
-            if (history[historyIndex + i] != sequenceSteps[i]){
-                return false; // If any step is wrong, return false immediately
+            if (history[historyIndex-1] == sequenceSteps[i]){
+                matchCount++; // Increment if the sequence find something matches in the history
             }
+            Debug.LogWarning($"{history[historyIndex-1].name} : {sequenceSteps[i].name}");
+            // if (history[historyIndex + i] != sequenceSteps[i]){
+            //     return false; // If any step is wrong, return false immediately
+            // }
         }
-
-        // return matchCount >= sequenceSteps.Length - 1; // Allow slight variation
-        return true; // Return true if everything goes right
+        Debug.LogWarning($"Matched {matchCount} out of {requiredMatchCount}");
+        return matchCount >= requiredMatchCount; // Allow slight variation
+        // return true; // Return true if everything goes right
     }
 
     // Flush the history
@@ -89,3 +91,41 @@ public class ContextualBase : MonoBehaviour{
         }
     }
 }
+
+#region Old-Code Base *BACKUP*
+    // private void DetectDynamicGestureSequence(){
+    //     // If dynamic gestures are null or empty, return
+    //     if (dynamicGestures == null || dynamicGestures.Count == 0) return;
+    //     // Iterates every dynamic gestures avaiable
+    //     foreach (Gesture dynamicGesture in dynamicGestures){
+    //         if (IsFlexibleSequenceMatch(gestureHistory, dynamicGesture.sequence)){
+    //             // Debug.LogWarning($"System speaking : {dynamicGesture.phraseOrWord}");
+    //             Debug.Log($"Dynamic Gesture is {dynamicGesture.name}");
+    //             Call_TextToSpeech(dynamicGesture);
+    //             return;
+    //         }
+    //     }
+    // }
+
+    // Is there a sequence matching in the history with the dynamic gestures
+    // private bool IsFlexibleSequenceMatch(List<Gesture> history, Gesture[] sequenceSteps){
+    //     if (sequenceSteps == null || sequenceSteps.Length == 0) return false; // If the sequence on the gesture data are null or empty, return
+    //     if (history.Count < sequenceSteps.Length) return false; // If the length of the history are not enough to perform the sequence, return
+
+    //     int historyIndex = history.Count - sequenceSteps.Length;
+    //     // int matchCount = 0; // Track how many matches it counts
+
+    //     for (int i = 0; i < sequenceSteps.Length; i++){
+    //         // if (history[historyIndex + i] == sequenceSteps[i]){
+    //         //     matchCount++; // Increment if the sequence find something matches in the history
+    //         // }
+    //         if (history[historyIndex + i] != sequenceSteps[i]){
+    //             return false; // If any step is wrong, return false immediately
+    //         }
+    //     }
+
+    //     // return matchCount >= sequenceSteps.Length - 1; // Allow slight variation
+    //     return true; // Return true if everything goes right
+    // }
+    
+#endregion
