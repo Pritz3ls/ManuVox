@@ -84,6 +84,8 @@ public class ContextualBase : MonoBehaviour{
 
     // Flush the history
     private void FlushHistory(){
-        gestureHistory.Clear();
+        if(gestureHistory.Count != 0){
+            gestureHistory.Clear();
+        }
     }
 }
