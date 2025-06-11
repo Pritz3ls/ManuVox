@@ -8,14 +8,14 @@ public class LSHGestureRecognizer : GestureRecognizer
 {
     private LSHGestureStorage lshStorage;
 
-    public override void InitializeGestureRecognizer(){
-        // lshStorage = new LSHGestureStorage(5); // Assuming 5 key points
-        // foreach (Gesture gesture in gestures) {
-        //     lshStorage.AddGesture(gesture);
-        // }
+    // public override void InitializeGestureRecognizer(){
+    //     // lshStorage = new LSHGestureStorage(5); // Assuming 5 key points
+    //     // foreach (Gesture gesture in gestures) {
+    //     //     lshStorage.AddGesture(gesture);
+    //     // }
 
-        base.InitializeGestureRecognizer();
-    }
+    //     // base.InitializeGestureRecognizer();
+    // }
 
     public override void Recognize(){
         if(!recognizerState) return;

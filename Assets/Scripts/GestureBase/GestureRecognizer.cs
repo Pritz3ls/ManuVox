@@ -28,6 +28,8 @@ public class GestureRecognizer : GestureBase{
 
     public bool recognizerState = true;
 
+    private Coroutine recognizerLoop;
+
     private void Awake() {
         instance = this;
     }
@@ -38,18 +40,26 @@ public class GestureRecognizer : GestureBase{
 
         OrganizeGestures(GestureLibrary.instance.GetLoadedGestures());
 
-        InitializeGestureRecognizer();
+        recognizerLoop = StartCoroutine(CoroutineRecognizer());
     }
     private void OrganizeGestures(List<Gesture> gestures){
-        oneHandGestures = gestures.Where(g => g.handRequirement == HandRequirement.OneHand).ToList();;
+        oneHandGestures = gestures.Where(g => g.handRequirement == HandRequirement.OneHand).ToList();
         twoHandGestures = gestures.Where(g => g.handRequirement == HandRequirement.TwoHands).ToList();
     }
     public void SetRecognizerState(bool value) {
         recognizerState = value;
     }
 
-    public virtual void InitializeGestureRecognizer(){
-        InvokeRepeating("Recognize", recognizerTickRate, recognizerTickRate);
+    public virtual IEnumerator CoroutineRecognizer(){
+        while (true){
+            Recognize();
+            yield return new WaitForSecondsRealtime(recognizerTickRate);
+        }
+    }
+    void OnDisable(){
+        if (recognizerLoop != null){
+            StopCoroutine(CoroutineRecognizer());
+        }
     }
 
     public virtual void Recognize(){

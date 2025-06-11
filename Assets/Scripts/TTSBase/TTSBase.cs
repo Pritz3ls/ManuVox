@@ -8,7 +8,6 @@ public class TTSBase : MonoBehaviour
 {
     private AndroidJavaObject tts;  // Android TTS object
     [SerializeField] private TextMeshProUGUI ttsStatusText;
-    [SerializeField] private TextMeshProUGUI inputText;
     private bool isTTSReady = false; // Flag to track if TTS is ready
 
     void Start(){
@@ -48,7 +47,7 @@ public class TTSBase : MonoBehaviour
         if (Application.platform == RuntimePlatform.Android){
             using (AndroidJavaObject hashMap = new AndroidJavaObject("java.util.HashMap")){
                 hashMap.Call<string>("put", "utteranceId", "TTS_1");
-                tts.Call<int>("speak", inputText.text, 0, hashMap);
+                tts.Call<int>("speak", textToSpeak, 0, hashMap);
             }
         }   
     }

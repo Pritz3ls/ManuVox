@@ -1,11 +1,24 @@
 using System.Collections;
 using UnityEngine;
+using Mediapipe.Unity.Sample.HandLandmarkDetection;
 
 public class GestureSaver : GestureBase
 {
+    [SerializeField] private HandLandmarkerRunner runner;
+    [SerializeField] private Gesture[] gestureSaveList;
     [SerializeField] private Gesture currentGesture;
     [SerializeField] private float captureDelay = 1f;
+    
     // Update is called once per frame
+    int curIndex = 0;
+
+    private void Start() {
+        curIndex = 0;
+        currentGesture = gestureSaveList[curIndex];
+        Application.targetFrameRate = 60;
+
+        DynamicSetRunnerHands(currentGesture);
+    }
     void Update(){
         if(Input.GetKeyDown(KeyCode.Space)){
             StartCoroutine(SaveGesture());
@@ -31,5 +44,20 @@ public class GestureSaver : GestureBase
             }
         }
         Debug.LogWarning($"Saved Gesture Name {currentGesture.name}");
+
+        if(curIndex < gestureSaveList.Length){
+            curIndex++;
+            currentGesture = gestureSaveList[curIndex];
+
+            DynamicSetRunnerHands(currentGesture);
+        }
+    }
+
+    void DynamicSetRunnerHands(Gesture gesture){
+        if(gesture.handRequirement == HandRequirement.TwoHands){
+            runner.config.NumHands = 2;
+        }else{
+            runner.config.NumHands = 1;
+        }
     }
 }
