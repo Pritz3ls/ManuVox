@@ -14,6 +14,7 @@ public class GestureRecognizer : GestureBase{
     [SerializeField] private HandLandmarkerRunner runner;
     
     [Header("Recognizer Components")]
+    [Range(1,2)]
     [SerializeField] private int numHands;
     [SerializeField] private float threshold = 0.5f; 
     [SerializeField] private float recognizerTickRate;
@@ -40,7 +41,8 @@ public class GestureRecognizer : GestureBase{
 
         OrganizeGestures(GestureLibrary.instance.GetLoadedGestures());
 
-        recognizerLoop = StartCoroutine(CoroutineRecognizer());
+        // Start the recognizer
+        SetRecognizerState(true);
     }
     private void OrganizeGestures(List<Gesture> gestures){
         oneHandGestures = gestures.Where(g => g.handRequirement == HandRequirement.OneHand).ToList();
@@ -48,6 +50,17 @@ public class GestureRecognizer : GestureBase{
     }
     public void SetRecognizerState(bool value) {
         recognizerState = value;
+        // Stop/Pause the system
+        StopCoroutine(recognizerLoop);
+
+        // If the state set to true, then restart the system
+        if(value == true){
+            recognizerLoop = StartCoroutine(CoroutineRecognizer());
+        }
+    }
+
+    public virtual void StartRecognizer(){
+        recognizerLoop = StartCoroutine(CoroutineRecognizer());
     }
 
     public virtual IEnumerator CoroutineRecognizer(){
@@ -64,8 +77,20 @@ public class GestureRecognizer : GestureBase{
 
     public virtual void Recognize(){
         if(!recognizerState) return;
+        if(!IsOneHandctive() || !IsTwoHandsActive()){
+            // Might add UI here to tell user there's no active hands
+            Debug.LogWarning("No hands active, idling");
+            /*
+                User pauses too long, this has double implementations, one here and on Gesture Recognizer,
+                #Fix: The system tracks the number of ticks the user hasn't still sign or any active hands detected
+                if it does, the system timeouts, and notify the user with UI elements.
+            */
+            // Might add another counter here if the user still hasn't signed for about 10 ticks now
+            // If the user didn't still, pause the system, and recalibrate the user
+            return;
+        }
 
-        if(FindObjectOfType<HandLandmarkListAnnotation>() == null) return;
+        if(FindObjectOfType<HandLandmarkListAnnotation>() == null) return; // There' isn't a active instantiated MediaPipe point annotation yet, return 
 
         Vector2[] firstAvailableHand = GetLandMarks(0);
         Vector2[] secondAvailableHand = IsTwoHandsActive() ? GetLandMarks(1) : new Vector2[0];

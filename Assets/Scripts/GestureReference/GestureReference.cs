@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mediapipe.Unity;
 
 public class GestureReference : GestureBase
 {
+    public Gesture gesture;
+    public Image image;
+    
+    private void Start() {
+        image.sprite = gesture.referenceImage;
+    }
     // [SerializeField] private Transform wristTarget; // Assign in Inspector
     // [SerializeField] private float smoothFactor = 0.2f; // Adjust for smoother rotation
 

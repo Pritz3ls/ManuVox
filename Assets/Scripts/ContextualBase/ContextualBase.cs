@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class ContextualBase : MonoBehaviour{
     public static ContextualBase instance;
-
     [SerializeField] private TTSBase ttsEngine;
     [SerializeField] private List<Gesture> gestureHistory = new List<Gesture>();
     [SerializeField] private int maxHistory = 5;
     [SerializeField] private bool noContext = false;
+
+    [Header("Context Aware")]
+    [SerializeField] private int maxPauseDuplicateCount = 5; // Pause the system after several duplicates 
+    [SerializeField] private int currentDuplicateCount = 5; // Pause the system after several duplicates 
+    public Gesture temporaryGesture = null;
 
     private List<Gesture> dynamicGestures = new List<Gesture>();
     private void Start() {
@@ -19,6 +23,29 @@ public class ContextualBase : MonoBehaviour{
 
     // Update Gesture History
     public void UpdateGestureHistory(Gesture gesture){
+        /*
+            User pauses too long, this has double implementations, one here and on Gesture Recognizer,
+            #Fix: The system tracks the number of duplicated gestures rapid succession by the user, if it
+            exceeds, timeout the system, and notify the user with UI elements
+        */
+        // Some return checks if the given gesture is empty or a duplicate
+        // If either, provide a UI feedback indicating, Continue
+        // This can also help to stop double triggers of gestures, preventing TTS to speak twice the duplicates
+        if(gesture == null){
+            Debug.LogWarning("Continue..."); // The user is idling
+            return;
+        }
+        if(gesture == gestureHistory.Last()){
+            currentDuplicateCount++;
+            if(currentDuplicateCount >= maxPauseDuplicateCount){
+                Debug.LogWarning("User exceed a maximum duplicate, will pause the system...");
+                // System set to pause, the user pause too long
+                GestureRecognizer.instance.SetRecognizerState(false); // Pause/Stop the recognizer
+                currentDuplicateCount = 0; // Reset the duplicate count to 0
+            }
+            return;
+        }
+
         // Add a new gesture
         gestureHistory.Add(gesture);
 
@@ -27,15 +54,37 @@ public class ContextualBase : MonoBehaviour{
             gestureHistory.RemoveAt(0);
         }
 
-        // Detect any dynamic gesture building
-        if(gesture.type == GestureType.Dynamic){
-            DetectDynamicGestureSequence();
+        /*
+            Subsequent frames are called in even though user intents to do just one, example I and J.
+            #Fix: Store the latest detected gesture into temporary then check if it's the same as temporary to conclude
+            if it's a dynamic gesture or static  
+        */
+        // The system detects the same gesture as last temporary gesture, display and call TTS on it
+        if(gesture == temporaryGesture){
+            if (gesture.type == GestureType.Static && gesture.canBeStandalone){
+                Call_TextToSpeech(gesture);
+                temporaryGesture = null;
+                return;
+            }
+        }else{ // The system detects it's not a same gesture as before, Detect any dynamic gesture sequence
+            if(gesture.type == GestureType.Dynamic){
+                // idk if i should reset the temporary here, will test tomorrow
+                DetectDynamicGestureSequence();
+            }
         }
 
-        if (gesture.type == GestureType.Static && gesture.canBeStandalone){
-            Call_TextToSpeech(gesture);
-            return;
-        }
+        // Set the temporary gesture to this current gesture
+        temporaryGesture = gesture;
+
+        // Detect any dynamic gesture building
+        // if(gesture.type == GestureType.Dynamic){
+        //     DetectDynamicGestureSequence();
+        // }
+
+        // if (gesture.type == GestureType.Static && gesture.canBeStandalone){
+        //     Call_TextToSpeech(gesture);
+        //     return;
+        // }
     }
     // Context Based Detection
     private void DetectDynamicGestureSequence(){
