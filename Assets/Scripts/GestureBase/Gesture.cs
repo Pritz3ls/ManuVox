@@ -17,6 +17,5 @@ public class Gesture : ScriptableObject {
     public Gesture[] sequence;
     [HideInInspector] public string[] sequenceString;
     public bool canBeStandalone = false;
-
     public string phraseOrWord;
 }

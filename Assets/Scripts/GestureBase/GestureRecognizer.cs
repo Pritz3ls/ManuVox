@@ -77,6 +77,7 @@ public class GestureRecognizer : GestureBase{
 
     public virtual void Recognize(){
         if(!recognizerState) return;
+        
         if(!IsOneHandctive() || !IsTwoHandsActive()){
             // Might add UI here to tell user there's no active hands
             Debug.LogWarning("No hands active, idling");

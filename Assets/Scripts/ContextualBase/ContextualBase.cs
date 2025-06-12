@@ -76,6 +76,7 @@ public class ContextualBase : MonoBehaviour{
         // Set the temporary gesture to this current gesture
         temporaryGesture = gesture;
 
+
         // Detect any dynamic gesture building
         // if(gesture.type == GestureType.Dynamic){
         //     DetectDynamicGestureSequence();

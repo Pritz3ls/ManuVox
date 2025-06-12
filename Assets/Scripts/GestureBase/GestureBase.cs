@@ -45,10 +45,12 @@ public class GestureBase : MonoBehaviour
     public virtual bool IsTwoHandsTracked(){
         return MultiHandLandmarkListAnnotation.instance.gameObject.transform.childCount >= 2;
     }
+    // One active hand is tracked
     public bool IsOneHandctive(){
         bool handActive = MultiHandLandmarkListAnnotation.instance[0].gameObject.activeSelf; 
         return handActive;
     }
+    // Two active hand is tracked
     public virtual bool IsTwoHandsActive(){
         if(!IsTwoHandsTracked()) return false;
         bool firstAvailableHand = MultiHandLandmarkListAnnotation.instance[0].gameObject.activeSelf;
