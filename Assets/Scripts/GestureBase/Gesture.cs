@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum HandRequirement{OneHand,TwoHands}
 public enum GestureType{Static,Dynamic}
-public enum GestureContext{None,Letter,Number,Word}
+public enum GestureContext{None,Letter,Number}
 [CreateAssetMenu(fileName = "New Gesture", menuName = "Create Gesture", order = 0)]
 public class Gesture : ScriptableObject {
     public HandRequirement handRequirement = HandRequirement.OneHand;

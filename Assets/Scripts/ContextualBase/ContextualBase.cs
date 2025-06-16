@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ContextualBase : MonoBehaviour{
+public class ContextualBase : GestureBase{
     public static ContextualBase instance;
     [SerializeField] private TTSBase ttsEngine;
     [SerializeField] private List<Gesture> gestureHistory = new List<Gesture>();
@@ -11,8 +11,9 @@ public class ContextualBase : MonoBehaviour{
     [SerializeField] private bool noContext = false;
 
     [Header("Context Aware")]
-    [SerializeField] private int maxPauseDuplicateCount = 5; // Pause the system after several duplicates 
-    [SerializeField] private int currentDuplicateCount = 5; // Pause the system after several duplicates 
+    [SerializeField] private int maxContextTimeOut = 3; 
+    private int currentContextTimeOut = 0; 
+    [SerializeField] private GestureContext currentContext = GestureContext.None;
     public Gesture temporaryGesture = null;
 
     private List<Gesture> dynamicGestures = new List<Gesture>();
@@ -23,26 +24,8 @@ public class ContextualBase : MonoBehaviour{
 
     // Update Gesture History
     public void UpdateGestureHistory(Gesture gesture){
-        /*
-            User pauses too long, this has double implementations, one here and on Gesture Recognizer,
-            #Fix: The system tracks the number of duplicated gestures rapid succession by the user, if it
-            exceeds, timeout the system, and notify the user with UI elements
-        */
-        // Some return checks if the given gesture is empty or a duplicate
-        // If either, provide a UI feedback indicating, Continue
-        // This can also help to stop double triggers of gestures, preventing TTS to speak twice the duplicates
         if(gesture == null){
             Debug.LogWarning("Continue..."); // The user is idling
-            return;
-        }
-        if(gesture == gestureHistory.Last()){
-            currentDuplicateCount++;
-            if(currentDuplicateCount >= maxPauseDuplicateCount){
-                Debug.LogWarning("User exceed a maximum duplicate, will pause the system...");
-                // System set to pause, the user pause too long
-                GestureRecognizer.instance.SetRecognizerState(false); // Pause/Stop the recognizer
-                currentDuplicateCount = 0; // Reset the duplicate count to 0
-            }
             return;
         }
 
@@ -61,6 +44,7 @@ public class ContextualBase : MonoBehaviour{
         */
         // The system detects the same gesture as last temporary gesture, display and call TTS on it
         if(gesture == temporaryGesture){
+            Debug.LogWarning("Same gesture as last time, calling feedback");
             if (gesture.type == GestureType.Static && gesture.canBeStandalone){
                 Call_TextToSpeech(gesture);
                 temporaryGesture = null;
@@ -73,19 +57,11 @@ public class ContextualBase : MonoBehaviour{
             }
         }
 
+        // Set the current context to the new context
+        SetContext(gesture.context);
+
         // Set the temporary gesture to this current gesture
         temporaryGesture = gesture;
-
-
-        // Detect any dynamic gesture building
-        // if(gesture.type == GestureType.Dynamic){
-        //     DetectDynamicGestureSequence();
-        // }
-
-        // if (gesture.type == GestureType.Static && gesture.canBeStandalone){
-        //     Call_TextToSpeech(gesture);
-        //     return;
-        // }
     }
     // Context Based Detection
     private void DetectDynamicGestureSequence(){
@@ -135,42 +111,16 @@ public class ContextualBase : MonoBehaviour{
             gestureHistory.Clear();
         }
     }
+
+    private bool ContextTimeOut(){
+        currentContextTimeOut++;
+        return currentContextTimeOut >= maxContextTimeOut;
+    }
+    public GestureContext GetCurrentContext(){
+        return currentContext;
+    }
+    public void SetContext(GestureContext newContext){
+        currentContextTimeOut = 0;
+        currentContext = newContext;
+    }
 }
-
-#region Old-Code Base *BACKUP*
-    // private void DetectDynamicGestureSequence(){
-    //     // If dynamic gestures are null or empty, return
-    //     if (dynamicGestures == null || dynamicGestures.Count == 0) return;
-    //     // Iterates every dynamic gestures avaiable
-    //     foreach (Gesture dynamicGesture in dynamicGestures){
-    //         if (IsFlexibleSequenceMatch(gestureHistory, dynamicGesture.sequence)){
-    //             // Debug.LogWarning($"System speaking : {dynamicGesture.phraseOrWord}");
-    //             Debug.Log($"Dynamic Gesture is {dynamicGesture.name}");
-    //             Call_TextToSpeech(dynamicGesture);
-    //             return;
-    //         }
-    //     }
-    // }
-
-    // Is there a sequence matching in the history with the dynamic gestures
-    // private bool IsFlexibleSequenceMatch(List<Gesture> history, Gesture[] sequenceSteps){
-    //     if (sequenceSteps == null || sequenceSteps.Length == 0) return false; // If the sequence on the gesture data are null or empty, return
-    //     if (history.Count < sequenceSteps.Length) return false; // If the length of the history are not enough to perform the sequence, return
-
-    //     int historyIndex = history.Count - sequenceSteps.Length;
-    //     // int matchCount = 0; // Track how many matches it counts
-
-    //     for (int i = 0; i < sequenceSteps.Length; i++){
-    //         // if (history[historyIndex + i] == sequenceSteps[i]){
-    //         //     matchCount++; // Increment if the sequence find something matches in the history
-    //         // }
-    //         if (history[historyIndex + i] != sequenceSteps[i]){
-    //             return false; // If any step is wrong, return false immediately
-    //         }
-    //     }
-
-    //     // return matchCount >= sequenceSteps.Length - 1; // Allow slight variation
-    //     return true; // Return true if everything goes right
-    // }
-    
-#endregion

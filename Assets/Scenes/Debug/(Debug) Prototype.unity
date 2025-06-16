@@ -209,7 +209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -37.445496, y: -7.846405}
+  m_AnchoredPosition: {x: -37.4458, y: -7.846405}
   m_SizeDelta: {x: 112.5545, y: 115.6931}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &58690467
@@ -1729,8 +1729,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preLoadedGestures:
-  - {fileID: 11400000, guid: 56fd55a8983536340bd1e1a04605b1bd, type: 2}
-  - {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
+  - {fileID: 11400000, guid: 0c3e81133e36d5240a074840100e1b73, type: 2}
+  - {fileID: 11400000, guid: 738f1271fb13a0641b3b6a5a19c821da, type: 2}
+  - {fileID: 11400000, guid: 7cc159374e2429c4eace658df14c5f53, type: 2}
 --- !u!4 &350642764
 Transform:
   m_ObjectHideFlags: 0
@@ -2093,6 +2094,9 @@ MonoBehaviour:
   gestureHistory: []
   maxHistory: 5
   noContext: 0
+  maxContextTimeOut: 3
+  currentContext: 0
+  temporaryGesture: {fileID: 0}
 --- !u!114 &482416697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2165,8 +2169,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4349,6 +4353,7 @@ MonoBehaviour:
   numHands: 2
   threshold: 0.5
   recognizerTickRate: 2
+  maxtimeOutSeconds: 15
   gestureText: {fileID: 0}
   recognitionInfoText: {fileID: 0}
   posInfoText: {fileID: 0}
@@ -6040,15 +6045,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096728897}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49e316cad36cd2746b4bdf36063c28cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   runner: {fileID: 1064799468}
   numHands: 2
-  threshold: 0.2
+  threshold: 0.25
   recognizerTickRate: 1.5
+  maxtimeOutSeconds: 15
   gestureText: {fileID: 981406431}
   recognitionInfoText: {fileID: 851374129}
   posInfoText: {fileID: 83811631}

@@ -47,6 +47,7 @@ public class GestureBase : MonoBehaviour
     }
     // One active hand is tracked
     public bool IsOneHandctive(){
+        if(FindObjectOfType<HandLandmarkListAnnotation>() == null) return false;
         bool handActive = MultiHandLandmarkListAnnotation.instance[0].gameObject.activeSelf; 
         return handActive;
     }
