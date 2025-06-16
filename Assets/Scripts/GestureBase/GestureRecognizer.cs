@@ -65,6 +65,10 @@ public class GestureRecognizer : GestureBase{
         ResetTimeOuerTimer();
     }
 
+    public void SetTickSpeed(float speed){
+        recognizerTickRate = speed;
+    }
+
     public virtual void StartRecognizer(){
         recognizerLoop = StartCoroutine(CoroutineRecognizer());
     }
