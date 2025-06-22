@@ -27,6 +27,13 @@ public class GestureBase : MonoBehaviour
         }
         return NormalizedLandMarks(relativeLandMarks.ToArray());
     }
+    public virtual Vector2[] GetAllLandmarks(int index){
+        List<Vector2> landMarks = new List<Vector2>();
+        for (int i = 0; i < 21; i++){
+            landMarks.Add(MultiHandLandmarkListAnnotation.instance[index].GetPointListAnnotation()[i].transform.position);
+        }
+        return landMarks.ToArray();
+    }
     public virtual Vector2[] GetLandMarks_Reversed(int index){
         List<Vector2> relativeLandMarks = new List<Vector2>();
         Vector3 wristPos = MultiHandLandmarkListAnnotation.instance[index].GetPointListAnnotation()[0].transform.position;
@@ -38,6 +45,13 @@ public class GestureBase : MonoBehaviour
     public virtual bool IsTwoHandsTracked(){
         return MultiHandLandmarkListAnnotation.instance.gameObject.transform.childCount >= 2;
     }
+    // One active hand is tracked
+    public bool IsOneHandctive(){
+        if(FindObjectOfType<HandLandmarkListAnnotation>() == null) return false;
+        bool handActive = MultiHandLandmarkListAnnotation.instance[0].gameObject.activeSelf; 
+        return handActive;
+    }
+    // Two active hand is tracked
     public virtual bool IsTwoHandsActive(){
         if(!IsTwoHandsTracked()) return false;
         bool firstAvailableHand = MultiHandLandmarkListAnnotation.instance[0].gameObject.activeSelf;

@@ -19,15 +19,25 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject modeCamera;
     [SerializeField] private GameObject modeReference;
 
+    [Header("Popup Component")]
+    [SerializeField] private GameObject popupObj;
+    [SerializeField] private Image popupIcon;
+    [SerializeField] private TextMeshProUGUI popupMessage;
+    [SerializeField] private Button actionButton;
+    [SerializeField] private Button cancelButton;
+    [SerializeField] private Sprite[] popupIconImages;
+
     [Header("Camera Components")]
+    public GameObject calibrationObj;
     [SerializeField] private TextMeshProUGUI screenText;
 
     [Header("Reference Components")]
-    [SerializeField] public TMP_InputField searchInputField;
-    [SerializeField] public GameObject searchParent;
-    [SerializeField] public GameObject searchResult;
+    [SerializeField] private TMP_InputField searchInputField;
+    [SerializeField] private GameObject emptySearchResultTextObj;
+    [SerializeField] private GameObject searchParent;
+    [SerializeField] private GameObject searchResultPrefab;
 
-    private StringBuilder sb = new StringBuilder();
+    // private StringBuilder sb = new StringBuilder();
 
     private void Start() {
         instance = this;
@@ -51,10 +61,63 @@ public class UIManager : MonoBehaviour
                 runner.Stop();
             }
         }
+
+        // Popup events, this will open up a popup window
+        public void NewPopup(PopupType type, string message){
+            switch (type){
+                case PopupType.Info:
+                    popupIcon.sprite = popupIconImages[0];
+                    // actionButton.onClick.AddListener(() => popevent);
+                break;
+                case PopupType.Error:
+                    popupIcon.sprite = popupIconImages[1];
+                break;
+                case PopupType.Warning:
+                    popupIcon.sprite = popupIconImages[2];
+                break;
+            }
+            popupMessage.text = message;
+            popupObj.SetActive(true);
+        }
+        // Close the popup window
+        public void ClosePopup(){
+            popupObj.SetActive(false);
+        }
+
+        // Open Settings
+        public void OpenAppSettings(){}
+    #endregion
+
+    #region Calibration Process
+        // Possible speed options, the lower the faster
+        // Might test the performance on varying speed
+        /*
+            1.5s - Slow signer
+            1s   - Average Signer
+            0.5s - Fast Signer
+        */
+        public void SetupSpeedCalibration(){
+            calibrationObj.SetActive(true);
+        }
+        // Select sign speed with presets
+        public void SelectSignSpeed(SignSpeedPreset preferedSpeed){
+            switch (preferedSpeed){
+                case SignSpeedPreset.Slow:
+                    GestureRecognizer.instance.SetTickSpeed(1.5f);
+                break;
+                case SignSpeedPreset.Average:
+                    GestureRecognizer.instance.SetTickSpeed(1f);
+                break;
+                case SignSpeedPreset.Fast:
+                    GestureRecognizer.instance.SetTickSpeed(0.5f);
+                break;
+            }
+            calibrationObj.SetActive(false);
+        }
     #endregion
 
     // Camera Mode Functions only
-    #region Reference-Camera-Functions
+    #region Camera-Mode-Functions
         public void Button_SwitchCamera(){
             cameraSwitcher.ChangeCamera();
         }
@@ -68,8 +131,11 @@ public class UIManager : MonoBehaviour
         public void SearchGesture(){
             List<Gesture> results = GestureLibrary.instance.SearchGestureByName(searchInputField.text);
             
+            emptySearchResultTextObj.SetActive(false);
             // Return if the results were empty
             if(results.Count <= 0){
+                // Change this to a text obj instead if there's no result
+                emptySearchResultTextObj.SetActive(true);
                 Debug.Log("Sorry but there's no results.");
                 return;
             }
@@ -82,7 +148,7 @@ public class UIManager : MonoBehaviour
             // Iterate every results
             for (int i = 0; i < results.Count; i++){
                 // Create an instance of the UI Object
-                GameObject instance = Instantiate(searchResult, searchParent.transform.position, Quaternion.identity);
+                GameObject instance = Instantiate(searchResultPrefab, searchParent.transform.position, Quaternion.identity);
 
                 // Set the instance parent to the UI Object
                 instance.transform.SetParent(searchParent.transform);
@@ -103,9 +169,65 @@ public class UIManager : MonoBehaviour
         // For now, let's debug the option
         public void ViewGesture(Gesture gestureData){
             Debug.Log($"Viewing {gestureData.name}");
+
+            // gestureViewObj.SetActive(true);
+            // gestureViewText.text = gestureData.phraseOrWord;
+            // gestureViewImage.sprite = gestureData.referenceImage;
+        }
+        public void CloseGestureView(){
+            // gestureViewObj.SetActive(false);
+        }
+    #endregion
+
+    #region Settings
+        // Change On Screen Text Size base on 5 Size Presets
+        public void ChangeOnScreenScreenText(OnScreenTextPresets textSizePresets){
+            switch (textSizePresets){
+                case OnScreenTextPresets.Tiny:
+                    screenText.fontSize = 8.5f;
+                break;
+                case OnScreenTextPresets.Small:
+                    screenText.fontSize = 13;
+                break;
+                case OnScreenTextPresets.Normal:
+                    screenText.fontSize = 16;
+                break;
+                case OnScreenTextPresets.Big:
+                    screenText.fontSize = 21;
+                break;
+                case OnScreenTextPresets.Large:
+                    screenText.fontSize = 26;
+                break;
+            }
+        }
+        // Will add a popup option for this, but first i need to explore how to pass a function inside a parameter
+        public void ExitApplication(){
+            Application.Quit();
+        }
+    #endregion
+
+    #region Miscellaneous
+        public string GetBasicAppVersion(){
+            return $"ManuVox-{Application.version}-{Application.buildGUID}";
+        }
+        public string GetFullAppVersionID(){
+            return $"ManuVox-{Application.version}-{Application.companyName}-{Application.buildGUID}-Unity-{Application.unityVersion}";
         }
     #endregion
 }
-public enum FunctionMode{
+enum FunctionMode{
     CameraMode, ReferenceMode 
+}
+public enum PopupType{
+    Info, Error, Warning
+}
+public enum SignSpeedPreset{
+    Slow, Average, Fast
+}
+public enum OnScreenTextPresets{
+    Tiny,
+    Small,
+    Normal,
+    Big,
+    Large
 }
