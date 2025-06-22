@@ -1729,8 +1729,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preLoadedGestures:
-  - {fileID: 11400000, guid: 56fd55a8983536340bd1e1a04605b1bd, type: 2}
-  - {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
+  - {fileID: 11400000, guid: 6756cfed0758f8441b2ce7c7360145a2, type: 2}
+  - {fileID: 11400000, guid: 9dd6df30742a2f14db0403880295ea49, type: 2}
+  - {fileID: 11400000, guid: 487ecbfc59b570e478377a30343911d6, type: 2}
+  - {fileID: 11400000, guid: 8b424a46683c032478d08b16dc445c05, type: 2}
+  - {fileID: 11400000, guid: d4bfe61d9bb69f548a6c37f03c6938ae, type: 2}
+  - {fileID: 11400000, guid: e4299e92294e7844d87b2561133906e3, type: 2}
+  - {fileID: 11400000, guid: fb3ef4d4e813d2c40a4f579aa641b1d0, type: 2}
+  - {fileID: 11400000, guid: 8941aecc50518664db037baf08d08155, type: 2}
+  - {fileID: 11400000, guid: 35e0cd199365bb74281300e154ae2eb3, type: 2}
+  - {fileID: 11400000, guid: f4e755f8aa5999f4aadac52c7ee4a8f9, type: 2}
+  - {fileID: 11400000, guid: 70e78874e76f34142b756c5f811ef158, type: 2}
+  - {fileID: 11400000, guid: 5729a7c166ccf084bac938e23f393622, type: 2}
+  - {fileID: 11400000, guid: 24b223b552f9582498f9dd5f96cca71a, type: 2}
+  - {fileID: 11400000, guid: f5b9297fd1e1eec4fb4501ffdf66a95c, type: 2}
+  - {fileID: 11400000, guid: b1b563072ad11f14b949ef40b0cf303d, type: 2}
+  - {fileID: 11400000, guid: 47c4462233fb0bf44b15410e16514f3c, type: 2}
+  - {fileID: 11400000, guid: 581f187fad4120549bfdd10dc8f531cd, type: 2}
+  - {fileID: 11400000, guid: e5e0bb9cbf228364b8b1b492b30c1865, type: 2}
+  - {fileID: 11400000, guid: e2d79d887db900f45bb4e3d703ffd731, type: 2}
+  - {fileID: 11400000, guid: 0163ba506ecd86e489c75d3454005320, type: 2}
+  - {fileID: 11400000, guid: 18abc97a061ae3543b76713c567ab689, type: 2}
 --- !u!4 &350642764
 Transform:
   m_ObjectHideFlags: 0
@@ -3851,7 +3870,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3259285889726014655, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
       propertyPath: _fitMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6082,9 +6101,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runner: {fileID: 1064799468}
-  gestureSaveList: []
+  gestureSaveList:
+  - {fileID: 11400000, guid: 1c980c033dad46d40871ffd7751a4204, type: 2}
   currentGesture: {fileID: 0}
-  captureDelay: 2
+  captureDelay: 1
 --- !u!114 &2096728901
 MonoBehaviour:
   m_ObjectHideFlags: 0
