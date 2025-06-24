@@ -19,16 +19,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject modeCamera;
     [SerializeField] private GameObject modeReference;
 
-    [Header("Popup Component")]
-    [SerializeField] private GameObject popupObj;
-    [SerializeField] private Image popupIcon;
-    [SerializeField] private TextMeshProUGUI popupMessage;
-    [SerializeField] private Button actionButton;
-    [SerializeField] private Button cancelButton;
-    [SerializeField] private Sprite[] popupIconImages;
-
     [Header("Camera Components")]
-    public GameObject calibrationObj;
     [SerializeField] private TextMeshProUGUI screenText;
 
     [Header("Reference Components")]
@@ -62,58 +53,8 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        // Popup events, this will open up a popup window
-        public void NewPopup(PopupType type, string message){
-            switch (type){
-                case PopupType.Info:
-                    popupIcon.sprite = popupIconImages[0];
-                    // actionButton.onClick.AddListener(() => popevent);
-                break;
-                case PopupType.Error:
-                    popupIcon.sprite = popupIconImages[1];
-                break;
-                case PopupType.Warning:
-                    popupIcon.sprite = popupIconImages[2];
-                break;
-            }
-            popupMessage.text = message;
-            popupObj.SetActive(true);
-        }
-        // Close the popup window
-        public void ClosePopup(){
-            popupObj.SetActive(false);
-        }
-
         // Open Settings
         public void OpenAppSettings(){}
-    #endregion
-
-    #region Calibration Process
-        // Possible speed options, the lower the faster
-        // Might test the performance on varying speed
-        /*
-            1.5s - Slow signer
-            1s   - Average Signer
-            0.5s - Fast Signer
-        */
-        public void SetupSpeedCalibration(){
-            calibrationObj.SetActive(true);
-        }
-        // Select sign speed with presets
-        public void SelectSignSpeed(SignSpeedPreset preferedSpeed){
-            switch (preferedSpeed){
-                case SignSpeedPreset.Slow:
-                    GestureRecognizer.instance.SetTickSpeed(1.5f);
-                break;
-                case SignSpeedPreset.Average:
-                    GestureRecognizer.instance.SetTickSpeed(1f);
-                break;
-                case SignSpeedPreset.Fast:
-                    GestureRecognizer.instance.SetTickSpeed(0.5f);
-                break;
-            }
-            calibrationObj.SetActive(false);
-        }
     #endregion
 
     // Camera Mode Functions only
@@ -217,12 +158,6 @@ public class UIManager : MonoBehaviour
 }
 enum FunctionMode{
     CameraMode, ReferenceMode 
-}
-public enum PopupType{
-    Info, Error, Warning
-}
-public enum SignSpeedPreset{
-    Slow, Average, Fast
 }
 public enum OnScreenTextPresets{
     Tiny,
