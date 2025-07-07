@@ -5,6 +5,7 @@ using Mediapipe.Unity.Sample.HandLandmarkDetection;
 public class GestureSaver : GestureBase
 {
     [SerializeField] private HandLandmarkerRunner runner;
+    [SerializeField] private int numHands;
     [SerializeField] private Gesture[] gestureSaveList;
     [SerializeField] private Gesture currentGesture;
     [SerializeField] private float captureDelay = 1f;
@@ -16,8 +17,9 @@ public class GestureSaver : GestureBase
         curIndex = 0;
         currentGesture = gestureSaveList[curIndex];
         Application.targetFrameRate = 60;
+        runner.config.NumHands = numHands;
 
-        DynamicSetRunnerHands(currentGesture);
+        // DynamicSetRunnerHands(currentGesture);
     }
     void Update(){
         if(Input.GetKeyDown(KeyCode.Space)){
@@ -49,7 +51,7 @@ public class GestureSaver : GestureBase
             curIndex++;
             currentGesture = gestureSaveList[curIndex];
 
-            DynamicSetRunnerHands(currentGesture);
+            // DynamicSetRunnerHands(currentGesture);
         }
     }
 
