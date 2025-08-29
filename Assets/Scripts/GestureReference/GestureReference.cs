@@ -10,7 +10,7 @@ public class GestureReference : GestureBase
     public Image image;
     
     private void Start() {
-        image.sprite = gesture.referenceImage;
+        // image.sprite = Sprite;
     }
     // [SerializeField] private Transform wristTarget; // Assign in Inspector
     // [SerializeField] private float smoothFactor = 0.2f; // Adjust for smoother rotation

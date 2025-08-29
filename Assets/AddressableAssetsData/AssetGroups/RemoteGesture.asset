@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: RemoteGesture
+  m_EditorClassIdentifier: 
+  m_GroupName: RemoteGesture
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 32846da501c019346afdab62ca2b3cb3
+  m_SerializeEntries:
+  - m_GUID: 167f44436332deb4784aec653acb98cb
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_Night_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ad8f2c1a946b854294340e8c090887e
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/BGreet_Noon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 685c5c152e4b8674d99ab07f933749d0
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_Good_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d23266258576934787771a747ef1248
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_Morning_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7084225bd7fa8a044a3519335da0c575
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/BGreet_NotMuchYou_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75b65d32be4f8a24d99a787cd0e802d7
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Dynamic/BGreet_Hello_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75d3944849fc5044482a0c1f91820b4e
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Dynamic/BGreet_NotMuchYou_F4.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 84909b910ebaffc4d85e564ad6f19964
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_HowAreYou_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8dae85b5dfcadf648b23b84652d480a7
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Dynamic/BGreet_Hi_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a47e377049837fd45a3833a01fe9fede
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/BGreet_Night_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad00a14612190e7439c1b7a1d01a0e25
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Dynamic/BGreet_Morning_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af0d661ba42c74c4cbfb84d656345460
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_Good_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0c3253c7099ec3409a38099a2fd753a
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_Hi_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2c00b4216b96f84fb6ad2550f0f2ad3
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/BGreet_Evening.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c44c9270f37b1ef448a3482159d27df0
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/BGreet_NotMuchYou_F3.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c49b0293304865b4e9729385e455ecbf
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_Hello_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0cddadd2b1d2cc47850e8533ce1aa2f
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/BGreet_Afternoon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df29753bd70d108439807db7d03fd544
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_NotMuchYou_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f5b7bdf39afadee41bfe114079fa8efb
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_HowAreYou_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd2a1020a90da344190d59615d35f078
+    m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Dynamic/BGreet_HowAreYou_F3.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 20d613f37881239448751b9794a6b0d7, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 94d9373da309fd446921d8a7b2a5f6ca, type: 2}

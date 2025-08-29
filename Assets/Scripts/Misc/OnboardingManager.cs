@@ -7,6 +7,7 @@ public class OnboardingManager : MonoBehaviour
 {
     [Header("Global Components")]
     [SerializeField] private GameObject[] onboardingScreenObjects;
+    [SerializeField] private GameObject onboardingAlreadyFinishedObject;
     
     [Header("T&C and Privacy Policy Components")]
     [SerializeField] private GameObject TAC_PPContainer;
@@ -39,7 +40,7 @@ public class OnboardingManager : MonoBehaviour
     }
 
     public void RequestCameraAccess(){
-         #if PLATFORM_ANDROID
+        #if PLATFORM_ANDROID
             if(!IsAccessGranted_Camera()){
                 Permission.RequestUserPermission(Permission.Camera);
                 return;
@@ -55,6 +56,12 @@ public class OnboardingManager : MonoBehaviour
         ActivateProcessObject(_onboardingCurrentSteps);
     }
     public void NextOnboardingStep(){
+        if(PlayerPrefsHandler.instance.GetOnboardingState()){
+            Debug.LogWarning("The user has already finished onboarding process.");
+            onboardingAlreadyFinishedObject.SetActive(true);
+            StartCoroutine(Finished());
+            return;
+        }
         // Increment the progress
         if(_onboardingCurrentSteps < onboardingScreenObjects.Length){
             _onboardingCurrentSteps++;
@@ -76,7 +83,7 @@ public class OnboardingManager : MonoBehaviour
             2 - Permission
             3 - Finalization
         */
-        if(step >= onboardingScreenObjects.Length){
+        if(step >= onboardingScreenObjects.Length-1){
             FinalizeApp(); // Finalized the app once the user reached the last step
         }
     }
@@ -89,13 +96,13 @@ public class OnboardingManager : MonoBehaviour
             1 = means finished
             0 = means not finished
         */
-        PlayerPrefs.SetInt("GLOBAL_USER_ONBOARDING_FINISHED", 1);
+        PlayerPrefsHandler.instance.SaveMisc_Onboarding(true);
         StartCoroutine(Finished());
     }
     private IEnumerator Finished(){
         yield return new WaitForSecondsRealtime(1f); // Delay the load process to give time for saving playerprefs
-        // SceneManager.LoadScene(); // Load up the next scene, but will be changing this to a Global Scene Management
-        Debug.LogWarning("Player has finsished onboarding process, loading main scene");
+        CustomSceneManager.instance.StartLoadScene("Android-Shipping-Recognition", 2, CustomFillOrigin.Right); // Load up the next scene, but will be changing this to a Global Scene Management
+        // Debug.LogWarning("Player has finsished onboarding process, loading main scene");
     }
     private bool IsAccessGranted_Camera(){
         return Permission.HasUserAuthorizedPermission(Permission.Camera);

@@ -1010,16 +1010,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 482416694}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac3e0a9fdae2a2546986b48aec042568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ttsEngine: {fileID: 0}
   gestureHistory: []
-  dynamicGestures:
-  - {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
   maxHistory: 5
   noContext: 0
+  maxContextTimeOut: 3
+  currentContext: 0
+  temporaryGesture: {fileID: 0}
 --- !u!1 &512111240
 GameObject:
   m_ObjectHideFlags: 0
@@ -2916,8 +2918,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseRunner: {fileID: 1064799468}
-  sourceNamesText: {fileID: 1718877494}
-  logText: {fileID: 512111242}
 --- !u!4 &1906485754
 Transform:
   m_ObjectHideFlags: 0
@@ -3127,21 +3127,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096728897}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49e316cad36cd2746b4bdf36063c28cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gestureText: {fileID: 981406431}
-  recognitionInfoText: {fileID: 851374129}
-  posInfoText: {fileID: 83811631}
   runner: {fileID: 1064799468}
   numHands: 2
-  gestures:
-  - {fileID: 11400000, guid: 6fa991b35cda2fe4a92d2d55e6050a05, type: 2}
-  - {fileID: 11400000, guid: b31aa60c8707ab64f85aff4ade05be92, type: 2}
-  - {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
   threshold: 0.5
+  recognizerTickRate: 0
+  maxtimeOutSeconds: 15
+  recognizerState: 1
 --- !u!4 &2096728899
 Transform:
   m_ObjectHideFlags: 0
@@ -3170,6 +3166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af97085317bb1a4ca6d86898dcf9690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runner: {fileID: 1064799468}
+  numHands: 2
+  gestureSaveList:
+  - {fileID: 11400000, guid: adb5bba5b523a0440af96ab194427d4a, type: 2}
   currentGesture: {fileID: 11400000, guid: 3b9149e0056fd6d43b2cc3591373184d, type: 2}
   captureDelay: 2
 --- !u!114 &2096728901

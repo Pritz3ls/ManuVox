@@ -10,6 +10,9 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+# Ignore the Gesture Images
+/[Aa]ssets/Sprite/Gestures
+
 # Ignore the Mediapipe package (since it's too big)
 /Packages/com.github.homuler.mediapipe
 

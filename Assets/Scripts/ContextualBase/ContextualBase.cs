@@ -82,10 +82,15 @@ public class ContextualBase : GestureBase{
 
     private void Call_TextToSpeech(Gesture gesture){
         // On Screen Text
-        UIManager.instance.Text_OnScreenText(gesture.phraseOrWord);
+        CameraManager.instance.Text_OnScreenText(gesture.phraseOrWord);
         
         // Call TTS Base to speak the phrase or word
-        ttsEngine.Speak(gesture.phraseOrWord);
+        // Check if it's turned on
+        if(PlayerPrefsHandler.instance.GetTTSState()){
+            ttsEngine.Speak(gesture.phraseOrWord);
+        }else{
+            Debug.LogWarning("Text to Speech is off!");
+        }
     }
 
     private bool IsFlexibleSequenceMatch(List<Gesture> history, Gesture[] sequenceSteps){

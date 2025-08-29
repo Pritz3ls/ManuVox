@@ -6,8 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Debug/(Debug) Prototype.unity
-    guid: d8f743670ad762644a3998deb66c3792
+    path: Assets/Scenes/Shipping/Android-Shipping-Onboarding.unity
+    guid: 7a7a8c81aa7110f44872ff8a082d4693
+  - enabled: 1
+    path: Assets/Scenes/Shipping/Android-Shipping-Recognition.unity
+    guid: f12dedd43617cec4bb12c321add0cb86
+  - enabled: 1
+    path: Assets/Scenes/Shipping/Android-Shipping-Reference.unity
+    guid: 2462efa72f5eae941a1f6a2d3d12de25
+  - enabled: 0
+    path: Assets/Scenes/Debug/(Debug) Addressables.unity
+    guid: be830d2cbdc54244997bf84bfffdfc93
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: c790c708d8670324c9d2848da70defd5, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 8bfdf189cfa1f8c40b1767ddc14f47fa, type: 2}

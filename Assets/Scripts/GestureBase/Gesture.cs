@@ -11,11 +11,22 @@ public class Gesture : ScriptableObject {
     public GestureContext context;
     public Sprite referenceImage;
 
-    public Vector2[] rightHandPositions = new Vector2[5];
-    public Vector2[] leftHandPositions = new Vector2[5];
+    public Vector2[] rightHandPositions;
+    public Vector2[] leftHandPositions;
 
     public Gesture[] sequence;
-    [HideInInspector] public string[] sequenceString;
+    // [HideInInspector] public string[] sequenceString;
     public bool canBeStandalone = false;
     public string phraseOrWord;
+    public string category;
+
+    public void SetReferenceImage(Sprite sprite) => this.referenceImage = sprite;
+
+    #if UNITY_EDITOR
+    void OnValidate() {
+        if (referenceImage == null) {
+            Debug.LogWarning($"Reference Image on '{this.name}' was just set to null.");
+        }
+    }
+    #endif
 }

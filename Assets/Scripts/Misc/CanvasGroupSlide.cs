@@ -54,8 +54,8 @@ public class CanvasGroupSlide : MonoBehaviour{
         }
     }
 
-    private String GetFooterText(int st){
-        String value = String.Empty;
+    private string GetFooterText(int st){
+        string value = String.Empty;
         for (int i = 0; i < objectAnimator.Length; i++){
             if(i == st){
                 value += "<b><font-weight=900>.</font-weight></b>";

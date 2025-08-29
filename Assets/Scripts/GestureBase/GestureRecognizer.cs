@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
-using System.Text;
 using UnityEngine;
+using UnityEngine.Android;
 using Mediapipe.Unity;
 using TMPro;
 using Mediapipe.Unity.Sample.HandLandmarkDetection;
@@ -21,10 +21,11 @@ public class GestureRecognizer : GestureBase{
     [SerializeField] private int maxtimeOutSeconds = 15;
     private int curtimeOutSeconds = 0;
     
-    [Header("Debug Components")]
-    [SerializeField] private TextMeshProUGUI gestureText;
-    [SerializeField] private TextMeshProUGUI recognitionInfoText;
-    [SerializeField] private TextMeshProUGUI posInfoText;
+    // [Header("Debug Components")]
+    // [SerializeField] private TextMeshProUGUI gestureText;
+    // [SerializeField] private TextMeshProUGUI recognitionInfoText;
+    // [SerializeField] private TextMeshProUGUI posInfoText;
+
     private Coroutine recognitionCoroutine;
     List<Gesture> oneHandGestures;
     List<Gesture> twoHandGestures;
@@ -43,8 +44,19 @@ public class GestureRecognizer : GestureBase{
 
         OrganizeGestures(GestureLibrary.instance.GetLoadedGestures());
 
-        // Start the recognizer
-        SetRecognizerState(true);
+        #if PLATFORM_ANDROID
+            System.Action action = () => {
+                Debug.LogWarning("Quiting application...");
+                Application.Quit();
+            };
+            if(!IsAccessGranted_Camera()){
+                PopupsManager.instance.Popup(PopupType.Error, "Application has no Camera Access! Please enable camera permission.\nERR_CODE_CAMERA_01",
+                new PopupEvent("Quit", action, "Close", action));
+                return;
+            }
+        #endif
+        // // Start the recognizer
+        // SetRecognizerState(true);
     }
     private void OrganizeGestures(List<Gesture> gestures){
         oneHandGestures = gestures.Where(g => g.handRequirement == HandRequirement.OneHand).ToList();
@@ -87,7 +99,6 @@ public class GestureRecognizer : GestureBase{
 
     public virtual void Recognize(){
         if(!recognizerState) return;
-        
         if(!IsOneHandctive() && !IsTwoHandsActive()){
             // Might add UI here to tell user there's no active hands
             /*
@@ -101,6 +112,12 @@ public class GestureRecognizer : GestureBase{
             
             if(TimeOutSystem()){
                 SetRecognizerState(false);
+                System.Action sub1 = () => {
+                    GestureRecognizer.instance.SetRecognizerState(true);
+                };
+                PopupsManager.instance.Popup(PopupType.Info, "I've detected no activity, let me know when to continue.", new PopupEvent(
+                    "Continue", sub1
+                ));
                 Debug.LogWarning("The system has detected no activity, pausing system");
                 return;
             }
@@ -115,10 +132,10 @@ public class GestureRecognizer : GestureBase{
         Gesture recognizedGesture = RecognizeGesture(firstAvailableHand, secondAvailableHand);
 
         if(recognizedGesture != null){
-            gestureText.text = $"Recognized Gesture: {recognizedGesture.name}";
+            // gestureText.text = $"Recognized Gesture: {recognizedGesture.name}";
             ContextualBase.instance.UpdateGestureHistory(recognizedGesture);
         }else if(recognizedGesture == null){
-            gestureText.text = "Recognized Gesture: Unknown";
+            // gestureText.text = "Recognized Gesture: Unknown";
         }
 
         ResetTimeOuerTimer();
@@ -192,7 +209,7 @@ public class GestureRecognizer : GestureBase{
     private void LogGestureRecognitionResult(Gesture gesture, float score){
         // if(gesture == null) return;
         string result = $"Current match: {(gesture != null ? gesture.name : "None")} | Score: {score:F4}";
-        recognitionInfoText.text = result;
+        // recognitionInfoText.text = result;
         Debug.LogWarning(result);
     }
 
@@ -211,5 +228,8 @@ public class GestureRecognizer : GestureBase{
     }
     public void ResetTimeOuerTimer(){
         curtimeOutSeconds = 0;
+    }
+    private bool IsAccessGranted_Camera(){
+        return Permission.HasUserAuthorizedPermission(Permission.Camera);
     }
 }

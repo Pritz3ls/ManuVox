@@ -14,7 +14,7 @@ namespace Mediapipe.Unity
   public class StaticImageSource : ImageSource
   {
     [SerializeField] private Texture[] _availableSources;
-
+    public Texture[] GetAvailableSources() => _availableSources;
     [SerializeField]
     private ResolutionStruct[] _defaultAvailableResolutions = new ResolutionStruct[] {
       new ResolutionStruct(512, 512, 0),
@@ -22,7 +22,7 @@ namespace Mediapipe.Unity
       new ResolutionStruct(1280, 720, 0),
     };
 
-    public StaticImageSource(Texture[] availableSources, ResolutionStruct[] defaultAvailableResolutions)
+    public StaticImageSource(Texture[] availableSources, ResolutionStruct[] defaultAvailableResolutions = null)
     {
       _availableSources = availableSources;
       _defaultAvailableResolutions = defaultAvailableResolutions;

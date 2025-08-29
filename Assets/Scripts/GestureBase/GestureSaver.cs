@@ -10,7 +10,6 @@ public class GestureSaver : GestureBase
     [SerializeField] private Gesture currentGesture;
     [SerializeField] private float captureDelay = 1f;
     
-    // Update is called once per frame
     int curIndex = 0;
 
     private void Start() {
@@ -21,6 +20,7 @@ public class GestureSaver : GestureBase
 
         // DynamicSetRunnerHands(currentGesture);
     }
+    // Update is called once per frame
     void Update(){
         if(Input.GetKeyDown(KeyCode.Space)){
             StartCoroutine(SaveGesture());
