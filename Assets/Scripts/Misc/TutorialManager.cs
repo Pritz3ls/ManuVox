@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour{
     [Header("UI Components")]
-    [SerializeField] private Animator parentComponent;
+    // [SerializeField] private Animator parentComponent;
     [SerializeField] private TextMeshProUGUI infoText;
     [SerializeField] private RectTransform highlightMask;
     
@@ -27,20 +27,32 @@ public class TutorialManager : MonoBehaviour{
     [SerializeField] private SceneType type;
 
     // Start is called before the first frame update
-    void Awake(){
-        if(CheckTutorialFinishedCamera() || CheckTutorialFinishedReference()){
-            gameObject.SetActive(false);
-            enabled = false;
-            return;
+    void Start(){
+        curElementIndex = 0;
+
+        switch (type){
+            case SceneType.Camera:
+                if(PlayerPrefsHandler.instance.GetTutorialFinishedCamera){
+                    gameObject.SetActive(false);
+                    enabled = false;
+                    Debug.Log("finished camera");
+                }else{
+                    // Fire up the tutorial
+                    LoadTutorialElement(curElementIndex);
+                }
+            break;
+            case SceneType.Reference:
+                if(PlayerPrefsHandler.instance.GetTutorialFinishedReference){
+                    gameObject.SetActive(false);
+                    enabled = false;
+                }else{
+                    // Fire up the tutorial
+                    LoadTutorialElement(curElementIndex);
+                }
+            break;
         }
 
-        // Fire up the tutorial
-        curElementIndex = 0;
-        LoadTutorialElement(curElementIndex);
     }
-
-    bool CheckTutorialFinishedCamera() => PlayerPrefsHandler.instance.GetTutorialState() == 1 ? true : false;
-    bool CheckTutorialFinishedReference() => PlayerPrefsHandler.instance.GetTutorialState() == 2 ? true : false;
     void SaveFinishedTutorialState() => PlayerPrefsHandler.instance.SaveMisc_Tutorial(type == SceneType.Camera ? 1 : 2);
 
     // Update is called once per frame
@@ -71,7 +83,7 @@ public class TutorialManager : MonoBehaviour{
         }
 
         infoText.SetText(_tutorialElements[index].tutorialInfo);
-        parentComponent.Play("CanvasGroup-FadeIn",0,0);
+        // parentComponent.Play("CanvasGroup-FadeIn",0,0);
 
         StartCoroutine(Cooldown());
     }

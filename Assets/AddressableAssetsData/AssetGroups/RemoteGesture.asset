@@ -119,6 +119,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - RemoteGesture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d466e95e150d2874ab52ad83b086fd45
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Filipino Gestures/Static/FilipinoGestures_Bless.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: df29753bd70d108439807db7d03fd544
     m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_NotMuchYou_F2.asset
     m_ReadOnly: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mediapipe.Unity.Sample;
 using TMPro;
+using System.Text;
 
 public class CameraManager : MonoBehaviour{
     public static CameraManager instance;
@@ -15,6 +16,7 @@ public class CameraManager : MonoBehaviour{
 
     [Header("Camera Components")]
     [SerializeField] private Toggle ttsToggle;
+    [SerializeField] private TextMeshProUGUI contextText;
     [SerializeField] private TextMeshProUGUI screenText;
     [SerializeField] private TMP_Dropdown onScreenDropdown;
     [SerializeField] private TextMeshProUGUI versionIDText;
@@ -32,18 +34,34 @@ public class CameraManager : MonoBehaviour{
         ChangeOnScreenScreenText();
         ChangeTTSToggle();
 
-        if(!CheckTutorialFinishedCamera()) return;
+        if(!PlayerPrefsHandler.instance.GetTutorialFinishedCamera) return;
         calibrationEvent.SetupSpeedCalibration();
     }
-
-    bool CheckTutorialFinishedCamera() => PlayerPrefsHandler.instance.GetTutorialState() == 1 ? true : false;
 
     #region Camera
         public void LoadReferenceScene(){
             CustomSceneManager.instance.StartLoadScene("Android-Shipping-Reference", 1, CustomFillOrigin.Left);
         }
         public void Text_OnScreenText(string text){
-            screenText.text += $"\n{text}";
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{text} ");
+            screenText.text += sb.ToString();
+        }
+        private bool TextContainSymbols(string text){
+            foreach(char c in text){
+                return char.IsSymbol(c);
+            }
+            return false;
+        }
+        public void Text_ContextScreenText(string text){
+            if(!contextText.isActiveAndEnabled){
+                contextText.gameObject.SetActive(true);
+            }
+            contextText.text = $"<mark=#000000A0>{text}<color=#00000000>";
+        }
+        public void Text_ClearContextText(){
+            contextText.gameObject.SetActive(false);
+            contextText.text = string.Empty;
         }
         public void StartCalibrationAgain(){
             calibrationEvent.SetupSpeedCalibration();
@@ -67,23 +85,28 @@ public class CameraManager : MonoBehaviour{
         // Change On Screen Text Size base on 5 Size Presets
         public void ChangeOnScreenScreenText(){
             OnScreenTextPresets preset = (OnScreenTextPresets)onScreenDropdown.value;
+            int desiredFontSize = 0;
             switch (preset){
                 case OnScreenTextPresets.Tiny:
-                    screenText.fontSize = 36;
+                    desiredFontSize = 36;
                 break;
                 case OnScreenTextPresets.Small:
-                    screenText.fontSize = 48;
+                    desiredFontSize = 48;
                 break;
                 case OnScreenTextPresets.Normal:
-                    screenText.fontSize = 52;
+                    desiredFontSize = 52;
                 break;
                 case OnScreenTextPresets.Big:
-                    screenText.fontSize = 64;
+                    desiredFontSize = 64;
                 break;
                 case OnScreenTextPresets.Large:
-                    screenText.fontSize = 72;
+                    desiredFontSize = 72;
                 break;
             }
+
+            // Set the font size on both onscreen text using the selected font size
+            screenText.fontSize = desiredFontSize;
+            contextText.fontSize = desiredFontSize / 1.25f;
             PlayerPrefsHandler.instance.SavePref_OSSize(onScreenDropdown.value);
         }
         private void ChangeTTSToggle(){

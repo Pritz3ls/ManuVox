@@ -53,7 +53,11 @@ public class GestureLibrary : MonoBehaviour
 
     // UI Manager Related Function
     public List<Gesture> SearchGestureByName(string text){
-        return referenceGestures.FindAll(g => g.name.Contains(text, StringComparison.OrdinalIgnoreCase));
+        return referenceGestures.FindAll(
+            g => g.name.Contains(text, StringComparison.OrdinalIgnoreCase) || 
+            g.phraseOrWord.Contains(text, StringComparison.OrdinalIgnoreCase) ||
+            g.category.Contains(text, StringComparison.OrdinalIgnoreCase)
+        );
     }
 
     // Check for update (just detects new gestures)

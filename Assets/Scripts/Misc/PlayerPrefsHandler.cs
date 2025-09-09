@@ -76,6 +76,9 @@ public class PlayerPrefsHandler : MonoBehaviour{
         public int GetTutorialState(){
             return _TutorialFinished;
         }
+        public bool GetTutorialFinishedCamera => _TutorialFinished >= 1 ? true : false;
+        public bool GetTutorialFinishedReference => _TutorialFinished >= 2 ? true : false;
+
         public bool GetTTSState(){
             return _TTSState;
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 public class ContextualBase : GestureBase{
@@ -8,13 +9,14 @@ public class ContextualBase : GestureBase{
     [SerializeField] private TTSBase ttsEngine;
     [SerializeField] private List<Gesture> gestureHistory = new List<Gesture>();
     [SerializeField] private int maxHistory = 5;
-    [SerializeField] private bool noContext = false;
+    // [SerializeField] private bool noContext = false;
 
     [Header("Context Aware")]
-    [SerializeField] private int maxContextTimeOut = 3; 
+    [SerializeField] private int maxContextTimeOut = 2; 
     private int currentContextTimeOut = 0; 
     [SerializeField] private GestureContext currentContext = GestureContext.None;
     public Gesture temporaryGesture = null;
+    public StringBuilder stringBuilder = new StringBuilder();
 
     private List<Gesture> dynamicGestures = new List<Gesture>();
     private void Start() {
@@ -25,9 +27,11 @@ public class ContextualBase : GestureBase{
     // Update Gesture History
     public void UpdateGestureHistory(Gesture gesture){
         if(gesture == null){
-            Debug.LogWarning("Continue..."); // The user is idling
+            // Debug.LogWarning("Continue..."); // The user is idling
             return;
         }
+        // Reset the context time out to 0
+        currentContextTimeOut = 0;
 
         // Add a new gesture
         gestureHistory.Add(gesture);
@@ -46,7 +50,7 @@ public class ContextualBase : GestureBase{
         if(gesture == temporaryGesture){
             Debug.LogWarning("Same gesture as last time, calling feedback");
             if (gesture.type == GestureType.Static && gesture.canBeStandalone){
-                Call_TextToSpeech(gesture);
+                BuildSentence(gesture);
                 temporaryGesture = null;
                 return;
             }
@@ -57,12 +61,30 @@ public class ContextualBase : GestureBase{
             }
         }
 
+
         // Set the current context to the new context
         SetContext(gesture.context);
 
         // Set the temporary gesture to this current gesture
         temporaryGesture = gesture;
     }
+    public void BuildSentence(Gesture gesture){
+        switch (gesture.context){
+            // This is for spelling out words or names using alphabet
+            case GestureContext.Letter:
+                stringBuilder.Append($"{gesture.phraseOrWord}");
+            break;
+
+            // Default callback to words and others
+            case GestureContext.Number:
+            case GestureContext.None:
+            default:
+                stringBuilder.Append($"{gesture.phraseOrWord} ");
+            break;
+        }
+        CameraManager.instance.Text_ContextScreenText(stringBuilder.ToString());
+    }
+
     // Context Based Detection
     private void DetectDynamicGestureSequence(){
         // If dynamic gestures are null or empty, return
@@ -73,24 +95,40 @@ public class ContextualBase : GestureBase{
             if (IsFlexibleSequenceMatch(gestureHistory, dynamicGesture.sequence)){
                 // Debug.LogWarning($"System speaking : {dynamicGesture.phraseOrWord}");
                 Debug.LogWarning($"Detected Dynamic Gesture is {dynamicGesture.name}");
-                Call_TextToSpeech(dynamicGesture);
+                BuildSentence(dynamicGesture);
                 FlushHistory();
                 return;
             }
         }
     }
 
-    private void Call_TextToSpeech(Gesture gesture){
+    public void PostBuildSentence(){
+        /*
+            Check if the context timeout has reached he maximum hold, if yes then
+            release the sentence and call the text to speech output
+        */
+        // Increase the context time out by tick speed
+        currentContextTimeOut++;
+        if(currentContextTimeOut >= maxContextTimeOut){
+            currentContextTimeOut = 0;
+            // Release the sentence
+            Call_TextToSpeech();
+        }
+    }
+    private void Call_TextToSpeech(){
         // On Screen Text
-        CameraManager.instance.Text_OnScreenText(gesture.phraseOrWord);
+        CameraManager.instance.Text_OnScreenText(stringBuilder.ToString());
         
         // Call TTS Base to speak the phrase or word
         // Check if it's turned on
         if(PlayerPrefsHandler.instance.GetTTSState()){
-            ttsEngine.Speak(gesture.phraseOrWord);
+            ttsEngine.Speak(stringBuilder.ToString());
         }else{
             Debug.LogWarning("Text to Speech is off!");
         }
+
+        CameraManager.instance.Text_ClearContextText();
+        stringBuilder.Clear();
     }
 
     private bool IsFlexibleSequenceMatch(List<Gesture> history, Gesture[] sequenceSteps){
@@ -117,15 +155,10 @@ public class ContextualBase : GestureBase{
         }
     }
 
-    private bool ContextTimeOut(){
-        currentContextTimeOut++;
-        return currentContextTimeOut >= maxContextTimeOut;
-    }
     public GestureContext GetCurrentContext(){
         return currentContext;
     }
     public void SetContext(GestureContext newContext){
-        currentContextTimeOut = 0;
         currentContext = newContext;
     }
 }

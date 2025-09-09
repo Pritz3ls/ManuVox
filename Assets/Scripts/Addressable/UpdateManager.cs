@@ -47,6 +47,15 @@ public class UpdateManager : MonoBehaviour{
 
             // These Debug.LogWarnings will now only run if 'item' is NOT null
             Debug.LogWarning($"UpdateManager: Accessing GestureData Name: {item.name}");
+
+            if(item.type == GestureType.Dynamic){
+                string sequenceString = string.Empty;
+                foreach (var sequence in item.sequence){
+                    sequenceString += $"{sequence.name},\n";
+                }
+                Debug.LogWarning($"UpdateManager: Accessing GestureData Sequence:\n {sequenceString}");
+            }
+
             // Use ?? "N/A" for category to handle null string values
             Debug.LogWarning($"UpdateManager: Accessing GestureData Category: {item.category ?? "N/A"}"); 
             

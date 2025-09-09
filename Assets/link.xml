@@ -1,0 +1,6 @@
+<linker>
+  <assembly fullname="Assembly-CSharp">
+    <type fullname="Mediapipe.**" preserve="all"/>
+    <type fullname="Mediapipe.Unity.**" preserve="all"/>
+  </assembly>
+</linker>

@@ -99,6 +99,7 @@ public class GestureRecognizer : GestureBase{
 
     public virtual void Recognize(){
         if(!recognizerState) return;
+        Debug.LogWarning("Recognizing...");
         if(!IsOneHandctive() && !IsTwoHandsActive()){
             // Might add UI here to tell user there's no active hands
             /*
@@ -109,6 +110,7 @@ public class GestureRecognizer : GestureBase{
             // Might add another counter here if the user still hasn't signed for about 10 ticks now
             // If the user didn't still, pause the system, and recalibrate the user
             ContextualBase.instance.SetContext(GestureContext.None);
+            ContextualBase.instance.PostBuildSentence();
             
             if(TimeOutSystem()){
                 SetRecognizerState(false);
@@ -131,6 +133,12 @@ public class GestureRecognizer : GestureBase{
 
         Gesture recognizedGesture = RecognizeGesture(firstAvailableHand, secondAvailableHand);
 
+        // string pos = string.Empty;
+        // foreach (Vector2 landmark in firstAvailableHand){
+        //     pos += $"{landmark}\n";
+        // }
+        // posInfoText.SetText($"First Hand Landmark:\n{pos}");
+
         if(recognizedGesture != null){
             // gestureText.text = $"Recognized Gesture: {recognizedGesture.name}";
             ContextualBase.instance.UpdateGestureHistory(recognizedGesture);
@@ -152,7 +160,7 @@ public class GestureRecognizer : GestureBase{
             bestMatch = RecognizeTwoHandGesture(firstLandmarks, secondLandmarks, candidates, ref bestDifference);
         }
 
-        // LogGestureRecognitionResult(bestMatch, bestDifference);
+        LogGestureRecognitionResult(bestMatch, bestDifference);
 
         return bestMatch;
     }

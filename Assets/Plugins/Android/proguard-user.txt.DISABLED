@@ -1,0 +1,3 @@
+-keep class com.google.mediapipe.** { *; }
+-keep class com.google.protobuf.** { *; }
+-keep class mediapipe.** { *; }

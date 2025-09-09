@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,9 +60,7 @@ public class ReferenceManager : MonoBehaviour
     // For now, let's debug the option
     public void ViewGesture(Gesture gestureData){
         Debug.Log($"Viewing {gestureData.name}");
-        List<Sprite> sequence = new List<Sprite>{
-            gestureData.referenceImage,
-        };
+        List<Sprite> sequence = new List<Sprite>();
         if (gestureData.sequence != null){
             sequence.AddRange(
                 gestureData.sequence
@@ -69,6 +68,25 @@ public class ReferenceManager : MonoBehaviour
                 .Select(g => g.referenceImage)
             );
         }
+        sequence.Add(gestureData.referenceImage);
+        
+        // StringBuilder debug = new StringBuilder();
+        // debug.Append("Default:\n");
+        // foreach (var item in sequence){
+        //     debug.Append(item.name);
+        // }
+        // Debug.LogWarning(debug.ToString());
+        // debug.Clear();
+
+        // // sequence.Reverse();
+
+        // debug.Append("Reversed:\n");
+        // foreach (var item in sequence){
+        //     debug.Append(item.name);
+        // }
+        // Debug.LogWarning(debug.ToString());
+        // debug.Clear();
+        
         viewerHandler.SetupViewer(gestureData.phraseOrWord, gestureData.category, sequence.ToArray());
     }
 }
