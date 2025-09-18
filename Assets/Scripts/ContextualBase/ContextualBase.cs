@@ -17,7 +17,6 @@ public class ContextualBase : GestureBase{
     [SerializeField] private GestureContext currentContext = GestureContext.None;
     public Gesture temporaryGesture = null;
     public StringBuilder stringBuilder = new StringBuilder();
-
     private List<Gesture> dynamicGestures = new List<Gesture>();
     private void Start() {
         instance = this;
@@ -109,7 +108,7 @@ public class ContextualBase : GestureBase{
         */
         // Increase the context time out by tick speed
         currentContextTimeOut++;
-        if(currentContextTimeOut >= maxContextTimeOut){
+        if(currentContextTimeOut >= maxContextTimeOut && stringBuilder.Length > 0){
             currentContextTimeOut = 0;
             // Release the sentence
             Call_TextToSpeech();

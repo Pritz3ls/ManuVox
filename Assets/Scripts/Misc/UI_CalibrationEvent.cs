@@ -19,13 +19,13 @@ public class UI_CalibrationEvent : MonoBehaviour
         public void SelectSignSpeed(int option){
             switch (option){
                 case 1:
-                    GestureRecognizer.instance.SetTickSpeed(3.5f);
+                    GestureRecognizer.instance.SetTickSpeed(2f);
                 break;
                 case 2:
-                    GestureRecognizer.instance.SetTickSpeed(2.5f);
+                    GestureRecognizer.instance.SetTickSpeed(1.5f);
                 break;
                 case 3:
-                    GestureRecognizer.instance.SetTickSpeed(1.5f);
+                    GestureRecognizer.instance.SetTickSpeed(1f);
                 break;
             }
             calibrationObj.SetActive(false);

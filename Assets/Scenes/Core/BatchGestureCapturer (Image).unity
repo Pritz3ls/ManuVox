@@ -4255,28 +4255,10 @@ MonoBehaviour:
   captureNotify: {fileID: 1058542769}
   numHands: 2
   gestureSaveList:
-  - {fileID: 11400000, guid: d466e95e150d2874ab52ad83b086fd45, type: 2}
-  - {fileID: 11400000, guid: 8cf3f002d17606a4dbab6bcac46043c0, type: 2}
-  - {fileID: 11400000, guid: e1256cc82da33eb44a0fabfb23815fab, type: 2}
-  - {fileID: 11400000, guid: e023d5494c85acb4698b0a429150fdfd, type: 2}
-  - {fileID: 11400000, guid: 3a2af31b302b28d4e90726f8d80df720, type: 2}
-  - {fileID: 11400000, guid: 5392f4ee220d3e749818f9825c59ffd9, type: 2}
-  - {fileID: 11400000, guid: 23f16f9ff33bcc34cbabeebbc64928b7, type: 2}
-  - {fileID: 11400000, guid: 2a245dff70f13984090dd7f171f97b95, type: 2}
-  - {fileID: 11400000, guid: 7b821884ab6805b44a7a5f270b56bf6a, type: 2}
-  - {fileID: 11400000, guid: be831d855b8118046b9525130e724c88, type: 2}
+  - {fileID: 11400000, guid: 2f5e2f0dafe7e83479b703630f012b36, type: 2}
   captureDelay: 2
   imageReferences:
-  - {fileID: 21300000, guid: bdc9df40cf2bf4c45870ba0f03e7cd67, type: 3}
-  - {fileID: 21300000, guid: c2c8a1e36bbcfa94392bfc472f5bb75b, type: 3}
-  - {fileID: 21300000, guid: 8b998abc941978b40a843606117fc7c4, type: 3}
-  - {fileID: 21300000, guid: 9a0c18a56ebe2e94491b0af109902ed8, type: 3}
-  - {fileID: 21300000, guid: 914b045d6f86684459869de69e9110cf, type: 3}
-  - {fileID: 21300000, guid: f47cf3f7154ce47429fca810ef85cc5a, type: 3}
-  - {fileID: 21300000, guid: 8c81412760a5cab428efa3e40b447ecb, type: 3}
-  - {fileID: 21300000, guid: 01b07b00773d0c44b8758e7dc71006eb, type: 3}
-  - {fileID: 21300000, guid: 477ae3283f5703f4cb775ad5c0677cb6, type: 3}
-  - {fileID: 21300000, guid: 80518ab88cdca5743b1d8d22c0b79e70, type: 3}
+  - {fileID: 21300000, guid: 06ed1b40d4955fb49975d3c15dce564e, type: 3}
   type: 0
 --- !u!4 &1787199646
 Transform:

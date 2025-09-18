@@ -46,6 +46,9 @@ public class CameraManager : MonoBehaviour{
             StringBuilder sb = new StringBuilder();
             sb.Append($"{text} ");
             screenText.text += sb.ToString();
+            sb.Clear();
+            
+            Debug.LogWarning("Called Onscreen text here!");
         }
         private bool TextContainSymbols(string text){
             foreach(char c in text){
@@ -59,9 +62,18 @@ public class CameraManager : MonoBehaviour{
             }
             contextText.text = $"<mark=#000000A0>{text}<color=#00000000>";
         }
+        public void Text_TextThink(string text){
+            if(!contextText.isActiveAndEnabled){
+                contextText.gameObject.SetActive(true);
+            }
+            contextText.text += $"<mark=#000000A0>{text}<color=#00000000>";
+        }
         public void Text_ClearContextText(){
             contextText.gameObject.SetActive(false);
             contextText.text = string.Empty;
+        }
+        public void Text_ClearOnScreenText(){
+            screenText.text = string.Empty;
         }
         public void StartCalibrationAgain(){
             calibrationEvent.SetupSpeedCalibration();
@@ -144,7 +156,7 @@ public class CameraManager : MonoBehaviour{
         }
         // Initialize the app verion ID text
         private void InitializeVersionIDText(){
-            versionIDText.SetText($"App Version\n{VersionController.GetBasicAppVersion()}");
+            versionIDText.SetText($"App Version ID\n{VersionController.GetBasicAppVersion()}");
         }
     #endregion
 }

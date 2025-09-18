@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public enum HandRequirement{OneHand,TwoHands}
 public enum GestureType{Static,Dynamic}
 public enum GestureContext{None,Letter,Number}

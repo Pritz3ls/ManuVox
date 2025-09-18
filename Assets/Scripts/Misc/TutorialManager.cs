@@ -83,6 +83,7 @@ public class TutorialManager : MonoBehaviour{
         }
 
         infoText.SetText(_tutorialElements[index].tutorialInfo);
+        _tutorialElements[index].unityEvent?.Invoke();
         // parentComponent.Play("CanvasGroup-FadeIn",0,0);
 
         StartCoroutine(Cooldown());
@@ -123,4 +124,5 @@ public class TutorialElement{
     public string tutorialInfo;
     public RectTransform targetElement;
     public bool includeHighlight = true;
+    public UnityEvent unityEvent;
 } 

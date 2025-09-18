@@ -22,12 +22,32 @@ public class TTSBase : MonoBehaviour
     public void SetTTSReady(bool ready){
         isTTSReady = ready;
 
+        if(ready){
+            // Create a Locale for Filipino ("fil") in the Philippines ("PH")
+            AndroidJavaObject locale = new AndroidJavaObject("java.util.Locale", "fil", "PH");
+            
+            // Attempt to set the language and check the result
+            int result = tts.Call<int>("setLanguage", locale);
+
+            if (result == -1 || result == -2) { // LANG_MISSING_DATA or LANG_NOT_SUPPORTED
+                Debug.LogWarning("Tagalog TTS not supported on this device.");
+            } else {
+                Debug.Log("TTS language successfully set to Tagalog (Filipino).");
+            }
+        }
+        
         UpdateTTSStatusText(ready);
     }
 
     private void UpdateTTSStatusText(bool value){
         if(ttsStatusText == null) return;
-        ttsStatusText.text = value ? $"TTS Status: <Detected {tts.Call<string>("getDefaultEngine")}>" : "TTS Status: <Error>";
+        ttsStatusText.text = value ? "TTS Active" : "TTS Inactive";
+
+        // Get the current TTS locale
+        // AndroidJavaObject locale = tts.Call<AndroidJavaObject>("getLanguage");
+        // string localeStr = locale.Call<string>("toString");   // e.g. "fil_PH"
+
+        // ttsStatusText.text = value ? $"TTS Active ({localeStr})" : "TTS Inactive";
     }
 
     public void Speak(string textToSpeak){

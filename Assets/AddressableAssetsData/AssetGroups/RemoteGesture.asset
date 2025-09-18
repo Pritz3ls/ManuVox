@@ -17,8 +17,32 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 32846da501c019346afdab62ca2b3cb3
   m_SerializeEntries:
+  - m_GUID: 01645f21f026c5c40a84d558134ef25f
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Age_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 02eb4031432fcde409e1e5f8862e35d3
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Age_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0a7d67dbb3401aa4482ddc46498eb975
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Family_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 167f44436332deb4784aec653acb98cb
     m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_Night_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1752fe4233030d846983ec51cf8fc5e7
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Nation_F1.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - RemoteGesture
@@ -29,8 +53,38 @@ MonoBehaviour:
     m_SerializedLabels:
     - RemoteGesture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3acfce2edcb73184ea448c440df406b8
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Nation_F3.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3bc0324cd3cce5a448b88c8f60930c23
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Family_F3.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41250c5fa51caea47b34cccec2a08587
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Birthday_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44027659459277c468ca1f26dcfb4f93
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Birthday_F3.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 685c5c152e4b8674d99ab07f933749d0
     m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_Good_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 694306520b5f5964bab906f4707732e5
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Family_F2.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - RemoteGesture
@@ -59,6 +113,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - RemoteGesture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76e1aa673e220674aa143f38e645caae
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Work_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f830093f8f367742a2a0d0dd37b593c
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Address_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 84909b910ebaffc4d85e564ad6f19964
     m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_HowAreYou_F2.asset
     m_ReadOnly: 0
@@ -67,6 +133,24 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8dae85b5dfcadf648b23b84652d480a7
     m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Dynamic/BGreet_Hi_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 913732d1894963d4c8175b64758ea3ad
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Birthplace_F5.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97f45533e75b15b48b7b76e661e377c8
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Birthplace_F3.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e03b16469b5b1240a6a1c8fa258a891
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Birthplace_F1.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - RemoteGesture
@@ -95,8 +179,26 @@ MonoBehaviour:
     m_SerializedLabels:
     - RemoteGesture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc389df9cb48952418faa9dbccab5b45
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Birthplace_F4.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd6f1421e40dbff48ba3ed4ab0838f40
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Work_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c2c00b4216b96f84fb6ad2550f0f2ad3
     m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/BGreet_Evening.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c416bfd2e8c905e44bbfac5983bd5d2a
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Nation_F4.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - RemoteGesture
@@ -113,6 +215,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - RemoteGesture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6f7bd4372381fe4d840e6b8f4aa9121
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Birthday_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d0cddadd2b1d2cc47850e8533ce1aa2f
     m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/BGreet_Afternoon.asset
     m_ReadOnly: 0
@@ -125,8 +233,32 @@ MonoBehaviour:
     m_SerializedLabels:
     - RemoteGesture
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d535e659dacae764ca3ebf4ed5f16480
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Birthplace_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: daa145335b1268e47b73011aedaf75ea
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Filipino_F1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: df29753bd70d108439807db7d03fd544
     m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Static/BGreet_NotMuchYou_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1ec7683539a9da46a27c8699fb16729
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Filipino_F2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e88301bf44a712340b90a624a9e91b8a
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Address_F2.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - RemoteGesture
@@ -139,6 +271,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fd2a1020a90da344190d59615d35f078
     m_Address: Assets/ScriptableObjects/ForReviewGestures/Basic Greetings/Dynamic/BGreet_HowAreYou_F3.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RemoteGesture
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fed068edc87e5e04a94d1439ff2ec4c9
+    m_Address: Assets/ScriptableObjects/Ongoing-Gesture/Introducing/Introducing_Nation_F2.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - RemoteGesture
