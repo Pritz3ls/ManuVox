@@ -14,12 +14,16 @@ public class OnboardingManager : MonoBehaviour
     private TMP_Text _TACPPTMP;
     [SerializeField] private GameObject termsConditionObject;
     [SerializeField] private GameObject privacyPolicyObject;
+    [SerializeField] private TextMeshProUGUI versionIDText;
+    bool isFinalizing = false;
 
     // Private variables
     private int _onboardingCurrentSteps = 0;
 
     private void Awake() {
         _TACPPTMP = TAC_PPContainer.GetComponentInChildren<TMP_Text>();
+        isFinalizing = false;
+        InitializeVersionIDText();
     }
 
     #region Terms and Condtions and Privacy Policy Part
@@ -30,6 +34,19 @@ public class OnboardingManager : MonoBehaviour
             LinkHandlerTMP.OnClickedLinkEvent -= OpenLinkObject;
         }
     #endregion
+
+    private void Update() {
+        // if() return;
+        if(Input.GetKeyDown(KeyCode.Escape) && !isFinalizing){
+            Debug.LogWarning("Escape entered.");
+            if(termsConditionObject.activeInHierarchy || privacyPolicyObject.activeInHierarchy){
+                termsConditionObject.SetActive(false);
+                privacyPolicyObject.SetActive(false);
+                return;
+            }
+            PreviousOnboardingStep();
+        }
+    }
 
     private void OpenLinkObject(string keyword){
         Debug.LogWarning(keyword);
@@ -56,7 +73,7 @@ public class OnboardingManager : MonoBehaviour
         ActivateProcessObject(_onboardingCurrentSteps);
     }
     public void NextOnboardingStep(){
-        if(PlayerPrefsHandler.instance.GetOnboardingState()){
+        if(PlayerPrefsHandler.instance.GetOnboardingState){
             Debug.LogWarning("The user has already finished onboarding process.");
             onboardingAlreadyFinishedObject.SetActive(true);
             StartCoroutine(Finished());
@@ -96,6 +113,7 @@ public class OnboardingManager : MonoBehaviour
             1 = means finished
             0 = means not finished
         */
+        isFinalizing = true;
         PlayerPrefsHandler.instance.SaveMisc_Onboarding(true);
         StartCoroutine(Finished());
     }
@@ -106,5 +124,9 @@ public class OnboardingManager : MonoBehaviour
     }
     private bool IsAccessGranted_Camera(){
         return Permission.HasUserAuthorizedPermission(Permission.Camera);
+    }
+    // Initialize the app verion ID text
+    private void InitializeVersionIDText(){
+        versionIDText.SetText($"{VersionController.GetBasicAppVersion()}");
     }
 }

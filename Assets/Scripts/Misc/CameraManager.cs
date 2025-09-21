@@ -21,7 +21,6 @@ public class CameraManager : MonoBehaviour{
     [SerializeField] private TMP_Dropdown onScreenDropdown;
     [SerializeField] private TextMeshProUGUI versionIDText;
     [SerializeField] private GameObject settingsPopup;
-    [SerializeField] private GameObject speedPopup;
     
     // Start is called before the first frame update
     void Start(){
@@ -35,11 +34,23 @@ public class CameraManager : MonoBehaviour{
         ChangeTTSToggle();
 
         if(!PlayerPrefsHandler.instance.GetTutorialFinishedCamera) return;
-        calibrationEvent.SetupSpeedCalibration();
+        CallCalibrationEvent();
+    }
+
+    public void CallCalibrationEvent() => calibrationEvent.SetupSpeedCalibration();
+
+    private void Update() {
+        // Hook with the android back button
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            CloseAppSettings();
+        }
     }
 
     #region Camera
+        public void CallTutorialRelearn() => TutorialManager.Instance.RelearnTutorial();
         public void LoadReferenceScene(){
+            // FIXED: Bug report on after transitioning while recognizer is active, coroutines are passed through scenes
+            GestureRecognizer.instance.SetRecognizerState(false);
             CustomSceneManager.instance.StartLoadScene("Android-Shipping-Reference", 1, CustomFillOrigin.Left);
         }
         public void Text_OnScreenText(string text){
@@ -92,7 +103,6 @@ public class CameraManager : MonoBehaviour{
         }
     #endregion
 
-
     #region Settings
         // Change On Screen Text Size base on 5 Size Presets
         public void ChangeOnScreenScreenText(){
@@ -122,10 +132,11 @@ public class CameraManager : MonoBehaviour{
             PlayerPrefsHandler.instance.SavePref_OSSize(onScreenDropdown.value);
         }
         private void ChangeTTSToggle(){
-            ttsToggle.isOn = PlayerPrefsHandler.instance.GetTTSState();
+            ttsToggle.isOn = PlayerPrefsHandler.instance.GetTTSState;
         }
         public void SaveTTSToggle(){
             PlayerPrefsHandler.instance.SavePref_TTS(ttsToggle.isOn);
+            TTSBase.Instance.UpdateTTSStatusText(false);
         }
         // Check for application updates
         public void CheckUpdate(){
@@ -137,6 +148,7 @@ public class CameraManager : MonoBehaviour{
             System.Action sub = () => {
                 Debug.LogWarning("Reset the application data");
                 PlayerPrefsHandler.instance?.DeleteAllUserData();
+                Application.Quit();
             };
             PopupsManager.instance.Popup(PopupType.Warning, "Are you sure you want to reset your app data?", new PopupEvent(
                 "Yes", sub,

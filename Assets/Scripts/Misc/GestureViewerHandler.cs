@@ -95,4 +95,6 @@ public class GestureViewerHandler : MonoBehaviour
         }
         return value;
     }
+
+    public bool IsViewerActive => anim.gameObject.activeInHierarchy;
 }

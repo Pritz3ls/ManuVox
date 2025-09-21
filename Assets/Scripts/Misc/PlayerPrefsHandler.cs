@@ -39,52 +39,50 @@ public class PlayerPrefsHandler : MonoBehaviour{
         Global Naming Convention
         GLOBAL_USER_ONBOARDING_FINISHED
     */
-    void InitializeSettings(){
-        _OnScreenTextSize = PlayerPrefs.GetInt("GLOBAL_USER_PREFS_OSTEXT_SIZE", 2);
-        _TTSState = PlayerPrefs.GetInt("GLOBAL_USER_PREFS_TTS_STATE", 1) == 1 ? true : false;
-    }
-    void InitializeMisc(){
-        _OnboardingFinished = PlayerPrefs.GetInt("GLOBAL_USER_ONBOARDING_FINISHED", 0) == 0 ? false : true;
-        _TutorialFinished = PlayerPrefs.GetInt("GLOBAL_USER_TUTORIAL_FINISHED", 0);
-    }
+    #region Loading Preferences
+        void InitializeSettings(){
+            _OnScreenTextSize = PlayerPrefs.GetInt("GLOBAL_USER_PREFS_OSTEXT_SIZE", 2);
+            _TTSState = PlayerPrefs.GetInt("GLOBAL_USER_PREFS_TTS_STATE", 1) == 1 ? true : false;
+        }
+        void InitializeMisc(){
+            _OnboardingFinished = PlayerPrefs.GetInt("GLOBAL_USER_ONBOARDING_FINISHED", 0) == 0 ? false : true;
+            _TutorialFinished = PlayerPrefs.GetInt("GLOBAL_USER_TUTORIAL_FINISHED", 0);
+        }
+    #endregion
 
     #region Save Preferences
         public void SavePref_TTS(bool value){
             PlayerPrefs.SetInt("GLOBAL_USER_PREFS_TTS_STATE", value ? 1 : 0);
             _TTSState = value;
+            PlayerPrefs.Save();
         }
         public void SavePref_OSSize(int value){
             PlayerPrefs.SetInt("GLOBAL_USER_PREFS_OSTEXT_SIZE", value);
             _OnScreenTextSize = value;
+            PlayerPrefs.Save();
         }
     #endregion
     #region Save Misc
         public void SaveMisc_Onboarding(bool value){
             PlayerPrefs.SetInt("GLOBAL_USER_ONBOARDING_FINISHED", value ? 1 : 0);
             _OnboardingFinished = value;
+            PlayerPrefs.Save();
         }
         public void SaveMisc_Tutorial(int value){
             PlayerPrefs.SetInt("GLOBAL_USER_TUTORIAL_FINISHED", value);
             _TutorialFinished = value;
+            PlayerPrefs.Save();
         }
     #endregion
 
     #region Public Functions
-        public bool GetOnboardingState(){
-            return _OnboardingFinished;
-        }
-        public int GetTutorialState(){
-            return _TutorialFinished;
-        }
+        public bool GetOnboardingState =>_OnboardingFinished;
+        public int GetTutorialState => _TutorialFinished;
         public bool GetTutorialFinishedCamera => _TutorialFinished >= 1 ? true : false;
         public bool GetTutorialFinishedReference => _TutorialFinished >= 2 ? true : false;
+        public bool GetTTSState => _TTSState;
+        public int GetOnScreenTextSize => _OnScreenTextSize;
 
-        public bool GetTTSState(){
-            return _TTSState;
-        }
-        public int GetOnScreenTextSize(){
-            return _OnScreenTextSize;
-        }
         public void DeleteAllUserData(){
             PlayerPrefs.DeleteAll();
         }

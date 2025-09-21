@@ -120,7 +120,7 @@ public class ContextualBase : GestureBase{
         
         // Call TTS Base to speak the phrase or word
         // Check if it's turned on
-        if(PlayerPrefsHandler.instance.GetTTSState()){
+        if(PlayerPrefsHandler.instance.GetTTSState){
             ttsEngine.Speak(stringBuilder.ToString());
         }else{
             Debug.LogWarning("Text to Speech is off!");

@@ -9,18 +9,60 @@ using UnityEngine.UI;
 public class ReferenceManager : MonoBehaviour
 {
     [Header("Reference Components")]
-    [SerializeField] private TMP_InputField searchInputField;
-    [SerializeField] private GameObject emptySearchResultTextObj;
+    [Header("Search")]
     [SerializeField] private GameObject searchParent;
     [SerializeField] private GameObject searchResultPrefab;
+    [SerializeField] private TMP_InputField searchInputField;
+    
+    [Header("Category")]
+    [SerializeField] private GameObject categoryParent;
+    [SerializeField] private GameObject returnSelectionButton;
+    [SerializeField] private TextMeshProUGUI categoryText;
+
+    [Header("Misc")]
+    [SerializeField] private GameObject emptySearchResultTextObj;
     [SerializeField] private GestureViewerHandler viewerHandler;
 
     public void LoadCameraScene(){
         CustomSceneManager.instance.StartLoadScene("Android-Shipping-Recognition", 1, CustomFillOrigin.Right);
     }
-    public void SearchGesture(){
-        List<Gesture> results = GestureLibrary.instance.SearchGestureByName(searchInputField.text);
+
+    private void Update() {   
+        if(!viewerHandler.IsViewerActive) return;
+        // Hook with Android back button or back function
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            viewerHandler.CloseViewer();
+        }
+    }
+    public void SelectByCategory(TextMeshProUGUI TMP){
+        searchInputField.text = TMP.text;
+        searchInputField.gameObject.SetActive(false);
+        returnSelectionButton.SetActive(true);
+        categoryText.SetText($"{TMP.text} Category");
         
+        SearchGesture();
+    }
+    public void ReturnFromCategorySelection(){
+        searchInputField.text = string.Empty;
+        returnSelectionButton.SetActive(false);
+        emptySearchResultTextObj.SetActive(false);
+        searchParent.SetActive(false);
+
+        searchInputField.gameObject.SetActive(true);
+        categoryParent.SetActive(true);
+    }
+
+    public void SearchGesture(){
+        if(searchInputField.text == string.Empty){
+            categoryParent.SetActive(true);
+
+            searchParent.SetActive(false);
+            emptySearchResultTextObj.SetActive(false);
+            return;
+        }
+        List<Gesture> results = GestureLibrary.instance.SearchGestureByName(searchInputField.text);
+        categoryParent.SetActive(false);
+
         emptySearchResultTextObj.SetActive(false);
         // Clear the current search results
         for (int i = 0; i < searchParent.transform.childCount; i++){
@@ -55,6 +97,7 @@ public class ReferenceManager : MonoBehaviour
             // Assign a listener for onClick event to view the gesture with the results (gesture) data
             instance.GetComponent<Button>().onClick.AddListener(() => ViewGesture(funcGesture));
         }
+        searchParent.SetActive(true);
     }
 
     // For now, let's debug the option

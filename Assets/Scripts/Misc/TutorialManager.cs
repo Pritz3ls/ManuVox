@@ -7,13 +7,15 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour{
+    public static TutorialManager Instance; 
     [Header("UI Components")]
-    // [SerializeField] private Animator parentComponent;
     [SerializeField] private TextMeshProUGUI infoText;
     [SerializeField] private RectTransform highlightMask;
+    [SerializeField] private GameObject canvasObject;
     
     [Header("Core Components")]
     [SerializeField] private TutorialElement[] _tutorialElements;
+    [SerializeField] private UnityEvent onTutorialEnd;
 
     int curElementIndex = 0;
     bool cooldown = false;
@@ -29,48 +31,78 @@ public class TutorialManager : MonoBehaviour{
     // Start is called before the first frame update
     void Start(){
         curElementIndex = 0;
+        Instance = this;
 
         switch (type){
             case SceneType.Camera:
-                if(PlayerPrefsHandler.instance.GetTutorialFinishedCamera){
-                    gameObject.SetActive(false);
-                    enabled = false;
-                    Debug.Log("finished camera");
+                if(IsTutorialFinished()){
+                    onTutorialEnd?.Invoke();
                 }else{
                     // Fire up the tutorial
+                    canvasObject.SetActive(true);
                     LoadTutorialElement(curElementIndex);
                 }
             break;
             case SceneType.Reference:
-                if(PlayerPrefsHandler.instance.GetTutorialFinishedReference){
-                    gameObject.SetActive(false);
-                    enabled = false;
+                if(IsTutorialFinished()){
+                    onTutorialEnd?.Invoke();
                 }else{
                     // Fire up the tutorial
+                    canvasObject.SetActive(true);
                     LoadTutorialElement(curElementIndex);
                 }
             break;
         }
-
     }
+    private bool IsTutorialFinished(){
+        if(type == SceneType.Camera){
+            if(PlayerPrefsHandler.instance.GetTutorialFinishedCamera){
+                return true;
+            }
+        }else{
+            if(PlayerPrefsHandler.instance.GetTutorialFinishedReference){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     void SaveFinishedTutorialState() => PlayerPrefsHandler.instance.SaveMisc_Tutorial(type == SceneType.Camera ? 1 : 2);
 
-    // Update is called once per frame
-    void Update(){
-        if(cooldown) return;
+    public void RelearnTutorial(){
+        curElementIndex = 0;
+        canvasObject.SetActive(true);
 
-        if(Input.GetMouseButtonDown(0)){
-            ProgressTutorial();
+        if(type == SceneType.Camera){
+            GestureRecognizer.instance.SetRecognizerState(false);
+        }else{
+            
         }
+
+        LoadTutorialElement(curElementIndex);
     }
 
-    public void ProgressTutorial(){
+    public void ButtonProgressTutorial(){
+        if(cooldown) return;
+        ProgressTutorial();
+    }
+
+    private void ProgressTutorial(){
         if(curElementIndex < _tutorialElements.Length-1){
             curElementIndex++;
             LoadTutorialElement(curElementIndex);
         }else{
-            SaveFinishedTutorialState();
-            gameObject.SetActive(false);
+            // Check if the tutorial is not finished by the user previously
+            // This is useful if the user wanted to rerun the tutorial again
+            if(!IsTutorialFinished()){
+                SaveFinishedTutorialState();
+                onTutorialEnd?.Invoke();
+            }
+            canvasObject.SetActive(false);
+
+            if(type == SceneType.Camera){
+                CameraManager.instance.CallCalibrationEvent();
+            }
         }
     }
 
@@ -114,7 +146,7 @@ public class TutorialManager : MonoBehaviour{
     }
     IEnumerator Cooldown(){
         cooldown = true;
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(.5f);
         cooldown = false;
     }
 }

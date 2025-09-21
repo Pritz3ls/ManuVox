@@ -4,12 +4,15 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 
-public class TTSBase : MonoBehaviour
-{
+public class TTSBase : MonoBehaviour{
+    public static TTSBase Instance;
     private AndroidJavaObject tts;  // Android TTS object
     [SerializeField] private TextMeshProUGUI ttsStatusText;
     private bool isTTSReady = false; // Flag to track if TTS is ready
 
+    private void Awake() {
+        Instance = this;
+    }
     void Start(){
         if (Application.platform == RuntimePlatform.Android){
             using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer")){
@@ -39,15 +42,14 @@ public class TTSBase : MonoBehaviour
         UpdateTTSStatusText(ready);
     }
 
-    private void UpdateTTSStatusText(bool value){
+    public void UpdateTTSStatusText(bool value){
         if(ttsStatusText == null) return;
+        if(!PlayerPrefsHandler.instance.GetTTSState){
+            ttsStatusText.text = "TTS Disabled";
+            return;
+        }
+
         ttsStatusText.text = value ? "TTS Active" : "TTS Inactive";
-
-        // Get the current TTS locale
-        // AndroidJavaObject locale = tts.Call<AndroidJavaObject>("getLanguage");
-        // string localeStr = locale.Call<string>("toString");   // e.g. "fil_PH"
-
-        // ttsStatusText.text = value ? $"TTS Active ({localeStr})" : "TTS Inactive";
     }
 
     public void Speak(string textToSpeak){
