@@ -101,7 +101,7 @@ public class TutorialManager : MonoBehaviour{
             canvasObject.SetActive(false);
 
             if(type == SceneType.Camera){
-                CameraManager.instance.CallCalibrationEvent();
+                CameraManager.instance.HowToUseProperlyEvent();
             }
         }
     }

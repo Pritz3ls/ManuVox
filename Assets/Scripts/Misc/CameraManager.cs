@@ -21,6 +21,7 @@ public class CameraManager : MonoBehaviour{
     [SerializeField] private TMP_Dropdown onScreenDropdown;
     [SerializeField] private TextMeshProUGUI versionIDText;
     [SerializeField] private GameObject settingsPopup;
+    [SerializeField] private GameObject howToUseProperlyPopup;
     
     // Start is called before the first frame update
     void Start(){
@@ -34,9 +35,14 @@ public class CameraManager : MonoBehaviour{
         ChangeTTSToggle();
 
         if(!PlayerPrefsHandler.instance.GetTutorialFinishedCamera) return;
-        CallCalibrationEvent();
+        HowToUseProperlyEvent();
     }
 
+    public void HowToUseProperlyEvent() => howToUseProperlyPopup.SetActive(true); 
+    public void CloseHTUPopup(){
+        howToUseProperlyPopup.SetActive(false);
+        CallCalibrationEvent();
+    }
     public void CallCalibrationEvent() => calibrationEvent.SetupSpeedCalibration();
 
     private void Update() {

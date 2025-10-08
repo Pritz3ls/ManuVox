@@ -3001,9 +3001,23 @@ MonoBehaviour:
   - tutorialInfo: '<b>Welcome to the Reference Section!</b>
 
       This is where
-      you can explore all the available sign language gestures.'
+      you can explore and learn all the available sign language gestures.'
     targetElement: {fileID: 0}
     includeHighlight: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - tutorialInfo: Here you can find all the categories of the available sign language
+      gestures.
+    targetElement: {fileID: 71785171}
+    includeHighlight: 1
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - tutorialInfo: Selecting one of the <b>categories</b> will display set of gestures
+      with the category.
+    targetElement: {fileID: 756716092}
+    includeHighlight: 1
     unityEvent:
       m_PersistentCalls:
         m_Calls: []
@@ -3014,9 +3028,9 @@ MonoBehaviour:
     unityEvent:
       m_PersistentCalls:
         m_Calls: []
-  - tutorialInfo: Let's try searching up the Alphabets gestures.
-    targetElement: {fileID: 0}
-    includeHighlight: 0
+  - tutorialInfo: Let's try searching up the <b>Alphabet</b> gestures.
+    targetElement: {fileID: 260949445}
+    includeHighlight: 1
     unityEvent:
       m_PersistentCalls:
         m_Calls:
@@ -3032,6 +3046,12 @@ MonoBehaviour:
             m_StringArgument: Alphabet
             m_BoolArgument: 0
           m_CallState: 2
+  - tutorialInfo: Your <b>search result</b> will appear just below the search bar.
+    targetElement: {fileID: 1312466925}
+    includeHighlight: 1
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
         - m_Target: {fileID: 276623552}
           m_TargetAssemblyTypeName: ReferenceManager, Assembly-CSharp
           m_MethodName: SearchGesture
@@ -3044,22 +3064,24 @@ MonoBehaviour:
             m_StringArgument: Alphabet
             m_BoolArgument: 0
           m_CallState: 2
-  - tutorialInfo: Your <b>search result</b> will appear just below the search bar.
-    targetElement: {fileID: 599986908}
+  - tutorialInfo: "Tapping on any of the results would open up a <b>popup</b>, where
+      you\u2019ll find helpful information and a tutorial on how to sign the gesture."
+    targetElement: {fileID: 1312466925}
     includeHighlight: 1
     unityEvent:
       m_PersistentCalls:
         m_Calls: []
-  - tutorialInfo: "Tapping on any of the results would open up a <b>popup</b>, where
-      you\u2019ll find helpful information and a tutorial on how to sign the gesture."
+  - tutorialInfo: "\r<b>And that\u2019s it! You\u2019re all set to start exploring
+      and learning. "
     targetElement: {fileID: 0}
     includeHighlight: 0
     unityEvent:
       m_PersistentCalls:
         m_Calls: []
-  - tutorialInfo: "\r<b>And that\u2019s it! You\u2019re all set to start exploring."
-    targetElement: {fileID: 0}
-    includeHighlight: 0
+  - tutorialInfo: As always if you want to relearn this tutorial, you can do so by
+      tapping this <b>Help button. Enjoy ManuVox!</b>
+    targetElement: {fileID: 491379366}
+    includeHighlight: 1
     unityEvent:
       m_PersistentCalls:
         m_Calls: []
