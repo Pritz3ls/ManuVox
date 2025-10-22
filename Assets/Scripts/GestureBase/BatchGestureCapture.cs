@@ -135,13 +135,21 @@ public class BatchGestureCapture : GestureBase{
 
         IEnumerator CapturePosition(Gesture currentGesture){
             if(currentGesture.handRequirement == HandRequirement.OneHand){
-                currentGesture.leftHandPositions = GetLandMarks(0);
-                if(IsTwoHandsActive()){
-                    currentGesture.rightHandPositions = GetLandMarks(1);
+                if(IsRightHanded()){
+                    currentGesture.rightHandPositions = GetLandMarks(0);
+                    currentGesture.leftHandPositions = GetLandMarks_Reversed(0);
+                    Debug.LogWarning("Capture is Right Handed");
                 }else{
-                    Debug.LogWarning("To ensure left handedness compatibility, capture two hands.");
+                    currentGesture.leftHandPositions = GetLandMarks(0);
                     currentGesture.rightHandPositions = GetLandMarks_Reversed(0);
+                    Debug.LogWarning("Capture is Left Handed");
                 }
+                // if(IsTwoHandsActive()){
+                //     currentGesture.rightHandPositions = GetLandMarks(1);
+                // }else{
+                //     Debug.LogWarning("To ensure left handedness compatibility, capture two hands.");
+                //     currentGesture.rightHandPositions = GetLandMarks_Reversed(0);
+                // }
             }else{
                 if(IsTwoHandsActive()){
                     currentGesture.leftHandPositions = GetLandMarks(0);

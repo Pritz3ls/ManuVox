@@ -46,6 +46,12 @@ public class GestureLibrary : MonoBehaviour
     private Gesture FindGestureByName(string name, List<Gesture> tempGestures){
         return tempGestures.Find(g => g.name == name);
     }
+    public Gesture FindGestureByWord(string word){
+        return loadedGestures.Find(g => g.phraseOrWord.Contains(name, StringComparison.OrdinalIgnoreCase));
+    }
+    public bool DoesGestureExistByWord(string word) {
+        return loadedGestures.Exists(g => g.phraseOrWord.Contains(name, StringComparison.OrdinalIgnoreCase));
+    }
 
     public List<Gesture> GetLoadedGestures(){
         return loadedGestures;

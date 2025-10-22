@@ -4255,10 +4255,10 @@ MonoBehaviour:
   captureNotify: {fileID: 1058542769}
   numHands: 2
   gestureSaveList:
-  - {fileID: 11400000, guid: 2f5e2f0dafe7e83479b703630f012b36, type: 2}
+  - {fileID: 11400000, guid: 167e8e1b8e5a9b046b9f0c4925890bf7, type: 2}
   captureDelay: 2
   imageReferences:
-  - {fileID: 21300000, guid: 06ed1b40d4955fb49975d3c15dce564e, type: 3}
+  - {fileID: 21300000, guid: 3e518359965c8244487b5e2bc29b319b, type: 3}
   type: 0
 --- !u!4 &1787199646
 Transform:

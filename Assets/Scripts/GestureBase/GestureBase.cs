@@ -59,6 +59,6 @@ public class GestureBase : MonoBehaviour
         return firstAvailableHand && secondAvailableHand;
     }
     public virtual bool IsRightHanded(){
-        return MultiHandLandmarkListAnnotation.instance[0].GetHandedness() == HandLandmarkListAnnotation.Hand.Right;
+        return MultiHandLandmarkListAnnotation.instance[0].GetHandedness() != HandLandmarkListAnnotation.Hand.Right;
     }
 }

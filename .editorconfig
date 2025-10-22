@@ -1,0 +1,21 @@
+# editorconfig is used to configure your editor for consistent code styles
+root = true
+
+[*.cs]
+# K&R style: NO new line before an open brace
+csharp_new_line_before_open_brace = none
+
+# NEW RULE: Force the closing brace to be on its own new line
+csharp_new_line_before_close_brace = true
+
+# Keep else/catch/finally on the same line as the preceding brace
+csharp_new_line_before_else = false
+csharp_new_line_before_catch = false
+csharp_new_line_before_finally = false
+
+# Fix spacing around #region and #endregion
+csharp_new_line_around_preprocessor_directives = true
+
+# Indentation settings
+indent_style = space
+indent_size = 4
