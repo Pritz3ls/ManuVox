@@ -33,6 +33,7 @@ public class GestureRecognizer : GestureBase{
     public bool recognizerState = true;
 
     private Coroutine recognizerLoop;
+    private readonly List<Gesture> _contextualBuffer = new List<Gesture>(); 
 
     private void Awake() {
         instance = this;
@@ -99,7 +100,7 @@ public class GestureRecognizer : GestureBase{
 
     public virtual void Recognize(){
         if(!recognizerState) return;
-        Debug.LogWarning("Recognizing...");
+        // Debug.LogWarning("Recognizing...");
         if(!IsOneHandctive() && !IsTwoHandsActive()){
             // Might add UI here to tell user there's no active hands
             /*
@@ -110,9 +111,8 @@ public class GestureRecognizer : GestureBase{
             // Might add another counter here if the user still hasn't signed for about 10 ticks now
             // If the user didn't still, pause the system, and recalibrate the user
             ContextualBase.instance.SetContext(GestureContext.None);
-            ContextualBase.instance.PostBuildSentence();
-            
-            if(TimeOutSystem()){
+            TimeOutSystem();
+            if(IsTimeOut){
                 SetRecognizerState(false);
                 System.Action sub1 = () => {
                     GestureRecognizer.instance.SetRecognizerState(true);
@@ -126,7 +126,7 @@ public class GestureRecognizer : GestureBase{
             return;
         }
 
-        if(FindObjectOfType<HandLandmarkListAnnotation>() == null) return; // There' isn't a active instantiated MediaPipe point annotation yet, return 
+        if(FindAnyObjectByType<HandLandmarkListAnnotation>() == null) return; // There' isn't a active instantiated MediaPipe point annotation yet, return 
 
         Vector2[] firstAvailableHand = GetLandMarks(0);
         Vector2[] secondAvailableHand = IsTwoHandsActive() ? GetLandMarks(1) : new Vector2[0];
@@ -148,20 +148,28 @@ public class GestureRecognizer : GestureBase{
 
         ResetTimeOuerTimer();
     }
+    
     public virtual Gesture RecognizeGesture(Vector2[] firstLandmarks, Vector2[] secondLandmarks){
         Gesture bestMatch = null;
-        float bestDifference = float.MaxValue;
+        float bestDifference = 9999f;
 
         if (!IsTwoHandsActive()){
             List<Gesture> candidates = GetContextualGestureList(oneHandGestures);
             bestMatch = RecognizeOneHandGesture(firstLandmarks, candidates, ref bestDifference);
         }else{
-            List<Gesture> candidates = GetContextualGestureList(twoHandGestures);
-            bestMatch = RecognizeTwoHandGesture(firstLandmarks, secondLandmarks, candidates, ref bestDifference);
+            bestMatch = RecognizeTwoHandGesture(firstLandmarks, secondLandmarks, twoHandGestures, ref bestDifference);
         }
 
-        LogGestureRecognitionResult(bestMatch, bestDifference);
-
+        // Prevent overflow from too high best difference
+        if (float.IsNaN(bestDifference) || float.IsInfinity(bestDifference)) {
+            Debug.LogWarning("Invalid score detected, resetting recognizer state.");
+            bestDifference = 9999f;
+        }
+        
+        #if UNITY_EDITOR
+            LogGestureRecognitionResult(bestMatch, bestDifference);
+        #endif
+        
         return bestMatch;
     }
 
@@ -177,41 +185,69 @@ public class GestureRecognizer : GestureBase{
             }
         }
 
+        // If still null, try global gestures
+        if (bestMatch == null) {
+            HashSet<Gesture> contextualSet = new HashSet<Gesture>(_contextualBuffer);
+            foreach (var gesture in oneHandGestures){
+                // Skip gestures already in the context list (avoid double check)
+                if (contextualSet.Contains(gesture)) continue;
+
+                Vector2[] handedLandmarks = IsRightHanded() ? gesture.rightHandPositions : gesture.leftHandPositions;
+                float difference = GetHandDifference(handLandmarks, handedLandmarks);
+                if (difference < threshold && difference < bestDifference) {
+                    bestDifference = difference;
+                    bestMatch = gesture;
+                }
+            }
+        }
+
         return bestMatch;
     }
     private Gesture RecognizeTwoHandGesture(Vector2[] hand1, Vector2[] hand2, List<Gesture> candidates, ref float bestDifference){
         Gesture bestMatch = null;
+        float safeThreshold = threshold + .05f;
 
         foreach (var gesture in candidates){
-            float normalDiff = GetHandDifference(hand1, gesture.leftHandPositions) + GetHandDifference(hand2, gesture.rightHandPositions);
-            float swappedDiff = GetHandDifference(hand2, gesture.leftHandPositions) + GetHandDifference(hand1, gesture.rightHandPositions);
+            float bestLocal = Mathf.Min(
+                GetHandDifference(hand2, gesture.leftHandPositions) + GetHandDifference(hand1, gesture.rightHandPositions),
+                GetHandDifference(hand1, gesture.leftHandPositions) + GetHandDifference(hand2, gesture.rightHandPositions)
+            );
 
-            if (normalDiff < threshold && normalDiff < bestDifference){
-                bestDifference = normalDiff;
+            if (bestLocal < safeThreshold && bestLocal < bestDifference) {
+                bestDifference = bestLocal;
                 bestMatch = gesture;
             }
+            // float normalDiff = GetHandDifference(hand2, gesture.leftHandPositions) + GetHandDifference(hand1, gesture.rightHandPositions);
+            // float swappedDiff = GetHandDifference(hand1, gesture.leftHandPositions) + GetHandDifference(hand2, gesture.rightHandPositions);
 
-            if (swappedDiff < threshold && swappedDiff < bestDifference){
-                bestDifference = swappedDiff;
-                bestMatch = gesture;
-            }
+            // if (normalDiff < safeThreshold && normalDiff < bestDifference){
+            //     bestDifference = normalDiff;
+            //     bestMatch = gesture;
+            // }
+
+            // if (swappedDiff < safeThreshold && swappedDiff < bestDifference){
+            //     bestDifference = swappedDiff;
+            //     bestMatch = gesture;
+            // }
         }
-
         return bestMatch;
     }
 
     private List<Gesture> GetContextualGestureList(List<Gesture> source){
         GestureContext ctx = ContextualBase.instance.GetCurrentContext();
-        if (ctx == GestureContext.None)
-            return new List<Gesture>(source);
-
-        List<Gesture> filtered = new List<Gesture>();
-        foreach (var g in source){
-            if (g.context == ctx)
-                filtered.Add(g);
+        _contextualBuffer.Clear();
+        
+        if (ctx == GestureContext.None) {
+            _contextualBuffer.AddRange(source);
+            return _contextualBuffer;
         }
 
-        return filtered;
+        foreach (var g in source){
+            if (g.context == ctx)
+                _contextualBuffer.Add(g);
+        }
+
+        return _contextualBuffer;
     }
 
     private void LogGestureRecognitionResult(Gesture gesture, float score){
@@ -223,21 +259,32 @@ public class GestureRecognizer : GestureBase{
 
     public virtual float GetHandDifference(Vector2[] detectedHand, Vector2[] storedHand){
         if (storedHand == null || detectedHand == null || detectedHand.Length != storedHand.Length)
-            return float.MaxValue; // Treat mismatch as maximum difference
+            return 9999f;
+
         float totalDifference = 0f;
         for (int i = 0; i < storedHand.Length; i++){
-            totalDifference += Vector2.Distance(detectedHand[i], storedHand[i]);
+            /* Series of Conditions to check if the hand difference is overflow with high difference */
+            if (float.IsNaN(detectedHand[i].x) || float.IsNaN(detectedHand[i].y)) return 9999f;
+            // Difference is at infinity, return a max value of 9999f not float.Max;
+            if (float.IsInfinity(detectedHand[i].x) || float.IsInfinity(detectedHand[i].y)) return 9999f;
+
+            // totalDifference += Vector2.Distance(detectedHand[i], storedHand[i]);
+            float dx = detectedHand[i].x - storedHand[i].x;
+            float dy = detectedHand[i].y - storedHand[i].y;
+            totalDifference += (dx * dx + dy * dy);
         }
-        return totalDifference / storedHand.Length;
+        return Mathf.Sqrt(totalDifference / storedHand.Length);;
     }
-    public bool TimeOutSystem(){
-        curtimeOutSeconds++;
-        return curtimeOutSeconds >= maxtimeOutSeconds;
+    public void TimeOutSystem(){
+        curtimeOutSeconds += 1;
     }
+    private bool IsTimeOut => curtimeOutSeconds >= maxtimeOutSeconds;
     public void ResetTimeOuerTimer(){
         curtimeOutSeconds = 0;
     }
     private bool IsAccessGranted_Camera(){
         return Permission.HasUserAuthorizedPermission(Permission.Camera);
     }
+
+    public bool IsHandsHiddenFromFrame => !IsOneHandctive() && !IsTwoHandsActive();
 }

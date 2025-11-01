@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class CanvasGroupSlide : MonoBehaviour{
     [Header("Introductory Components")]
     [SerializeField] private float transitionTime; 
+    [SerializeField] private float slidesTime = .5f; 
     [SerializeField] private Animator[] objectAnimator;
     [SerializeField] private TextMeshProUGUI footerText;
     [SerializeField] private UnityEvent slideFinishedCustomEvent;
@@ -35,7 +36,7 @@ public class CanvasGroupSlide : MonoBehaviour{
             yield return new WaitForSeconds(transitionTime);
 
             objectAnimator[_cur].Play("CanvasGroup-FadeOut",0,0);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(slidesTime);
             objectAnimator[_cur].gameObject.SetActive(false);
             
             if(_cur != objectAnimator.Length-1){

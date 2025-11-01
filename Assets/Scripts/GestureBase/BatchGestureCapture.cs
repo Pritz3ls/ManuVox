@@ -34,7 +34,7 @@ public class BatchGestureCapture : GestureBase{
 
     IEnumerator DelayStart(){
         yield return new WaitForSecondsRealtime(1f);
-        length = ImageSourceProvider._StaticImageSource.sourceCandidateNames.ToArray().Length;
+        length = ImageSourceProvider.ImageSource.sourceCandidateNames.ToArray().Length;
 
         curIndex = 0;
 

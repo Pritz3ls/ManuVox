@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd967c0e52e7b13f80827e23283472e, type: 3}
   m_Name: AppSettings
   m_EditorClassIdentifier: 
-  _defaultImageSource: 1
+  _defaultImageSource: 0
   _preferableInferenceMode: 0
-  _assetLoaderType: 0
+  _assetLoaderType: 2
   _logLevel: 5
   _glogMinloglevel: 0
   _glogStderrthreshold: 2
@@ -51,8 +51,7 @@ MonoBehaviour:
   - width: 1920
     height: 1080
     frameRate: 30
-  _availableStaticImageSources:
-  - {fileID: 2800000, guid: f686d4f1c3f3aa449ad529180928a41b, type: 3}
+  _availableStaticImageSources: []
   _defaultAvailableStaticImageResolutions:
   - width: 512
     height: 512

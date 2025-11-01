@@ -9,7 +9,7 @@ namespace Mediapipe.Unity.Sample
   public static class ImageSourceProvider
   {
     private static WebCamSource _WebCamSource;
-    public static StaticImageSource _StaticImageSource;
+    private static StaticImageSource _StaticImageSource;
     private static VideoSource _VideoSource;
 
     public static ImageSource ImageSource { get; private set; }

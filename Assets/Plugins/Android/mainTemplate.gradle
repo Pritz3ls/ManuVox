@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: '../shared/keepUnitySymbols.gradle'
 **APPLY_PLUGINS**
 
 dependencies {
@@ -8,48 +9,93 @@ dependencies {
 android {
     namespace "com.unity3d.player"
     ndkPath "**NDKPATH**"
-    compileSdkVersion **APIVERSION**
-    buildToolsVersion '**BUILDTOOLS**'
+    ndkVersion "**NDKVERSION**"
+
+    compileSdk **APIVERSION**
+    buildToolsVersion = "**BUILDTOOLS**"
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     defaultConfig {
-        minSdkVersion **MINSDKVERSION**
-        targetSdkVersion **TARGETSDKVERSION**
+        minSdk **MINSDK**
+        targetSdk **TARGETSDK**
         ndk {
             abiFilters **ABIFILTERS**
+            debugSymbolLevel **DEBUGSYMBOLLEVEL**
         }
         versionCode **VERSIONCODE**
         versionName '**VERSIONNAME**'
         consumerProguardFiles 'proguard-unity.txt'**USER_PROGUARD**
+**DEFAULT_CONFIG_SETUP**
     }
 
-    lintOptions {
+    lint {
         abortOnError false
     }
 
-    aaptOptions {
-        noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
+    androidResources {
+        // Updated syntax for Unity 6
+        noCompress += unityStreamingAssets.tokenize(', ')
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~"
-    }**PACKAGING_OPTIONS**
-
-    // Include libc++_shared.so
-    task copyLibcppShared(type: Copy) {
-        def ndkDir = android.ndkDirectory
-        from("$ndkDir/sources/cxx-stl/llvm-libc++/libs") { include '**/libc++_shared.so' }
-        into("$projectDir/src/main/jniLibs")
     }
-    clean.dependsOn 'cleanCopyLibcppShared'
 
-    tasks.whenTaskAdded { task ->
-        if (task.name == "mergeDebugJniLibFolders" || task.name == "mergeReleaseJniLibFolders") {
-            task.dependsOn("copyLibcppShared")
+**PACKAGING**
+}
+
+// ---- Include libc++_shared.so for Mediapipe ----
+tasks.register("copyLibcppShared") {
+    doLast {
+        def ndkDir = android.ndkDirectory
+        def abiFilters = android.defaultConfig.ndk.abiFilters
+        def destDir = file("$projectDir/src/main/jniLibs")
+
+        def abiToTriple = [
+            'arm64-v8a': 'aarch64-linux-android',
+            'armeabi-v7a': 'arm-linux-androideabi',
+            'x86': 'i686-linux-android',
+            'x86_64': 'x86_64-linux-android'
+        ]
+
+        def prebuiltDir = file("$ndkDir/toolchains/llvm/prebuilt")
+                .listFiles()
+                ?.find { it.isDirectory() }
+
+        abiFilters.each { abi ->
+            def triple = abiToTriple[abi]
+            if (triple != null && prebuiltDir != null) {
+                def libcppPath = file("$prebuiltDir/sysroot/usr/lib/$triple/libc++_shared.so")
+                if (libcppPath.exists()) {
+                    def destAbiDir = file("$destDir/$abi")
+                    copy {
+                        from libcppPath
+                        into destAbiDir
+                    }
+                }
+            }
         }
     }
 }
+
+tasks.register("cleanCopyLibcppShared") {
+    doLast {
+        def destDir = file("$projectDir/src/main/jniLibs")
+        destDir.deleteDir()
+    }
+}
+
+tasks.named("clean").configure {
+    dependsOn("cleanCopyLibcppShared")
+}
+
+tasks.configureEach { task ->
+    if (task.name == "mergeDebugJniLibFolders" || task.name == "mergeReleaseJniLibFolders") {
+        task.dependsOn("copyLibcppShared")
+    }
+}
+
 **IL_CPP_BUILD_SETUP**
 **SOURCE_BUILD_SETUP**
 **EXTERNAL_SOURCES**

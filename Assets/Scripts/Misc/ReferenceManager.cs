@@ -13,11 +13,15 @@ public class ReferenceManager : MonoBehaviour
     [SerializeField] private GameObject searchParent;
     [SerializeField] private GameObject searchResultPrefab;
     [SerializeField] private TMP_InputField searchInputField;
+
     
     [Header("Category")]
     [SerializeField] private GameObject categoryParent;
     [SerializeField] private GameObject returnSelectionButton;
     [SerializeField] private TextMeshProUGUI categoryText;
+    [Space(10)]
+    [SerializeField] private GameObject categoryPrefab;
+    [SerializeField] private Transform categoryTransform;
 
     [Header("Misc")]
     [SerializeField] private GameObject emptySearchResultTextObj;
@@ -27,6 +31,18 @@ public class ReferenceManager : MonoBehaviour
         CustomSceneManager.instance.StartLoadScene("Android-Shipping-Recognition", 1, CustomFillOrigin.Right);
     }
 
+    private void Start() {
+        RefreshCategory();
+    }
+    private void RefreshCategory() {
+        string[] categories = GestureLibrary.instance.GetAllCategory();
+        for (int i = 0; i < categories.Length; i++) {
+            GameObject obj = Instantiate(categoryPrefab, categoryTransform);
+            string c = categories[i];
+            obj.GetComponentInChildren<TextMeshProUGUI>().SetText(categories[i]);
+            obj.GetComponent<Button>().onClick.AddListener(() => SelectByCategory(c));
+        }
+    }
     private void Update() {   
         if(!viewerHandler.IsViewerActive) return;
         // Hook with Android back button or back function
@@ -34,11 +50,11 @@ public class ReferenceManager : MonoBehaviour
             viewerHandler.CloseViewer();
         }
     }
-    public void SelectByCategory(TextMeshProUGUI TMP){
-        searchInputField.text = TMP.text;
+    public void SelectByCategory(string text){
+        searchInputField.text = text;
         searchInputField.gameObject.SetActive(false);
         returnSelectionButton.SetActive(true);
-        categoryText.SetText($"{TMP.text} Category");
+        categoryText.SetText($"{text} Category");
         
         SearchGesture();
     }
@@ -112,24 +128,6 @@ public class ReferenceManager : MonoBehaviour
             );
         }
         sequence.Add(gestureData.referenceImage);
-        
-        // StringBuilder debug = new StringBuilder();
-        // debug.Append("Default:\n");
-        // foreach (var item in sequence){
-        //     debug.Append(item.name);
-        // }
-        // Debug.LogWarning(debug.ToString());
-        // debug.Clear();
-
-        // // sequence.Reverse();
-
-        // debug.Append("Reversed:\n");
-        // foreach (var item in sequence){
-        //     debug.Append(item.name);
-        // }
-        // Debug.LogWarning(debug.ToString());
-        // debug.Clear();
-        
         viewerHandler.SetupViewer(gestureData.phraseOrWord, gestureData.category, sequence.ToArray());
     }
 }

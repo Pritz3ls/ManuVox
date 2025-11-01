@@ -1,0 +1,1 @@
+C:\Users\Pritz3ls\Documents\Unity Projects\ManuVox-Experimental\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\UnitySwappyWrapper.h

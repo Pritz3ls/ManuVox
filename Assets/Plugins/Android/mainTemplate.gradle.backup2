@@ -1,0 +1,153 @@
+// Unity 6 compatible mainTemplate.gradle
+// Merged: Unity placeholders retained, modern packaging options, DEFAULT_CONFIG_SETUP included,
+// and a robust copyLibcppShared task for NDK r26+/r27 usage (copies libc++_shared.so into jniLibs).
+
+apply plugin: 'com.android.library'
+**APPLY_PLUGINS**
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    **DEPS**
+}
+
+android {
+    namespace "com.unity3d.player"
+    ndkPath "**NDKPATH**"
+    compileSdkVersion **APIVERSION**
+    buildToolsVersion '**BUILDTOOLS**'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    defaultConfig {
+        minSdkVersion **MINSDKVERSION**
+        targetSdkVersion **TARGETSDKVERSION**
+        ndk {
+            abiFilters **ABIFILTERS**
+        }
+        versionCode **VERSIONCODE**
+        versionName '**VERSIONNAME**'
+        consumerProguardFiles 'proguard-unity.txt'**USER_PROGUARD**
+
+        // Required for Unity 6 (GameActivity, Framepacing, CMake args)
+        **DEFAULT_CONFIG_SETUP**
+    }
+
+    // Modern packaging options for AGP 8+ / Unity 6
+    packagingOptions {
+        jniLibs {
+            // prefer the modern packaging (don't use legacy jars for JNI libs)
+            useLegacyPackaging = false
+        }
+        resources {
+            // Keep Unity streaming assets uncompressed, merged with Unity placeholder
+            noCompress += ['.ress', '.resource', '.obb'] + unityStreamingAssets.tokenize(', ')
+            excludes += ["META-INF/*.kotlin_module"]
+        }
+    }
+
+    // Keep lint tolerant for automated CI
+    lintOptions {
+        abortOnError false
+    }
+
+    // If your project uses external native builds, ensure CMake arguments are present.
+    // Unity will inject **DEFAULT_CONFIG_SETUP** so native settings can use them.
+}
+
+// -----------------------------
+// Copy libc++_shared.so (NDK r26+/r27 compatible)
+// This task will copy the correct libc++_shared.so per ABI into src/main/jniLibs
+// so Gradle/AGP will include it in the final AAB/APK.
+// -----------------------------
+
+// Register tasks in the modern Gradle way
+tasks.register("copyLibcppShared") {
+    doLast {
+        def ndkDir = android.ndkDirectory
+        if (ndkDir == null || !file(ndkDir).exists()) {
+            println "⚠️ android.ndkDirectory is not set or invalid: $ndkDir"
+            return
+        }
+
+        def destDir = file("$projectDir/src/main/jniLibs")
+        if (!destDir.exists()) destDir.mkdirs()
+
+        def abiFilters = android.defaultConfig.ndk.abiFilters ?: [ 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64' ]
+
+        def abiToTriple = [
+            'arm64-v8a': 'aarch64-linux-android',
+            'armeabi-v7a': 'arm-linux-androideabi',
+            'x86': 'i686-linux-android',
+            'x86_64': 'x86_64-linux-android',
+            'riscv64': 'riscv64-linux-android'
+        ]
+
+        def prebuiltBase = file("$ndkDir/toolchains/llvm/prebuilt")
+        def prebuiltDir = null
+        if (prebuiltBase.exists()) {
+            prebuiltDir = prebuiltBase.listFiles()?.find { it.isDirectory() }
+        }
+
+        if (prebuiltDir == null) {
+            println "⚠️ Could not locate prebuilt toolchain directory under: $ndkDir/toolchains/llvm/prebuilt"
+            return
+        }
+
+        abiFilters.each { abi ->
+            def triple = abiToTriple[abi]
+            if (triple == null) {
+                println "ℹ️ Skipping unknown ABI: $abi"
+                return
+            }
+
+            def src = file("$prebuiltDir/sysroot/usr/lib/$triple/libc++_shared.so")
+            if (!src.exists()) {
+                // some NDK distributions may place libs under /lib/$triple or /usr/lib/$triple
+                src = file("$prebuiltDir/sysroot/usr/lib/$triple/libc++_shared.so")
+            }
+
+            if (src.exists()) {
+                def destAbiDir = file("$destDir/$abi")
+                destAbiDir.mkdirs()
+                copy {
+                    from src
+                    into destAbiDir
+                }
+                println "✅ Copied libc++_shared.so for ABI: $abi from $src"
+            } else {
+                println "⚠️ libc++_shared.so not found for ABI: $abi (checked $src)"
+            }
+        }
+    }
+}
+
+tasks.register("cleanCopyLibcppShared") {
+    doLast {
+        def destDir = file("$projectDir/src/main/jniLibs")
+        if (!destDir.exists()) return
+        delete fileTree(destDir) { include '**/libc++_shared.so' }
+        println "🧹 Cleaned copied libc++_shared.so files"
+    }
+}
+
+// Ensure clean removes copied files
+clean.dependsOn('cleanCopyLibcppShared')
+
+// Hook the copy task before JNI libs are merged (AGP will create these tasks)
+gradle.taskGraph.whenReady { graph ->
+    // find tasks by name and add dependency if present
+    tasks.matching { it.name == 'mergeDebugJniLibFolders' || it.name == 'mergeReleaseJniLibFolders' }
+         .all { t -> t.dependsOn 'copyLibcppShared' }
+}
+
+// -----------------------------
+// Keep Google services plugin at the end
+// -----------------------------
+apply plugin: 'com.google.gms.google-services'
+
+**IL_CPP_BUILD_SETUP**
+**SOURCE_BUILD_SETUP**
+**EXTERNAL_SOURCES**

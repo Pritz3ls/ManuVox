@@ -100,11 +100,17 @@ public class CameraManager : MonoBehaviour{
         }
         // Open Settings
         public void OpenAppSettings(){
+            PauseRecognition();
             settingsPopup.SetActive(true);
-            GestureRecognizer.instance.SetRecognizerState(false);
         }
         public void CloseAppSettings(){
+            ResumeRecognition();
             settingsPopup.SetActive(false);
+        }
+        public void PauseRecognition(){
+            GestureRecognizer.instance.SetRecognizerState(false);
+        }
+        public void ResumeRecognition(){
             GestureRecognizer.instance.SetRecognizerState(true);
         }
     #endregion
@@ -164,7 +170,6 @@ public class CameraManager : MonoBehaviour{
         // Will add a popup option for this, but first i need to explore how to pass a function inside a parameter
         public void ExitApplication(){
             System.Action sub = () => {
-                Debug.LogWarning("Application has been quit");
                 Application.Quit();
             };
             PopupsManager.instance.Popup(PopupType.Warning, "Are you sure you want to quit?", new PopupEvent(

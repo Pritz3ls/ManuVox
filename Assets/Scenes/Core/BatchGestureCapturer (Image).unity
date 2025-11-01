@@ -4253,12 +4253,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runner: {fileID: 1064799468}
   captureNotify: {fileID: 1058542769}
-  numHands: 2
+  numHands: 4
   gestureSaveList:
-  - {fileID: 11400000, guid: 167e8e1b8e5a9b046b9f0c4925890bf7, type: 2}
+  - {fileID: 11400000, guid: d92a0463fba46e246bdfe3d933344456, type: 2}
+  - {fileID: 11400000, guid: da70e5d6f517e3549b135593bb0cd925, type: 2}
   captureDelay: 2
   imageReferences:
-  - {fileID: 21300000, guid: 3e518359965c8244487b5e2bc29b319b, type: 3}
+  - {fileID: 21300000, guid: 7a524ca8ce1c91e43bb0af7c4993beb0, type: 3}
+  - {fileID: 21300000, guid: 99f2be319fd4f63469c0653980aae78d, type: 3}
   type: 0
 --- !u!4 &1787199646
 Transform:

@@ -154,9 +154,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1481205148}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -30}
   m_SizeDelta: {x: 500, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &83811631
@@ -361,8 +361,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1285850394}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 15}
   m_Pivot: {x: 0, y: 1}
@@ -531,55 +531,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &482416694
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 482416695}
-  - component: {fileID: 482416696}
-  m_Layer: 0
-  m_Name: ContextualBase Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &482416695
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 482416694}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &482416696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 482416694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac3e0a9fdae2a2546986b48aec042568, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gestureHistory: []
-  dynamicGestures:
-  - {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
-  maxHistory: 5
-  noContext: 0
 --- !u!1 &851374127
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,9 +563,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1481205148}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -15}
   m_SizeDelta: {x: 720, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &851374129
@@ -746,8 +697,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1481205148}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 720, y: 15}
   m_Pivot: {x: 0, y: 1}
@@ -1034,7 +985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20f2fd61d43b483ba93442eb6cfc37cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bootstrapPrefab: {fileID: 968918444066301895, guid: 1146a9de09159a948b683e94fb3d3c95, type: 3}
+  _bootstrapPrefab: {fileID: 968918444066301895, guid: 7596164effd5eaf4aac592f757149f88, type: 3}
   screen: {fileID: 1006057043}
   runningMode: 0
   _handLandmarkerResultAnnotationController: {fileID: 1006057044}
@@ -1478,7 +1429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2096728898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1486,21 +1437,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096728897}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49e316cad36cd2746b4bdf36063c28cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gestureText: {fileID: 981406431}
-  recognitionInfoText: {fileID: 851374129}
-  posInfoText: {fileID: 83811631}
   runner: {fileID: 1064799468}
   numHands: 2
-  gestures:
-  - {fileID: 11400000, guid: 6fa991b35cda2fe4a92d2d55e6050a05, type: 2}
-  - {fileID: 11400000, guid: b31aa60c8707ab64f85aff4ade05be92, type: 2}
-  - {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
   threshold: 0.5
+  recognizerTickRate: 0
+  maxtimeOutSeconds: 15
+  recognizerState: 1
 --- !u!4 &2096728899
 Transform:
   m_ObjectHideFlags: 0
@@ -1529,6 +1476,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af97085317bb1a4ca6d86898dcf9690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runner: {fileID: 0}
+  numHands: 0
+  gestureSaveList: []
   currentGesture: {fileID: 11400000, guid: 61bce58fa9543914b8ebc73884b8d4a7, type: 2}
   captureDelay: 2
 --- !u!114 &2096728901
@@ -1538,7 +1488,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096728897}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c0868db2d654b740acd046c4bda6036, type: 3}
   m_Name: 
@@ -1778,4 +1728,3 @@ SceneRoots:
   - {fileID: 420786856}
   - {fileID: 1064799461}
   - {fileID: 2096728899}
-  - {fileID: 482416695}

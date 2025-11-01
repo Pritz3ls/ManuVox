@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "ManuVox.sln"
+    "dotnet.defaultSolution": "ManuVox-Experimental.slnx"
 }

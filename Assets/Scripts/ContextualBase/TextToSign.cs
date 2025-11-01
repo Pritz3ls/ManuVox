@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
-using Unity.VisualScripting;
+using System.Linq;
 
-public class TextToSign : MonoBehaviour, IPointerClickHandler {
+public class TextToSign : MonoBehaviour{
     [Header("Text To Sign")]
+    [SerializeField] private GameObject mainObj;
     [SerializeField] private GameObject typeObj;
     [SerializeField] private GameObject resultObj;
+    [SerializeField] private GameObject textToSignButtonObj;
 
     [Header("UI Element")]
     [SerializeField] private Canvas canvas;
@@ -18,6 +18,9 @@ public class TextToSign : MonoBehaviour, IPointerClickHandler {
     [SerializeField] private TMP_Text resultText;
     [SerializeField] private GestureViewerHandler viewerHandler;
     [SerializeField] private Camera cameraToUse;
+
+    public delegate void OnOpenEvent();
+    public delegate void OnClosedEvent();
 
     private Dictionary<string, List<Gesture>> result = new Dictionary<string, List<Gesture>>();
     private StringBuilder resultStringBuilder;
@@ -28,40 +31,90 @@ public class TextToSign : MonoBehaviour, IPointerClickHandler {
     void Start() {
         // Subscribe the OnClickLinkEvent to opening the image viewer function
         OnClickedLinkEvent += OpenImageViewWithWord;
+        resultStringBuilder = new StringBuilder();
     }
 
-    private void OnTextToSignEndEdit() {
+    void OnEnable() {
+        LinkHandlerTMP.OnClickedLinkEvent += OpenImageViewWithWord;
+    }
+
+    void OnDisable() {
+        LinkHandlerTMP.OnClickedLinkEvent -= OpenImageViewWithWord;
+    }
+
+    public void OnTextToSignEndEdit(){
+        if(inputField.text == string.Empty || string.IsNullOrWhiteSpace(inputField.text)){
+            // PopupsManager.instance.Popup(PopupType.Warning, "Sentence is empty! Try again.");
+            Debug.LogWarning("Sentence is empty! Try again.");
+            return;
+        }
         result.Clear(); // Clear the result dictionary to prevent duplication 
+        resultStringBuilder.Clear(); // Clear any result string before
         // Start processing the sentence from the input field text
         StartCoroutine(ProcessSentence());
     }
 
     private IEnumerator ProcessSentence() {
-        string[] words = inputField.text.Split(' '); // Segments words by white spaces
-        foreach (var word in words) { // Iterate every word from the words
-            List<Gesture> gestures = new List<Gesture>(); // Empty default gestures
-            int range = 0; // Default to 0 tag range
+        var words = inputField.text.Split(' ', System.StringSplitOptions.RemoveEmptyEntries); // Split text by space
+        int i = 0; // Word index tracker
 
-            if (GestureLibrary.instance.DoesGestureExistByWord(word)) {
-                // The gesture is available
-                gestures.Add(GestureLibrary.instance.FindGestureByWord(word));
-            } else {
-                // The gesture is not available, fallback to fingerspelling
-                gestures = FingerSpellByWord(word);
+        while (i < words.Length) {
+            string phrase = null; // Default null phrase
+            // Try lengths from 5 down to 1 — but CLEAN preserving spaces when testing multi-word phrases
+            for (int len = Mathf.Min(5, words.Length - i); len > 0; len--) {
+                string testRaw = string.Join(" ", words, i, len); // raw phrase with spaces
+                string test = CleanPhrase(testRaw); // <-- keep spaces for phrase matching
+                if (GestureLibrary.instance.DoesGestureExistByWord(test)) {
+                    phrase = test;
+                    break;
+                }
             }
+
+            List<Gesture> gestures = new(); // Temporary gesture holder
+            int range = 0; // Default tag range
+
+            if (phrase != null) {
+                // phrase is already cleaned by CleanPhrase above
+                Gesture gesture = GestureLibrary.instance.FindGestureByWord(phrase);
+
+                if (gesture != null) {
+                    if (gesture.type == GestureType.Dynamic && gesture.sequence != null && gesture.sequence.Length > 0) {
+                        gestures.AddRange(gesture.sequence);
+                        gestures.Add(gesture);
+                    } else {
+                        gestures.Add(gesture);
+                    }
+                }
+
+                range = 1; // Word gesture tag
+                i += phrase.Split(' ').Length; // Move word index forward (phrase has spaces)
+            } else {
+                // fallback use CleanWordExcess
+                phrase = CleanWordExcess(words[i]);
+                gestures = FingerSpellByWord(phrase); // Fallback to finger spelling
+                range = 2; // embed a Fingerspell tag
+                i++;
+            }
+
+            result[phrase] = new List<Gesture>(gestures); // Add gesture to result dictionary
+            resultStringBuilder.Append($"{GetModifiedTextWithTag(phrase, range)} "); // Add tagged word to text
             yield return null;
-            result.Add(word, gestures); // Add it to the dictionary
-            resultStringBuilder.Append(GetModifiedTextWithTag(word, range));
         }
-        // Display the result by calling the method
+
         DisplayResult();
     }
+
+
     private List<Gesture> FingerSpellByWord(string word) {
         List<Gesture> gestures = new List<Gesture>(); // Empty list of gestures
         Gesture iGesture; // Default nan for Iterated Character
         foreach (char c in word) {
             iGesture = GestureLibrary.instance.FindGestureByWord(c.ToString());
-            if(iGesture != null) continue; // Gesture Library returns nothing / null
+            if(iGesture == null) continue; // Gesture Library returns nothing / null
+            if(iGesture.type == GestureType.Dynamic) {
+                gestures.AddRange(iGesture.sequence);
+            }
+            Debug.Log($"Found {iGesture.name}!");
             // Add the iterated gestures or found gestures from the library
             gestures.Add(iGesture);
         }
@@ -71,7 +124,20 @@ public class TextToSign : MonoBehaviour, IPointerClickHandler {
     // Result
     // Display result after processing the sentence
     public void DisplayResult() {
+        typeObj.SetActive(false);
+        resultText.SetText(resultStringBuilder.ToString());
         resultObj.SetActive(true);
+
+        foreach (string key in result.Keys){
+            if(result.TryGetValue(key, out List<Gesture> gestures)){
+                Debug.Log($"{key} containing {gestures.Count}");
+            }
+        }
+    }
+    public void StartNewSentence() {
+        inputField.text = string.Empty;
+        typeObj.SetActive(true);
+        resultObj.SetActive(false);
     }
 
     // Public calls
@@ -81,7 +147,7 @@ public class TextToSign : MonoBehaviour, IPointerClickHandler {
             List<Sprite> sprites = new List<Sprite>(); // Empty list of sprites
             // Get the List of gestures
             if(result.TryGetValue(keyword, out List<Gesture> gestures)){
-                foreach (var item in gestures){ // Foreach item in the gestures inside the dictionary in Key
+                foreach (Gesture item in gestures){ // Foreach item in the gestures inside the dictionary in Key
                     sprites.Add(item.referenceImage); // Add the reference image to the list of sprites
                 }
             }
@@ -94,10 +160,15 @@ public class TextToSign : MonoBehaviour, IPointerClickHandler {
     }
 
     public void OpenTextToSign() {
+        mainObj.SetActive(true);
+        textToSignButtonObj.SetActive(false);
         resultObj.SetActive(false);
         typeObj.SetActive(true);
     }
     public void CloseTextToSign() {
+        inputField.text = string.Empty;
+        textToSignButtonObj.SetActive(true);
+        mainObj.SetActive(false);
         resultObj.SetActive(false);
         typeObj.SetActive(false);
     }
@@ -107,10 +178,13 @@ public class TextToSign : MonoBehaviour, IPointerClickHandler {
         StringBuilder tagBuilder = new StringBuilder();
         switch (range) {
             case 1:
-                tagBuilder.Append($"{word}");
+                // Green
+                tagBuilder.Append($"<link=\"{word}\"><mark=#00FF85>{word}<color=#00000000></link></mark></color>");
                 break;
             case 2:
-                tagBuilder.Append($"{word}");
+                // Blue
+                // tagBuilder.Append($"<mark=#FF0099>{word}<color=#00000000>");
+                tagBuilder.Append($"<link=\"{word}\"><mark=#1E90FF>{word}<color=#00000000></link></mark></color>");
                 break;
             default:
                 tagBuilder.Append($"{word}");
@@ -118,14 +192,21 @@ public class TextToSign : MonoBehaviour, IPointerClickHandler {
         }
         return tagBuilder.ToString();
     }
+    private string CleanPhrase(string phrase) {
+        if (string.IsNullOrWhiteSpace(phrase)) return string.Empty;
+        // Keep letters, digits and spaces — remove punctuation
+        var chars = phrase.Trim()
+            .Where(c => char.IsLetterOrDigit(c) || char.IsWhiteSpace(c))
+            .ToArray();
+        // Collapse multiple spaces to a single space
+        string cleaned = new string(chars);
+        var parts = cleaned.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+        return string.Join(" ", parts);
+    }
 
-    public void OnPointerClick(PointerEventData eventData) {
-        Vector3 mousePosition = new Vector3(eventData.position.x, eventData.position.y, 0);
-        var linkTaggedText = TMP_TextUtilities.FindIntersectingLink(resultText, mousePosition, cameraToUse);
-
-        if (linkTaggedText != -1) {
-            TMP_LinkInfo linkInfo = resultText.textInfo.linkInfo[linkTaggedText];
-            OnClickedLinkEvent?.Invoke(linkInfo.GetLinkID());
-        }
+    private string CleanWordExcess(string word) {
+        if (string.IsNullOrWhiteSpace(word)) return string.Empty;
+        // Keep only letters/digits, symbol bad >:(
+        return new string(word.Trim().Where(char.IsLetterOrDigit).ToArray());
     }
 }

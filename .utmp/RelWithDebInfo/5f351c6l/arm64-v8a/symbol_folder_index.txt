@@ -1,0 +1,1 @@
+C:\Users\Pritz3ls\Documents\Unity Projects\ManuVox-Experimental\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\5f351c6l\obj\arm64-v8a

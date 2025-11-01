@@ -47,10 +47,11 @@ public class GestureLibrary : MonoBehaviour
         return tempGestures.Find(g => g.name == name);
     }
     public Gesture FindGestureByWord(string word){
-        return loadedGestures.Find(g => g.phraseOrWord.Contains(name, StringComparison.OrdinalIgnoreCase));
+        return loadedGestures.Find(g => string.Equals(g.phraseOrWord.Trim(), word.Trim(), StringComparison.OrdinalIgnoreCase));
     }
-    public bool DoesGestureExistByWord(string word) {
-        return loadedGestures.Exists(g => g.phraseOrWord.Contains(name, StringComparison.OrdinalIgnoreCase));
+
+    public bool DoesGestureExistByWord(string word){
+        return loadedGestures.Exists(g => string.Equals(g.phraseOrWord.Trim(), word.Trim(), StringComparison.OrdinalIgnoreCase));
     }
 
     public List<Gesture> GetLoadedGestures(){
@@ -106,37 +107,137 @@ public class GestureLibrary : MonoBehaviour
     // Download gestures from CCD via | Load cached gestures via Addressables
     public async void SynchronizeGesturesAsync(){
         var handle = Addressables.LoadAssetsAsync<Gesture>(addressableGestureGroupKey, null);
-        await handle.Task;
+        try{
+            await handle.Task;
+            
+            if (handle.Status == AsyncOperationStatus.Succeeded){
+                var downloadedGestures = handle.Result.ToList();
 
-        if (handle.Status == AsyncOperationStatus.Succeeded){
-            var downloadedGestures = handle.Result.ToList();
-
-            // Update sequence references (if any)
-            foreach (var gesture in downloadedGestures){
-                Gesture[] updatedSequence = new Gesture[gesture.sequence.Length];
-                for (int i = 0; i < gesture.sequence.Length; i++){
-                    // Find the referenced gesture within the newly downloaded gestures or existing loaded gestures
-                    updatedSequence[i] = FindGestureByName(gesture.sequence[i].name, downloadedGestures) ?? FindGestureByName(gesture.sequence[i].name, loadedGestures);
+                // Update sequence references (if any)
+                foreach (var gesture in downloadedGestures){
+                    Gesture[] updatedSequence = new Gesture[gesture.sequence.Length];
+                    for (int i = 0; i < gesture.sequence.Length; i++){
+                        // Find the referenced gesture within the newly downloaded gestures or existing loaded gestures
+                        updatedSequence[i] = FindGestureByName(gesture.sequence[i].name, downloadedGestures) ?? FindGestureByName(gesture.sequence[i].name, loadedGestures);
+                    }
+                    gesture.sequence = updatedSequence;
                 }
-                gesture.sequence = updatedSequence;
+
+                /* Deprecated */
+                // loadedGestures.Clear();
+                // PreloadGestures(); // Preload the gestures again
+                // loadedGestures.AddRange(downloadedGestures);
+                // LoadReferenceOnlyGestures(); // Refresh filtered list (e.g., for UI search)
+                // Debug.Log($"[CCD] Successfully loaded {downloadedGestures.Count} gestures from CCD.");
+
+                // --- IMPORTANT CHANGE HERE TO PREVENT DUPLICATION ---
+                loadedGestures.Clear();
+                PreloadGestures(); // Load built-in gestures first
+                HashSet<string> existingNames = new HashSet<string>(loadedGestures.Select(g => g.name));
+
+                // Merge CCD gestures without duplication
+                foreach (var gesture in downloadedGestures) {
+                    if (gesture == null) continue;
+                    // If a gesture with the same name exists, replace it with the CCD one
+                    Gesture existing = loadedGestures.FirstOrDefault(g => g.name == gesture.name);
+                    if (existing != null) {
+                        int index = loadedGestures.IndexOf(existing);
+                        loadedGestures[index] = gesture;
+                        Debug.Log($"[CCD] Updated gesture: {gesture.name}");
+                    } else if (!existingNames.Contains(gesture.name)) { // Else just let the loaded gesture one on
+                        loadedGestures.Add(gesture);
+                        existingNames.Add(gesture.name);
+                        Debug.Log($"[CCD] Added new gesture: {gesture.name}");
+                    }
+                }
+
+                // Refresh reference list for search/UI
+                LoadReferenceOnlyGestures();
+                await Resources.UnloadUnusedAssets(); // Free old memory
+                Debug.Log($"[CCD] Synced successfully — {loadedGestures.Count} total gestures after merge.");
+
             }
-
-            // --- IMPORTANT CHANGE HERE TO PREVENT DUPLICATION ---
+        }catch (System.Exception){
+            Debug.LogError("[CCD] Failed to load addressable handle, preloading assets only");
+            PopupsManager.instance.Popup(PopupType.Info, "Unable to connect to the server.\nRunning in offline mode.");
             loadedGestures.Clear();
-            PreloadGestures(); // Preload the gestures again
-            loadedGestures.AddRange(downloadedGestures);
-
-            LoadReferenceOnlyGestures(); // Refresh filtered list (e.g., for UI search)
-
-            Debug.Log($"[CCD] Successfully loaded {downloadedGestures.Count} gestures from CCD.");
-        }else{
-            Debug.LogError("[CCD] Failed to load gestures from CCD.");
+            PreloadGestures();
         }
     }
+
+    public async void DownloadUpdate(List<Gesture> lastGestures) {
+        var handle = Addressables.LoadAssetsAsync<Gesture>(addressableGestureGroupKey, null);
+        try{
+            await handle.Task;
+            
+            if (handle.Status == AsyncOperationStatus.Succeeded){
+                var downloadedGestures = handle.Result.ToList();
+
+                // Update sequence references (if any)
+                foreach (var gesture in downloadedGestures){
+                    Gesture[] updatedSequence = new Gesture[gesture.sequence.Length];
+                    for (int i = 0; i < gesture.sequence.Length; i++){
+                        // Find the referenced gesture within the newly downloaded gestures or existing loaded gestures
+                        updatedSequence[i] = FindGestureByName(gesture.sequence[i].name, downloadedGestures) ?? FindGestureByName(gesture.sequence[i].name, loadedGestures);
+                    }
+                    gesture.sequence = updatedSequence;
+                }
+
+                // --- IMPORTANT CHANGE HERE TO PREVENT DUPLICATION ---
+                loadedGestures.Clear();
+                PreloadGestures(); // Load built-in gestures first
+                HashSet<string> existingNames = new HashSet<string>(loadedGestures.Select(g => g.name));
+
+                // Merge CCD gestures without duplication
+                foreach (var gesture in downloadedGestures) {
+                    if (gesture == null) continue;
+                    // If a gesture with the same name exists, replace it with the CCD one
+                    Gesture existing = loadedGestures.FirstOrDefault(g => g.name == gesture.name);
+                    if (existing != null) {
+                        int index = loadedGestures.IndexOf(existing);
+                        loadedGestures[index] = gesture;
+                        Debug.Log($"[CCD] Updated gesture: {gesture.name}");
+                    } else if (!existingNames.Contains(gesture.name)) { // Else just let the loaded gesture one on
+                        loadedGestures.Add(gesture);
+                        existingNames.Add(gesture.name);
+                        Debug.Log($"[CCD] Added new gesture: {gesture.name}");
+                    }
+                }
+
+                // Refresh reference list for search/UI
+                LoadReferenceOnlyGestures();
+                System.Action sub = () => {
+                    Application.Quit();
+                };
+                PopupsManager.instance.Popup(PopupType.Info, "Updates download successfully!\nRestart now?", new PopupEvent(
+                    "Yes", sub,
+                    "Later", null
+                ));
+                await Resources.UnloadUnusedAssets(); // Free old memory
+            }
+        }catch (System.Exception){
+            Debug.LogError("[CCD] Failed to load addressable handle, preloading assets only");
+            PopupsManager.instance.Popup(PopupType.Info, "Unable to connect to the server.\nPlease try again later.");
+            loadedGestures.Clear();
+            PreloadGestures();
+        }
+    }
+
     private void PreloadGestures(){
         foreach (var group in preloadGroups){
             loadedGestures.AddRange(group.gestures);
         }
+    }
+
+    public string[] GetAllCategory() {
+        HashSet<string> uniqueCategories = new HashSet<string>();
+        
+        foreach (var gesture in loadedGestures) {
+            if (!string.IsNullOrWhiteSpace(gesture.category))
+                uniqueCategories.Add(gesture.category.Trim());
+        }
+
+        return uniqueCategories.ToArray();
     }
     
     [System.Serializable]
