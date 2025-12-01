@@ -31,7 +31,7 @@ public class CameraManager : MonoBehaviour{
     }
 
     void InitializeCameraScene(){
-        ChangeOnScreenScreenText();
+        LoadOnScreenTextSize();
         ChangeTTSToggle();
 
         if(!PlayerPrefsHandler.instance.GetTutorialFinishedCamera) return;
@@ -116,6 +116,31 @@ public class CameraManager : MonoBehaviour{
     #endregion
 
     #region Settings
+        // Load up the saved or prefered onscreen text size
+        private void LoadOnScreenTextSize(){
+            OnScreenTextPresets preset = (OnScreenTextPresets)PlayerPrefsHandler.instance.GetOnScreenTextSize;
+            int desiredFontSize = 0;
+            switch (preset){
+                case OnScreenTextPresets.Tiny:
+                    desiredFontSize = 36;
+                break;
+                case OnScreenTextPresets.Small:
+                    desiredFontSize = 48;
+                break;
+                case OnScreenTextPresets.Normal:
+                    desiredFontSize = 52;
+                break;
+                case OnScreenTextPresets.Big:
+                    desiredFontSize = 64;
+                break;
+                case OnScreenTextPresets.Large:
+                    desiredFontSize = 72;
+                break;
+            }
+            screenText.fontSize = desiredFontSize;
+            contextText.fontSize = desiredFontSize / 1.25f;
+            onScreenDropdown.value = (int)preset;
+        }
         // Change On Screen Text Size base on 5 Size Presets
         public void ChangeOnScreenScreenText(){
             OnScreenTextPresets preset = (OnScreenTextPresets)onScreenDropdown.value;

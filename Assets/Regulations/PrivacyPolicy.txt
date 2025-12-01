@@ -1,4 +1,5 @@
-This privacy policy applies to the <b>ManuVox</b> app (hereby referred to as the "Application") for mobile devices, created by <b>TeamManuVox</b> (hereby referred to as the "Service Provider") as a free service. This Application is provided <b>"AS IS"</b> and is intended for use as such.
+This privacy policy applies to the <b>ManoTinig</b> app (hereby referred to as the "Application") for mobile devices, created by <b>TeamManoTinig</b> (hereby referred to as the "Service Provider") as a free service. This Application is provided <b>"AS IS"</b> and is intended for use as such.
+
 
 <font-weight=900>Information Collection and Use</size></font-weight>
 The <b>Application does not collect or store any personally identifiable data</b> from users. No user accounts, names, emails, or contact details are collected or stored.
@@ -33,4 +34,4 @@ By using the Application, you agree to the terms outlined in this Privacy Policy
 
 
 <font-weight=900><size=28>Contact Us</size></font-weight>
-If you have any questions or concerns regarding privacy while using the Application, please contact the Service Provider via email at <b>manuvox.app@gmail.com.</b>
+If you have any questions or concerns regarding privacy while using the Application, please contact the Service Provider via email at <b>ManoTinig.app@gmail.com.</b>

@@ -1,0 +1,51 @@
+This privacy policy applies to the <b>ManoTinig</b> app (hereby referred to as the "Application") for mobile devices, created by <b>TeamManoTinig</b> (hereby referred to as the "Service Provider") as a free service. This Application is provided <b>"AS IS"</b> and is intended for use as such.
+
+
+<font-weight=900>Information Collection and Use</size></font-weight>
+The <b>Application does not collect or store any personally identifiable data</b> from users. No user accounts, names, emails, or contact details are collected or stored.
+The <b>Application uses the camera only for gesture recognition purposes.</b> The camera functionality is strictly limited to real-time processing for recognizing sign language gestures and is not used for surveillance or data collection.
+<b>No camera recordings or images are stored or transmitted</b> unless the user explicitly saves them through the app interface.
+
+
+
+
+<font-weight=900><size=28>Downloadable Content</size></font-weight>
+All downloadable content used within the Application (such as gesture libraries or learning materials) originates from <b>official and verified sources.</b> The Application does not distribute third-party content without appropriate permissions or verification.
+
+
+
+
+<font-weight=900><size=28>Third Party Services</size></font-weight>
+The Application does <b>not use analytics services, ad networks, or tracking technologies.</b> No data is sent to third parties for advertising or behavioral profiling.
+If third-party components (such as gesture recognition libraries or rendering engines) are used, they do not collect or transmit any personal or usage data.
+
+
+
+
+<font-weight=900><size=28>Children's Privacy</size></font-weight>
+The Application does not knowingly collect any personal data from children under the age of 13. As no personal information is collected from any user, the Application is compliant with privacy regulations for children by design.
+
+
+
+
+<font-weight=900><size=28>Security</size></font-weight>
+While the Application does not collect user data, the Service Provider takes the security of device-level interactions seriously. The app uses only necessary permissions (such as camera access) to function and does not exploit any device data beyond its intended purpose.
+
+
+
+
+<font-weight=900><size=28>Changes to This Privacy Policy</size></font-weight>
+This Privacy Policy may be updated from time to time. Changes will be posted within the Application or on the designated official page. Users are encouraged to review this policy periodically. Continued use of the Application after changes indicates acceptance.
+This Privacy Policy is effective as of <b>2025-06-20.</b>
+
+
+
+
+<font-weight=900><size=28>Your Consent</size></font-weight>
+By using the Application, you agree to the terms outlined in this Privacy Policy, including the limited use of device camera for gesture recognition and the absence of personal data collection.
+
+
+
+
+<font-weight=900><size=28>Contact Us</size></font-weight>
+If you have any questions or concerns regarding privacy while using the Application, please contact the Service Provider via email at <b>ManoTinig.app@gmail.com.</b>
