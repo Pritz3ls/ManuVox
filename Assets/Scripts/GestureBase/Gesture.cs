@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public enum HandRequirement{OneHand,TwoHands}
-public enum GestureType{Static,Dynamic}
-public enum GestureContext{None,Letter,Number}
+public enum HandRequirement { OneHand, TwoHands }
+public enum GestureType { Static, Dynamic }
+public enum GestureContext { None, Letter, Number }
 [CreateAssetMenu(fileName = "New Gesture", menuName = "Create Gesture", order = 0)]
-public class Gesture : ScriptableObject {
+public class Gesture : ScriptableObject
+{
     public HandRequirement handRequirement = HandRequirement.OneHand;
     public GestureType type = GestureType.Static;
     public GestureContext context;
@@ -12,6 +13,7 @@ public class Gesture : ScriptableObject {
 
     public Vector2[] rightHandPositions;
     public Vector2[] leftHandPositions;
+
 
     public Gesture[] sequence;
     // [HideInInspector] public string[] sequenceString;
@@ -21,11 +23,11 @@ public class Gesture : ScriptableObject {
 
     public void SetReferenceImage(Sprite sprite) => this.referenceImage = sprite;
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     void OnValidate() {
         if (referenceImage == null) {
             Debug.LogWarning($"Reference Image on '{this.name}' was just set to null.");
         }
     }
-    #endif
+#endif
 }
