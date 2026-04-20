@@ -21,7 +21,7 @@ public class GestureLibrary : MonoBehaviour
     // Download location path
     // string downloadPath = string.Empty;
 
-    // Key for your Addressable Gesture Group
+    // Key for the Addressable Gesture Group
     [SerializeField] private string addressableGestureGroupKey = "RemoteGesture";
 
     // Start is called before the first frame update
@@ -69,7 +69,7 @@ public class GestureLibrary : MonoBehaviour
 
     // Check for update (just detects new gestures)
     public async void CheckForUpdatesAsync(){
-        // Use your existing NetworkUtils for IP check
+        // Use the existing NetworkUtils for IP check
         if (Application.internetReachability == NetworkReachability.NotReachable){
             PopupsManager.instance.Popup(PopupType.Error, "No internet detected. Please ensure you're connected to Wi-Fi."); 
             return;

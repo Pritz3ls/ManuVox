@@ -3,7 +3,7 @@ using UnityEngine;
 public class Gesture3D : GestureBase
 {
     [Header("Hand Model")]
-    public Transform[] jointTargets = new Transform[21];  // Assign your 3D hand joints in Inspector
+    public Transform[] jointTargets = new Transform[21];  // Assign 3D hand joints in Inspector
 
     [Header("Fake Depth Settings")]
     public float depthStep = 0.02f;    // Z offset between joints

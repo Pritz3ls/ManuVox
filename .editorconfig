@@ -1,4 +1,4 @@
-# editorconfig is used to configure your editor for consistent code styles
+# editorconfig is used to configure in the editor for consistent code styles
 root = true
 
 [*.cs]

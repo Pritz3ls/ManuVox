@@ -55,7 +55,7 @@ public class LSHGestureStorage
         Vector2[] vector = new Vector2[dimensions];
         for (int i = 0; i < dimensions; i++) {
             // Use random x, y values to form a 2D vector for each landmark
-            vector[i] = new Vector2(Random.value, Random.value);  // Ensure this is appropriate for your use case
+            vector[i] = new Vector2(Random.value, Random.value);  // Ensure this is appropriate for the use case
         }
         return vector;
     }
