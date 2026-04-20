@@ -4,8 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Android;
 
-public class DeviceCameraTester : MonoBehaviour
-{
+public class DeviceCameraTester : MonoBehaviour{
     public TextMeshProUGUI cameraFindResText;
     // Start is called before the first frame update
     void Start(){
